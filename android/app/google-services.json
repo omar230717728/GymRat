@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "586650216184",
+    "project_id": "gymrat-8ec74",
+    "storage_bucket": "gymrat-8ec74.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586650216184:android:4c4873b850eed039887d0d",
+        "android_client_info": {
+          "package_name": "com.futureking.gymrat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "586650216184-mo6ojeb9rj8kjmtrt1gj01q49hco28ph.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.futureking.gymrat",
+            "certificate_hash": "14339441bab0c60042f4b3d0c002213fd0b5e344"
+          }
+        },
+        {
+          "client_id": "586650216184-7rvhp5iuf2jjfr95hursmgc635ti7b7f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSKGrH09FdbT0Qmx78OIU0Xw1_JN-tusk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "586650216184-7rvhp5iuf2jjfr95hursmgc635ti7b7f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
