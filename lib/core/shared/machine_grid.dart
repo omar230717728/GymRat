@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/utils/machine.dart';
 import 'package:flutter_application_1/feature/presentation/pages/details_screen/machine_detail.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_application_1/feature/cubit/language_cubit.dart';
 
-Widget buildMachinesGrid(BuildContext context, List<Machine> machines) {
+Widget buildMachinesGrid(BuildContext context, List<Machine> machines, {String highlightTerm = ""}) {
   return Container(
     decoration: BoxDecoration(
       gradient: LinearGradient(
@@ -10,7 +12,7 @@ Widget buildMachinesGrid(BuildContext context, List<Machine> machines) {
         end: Alignment.bottomCenter,
         colors: [
           Theme.of(context).colorScheme.surface.withOpacity(0.9),
-          Theme.of(context).colorScheme.background,
+          Theme.of(context).colorScheme.surface,
         ],
       ),
     ),
@@ -19,22 +21,25 @@ Widget buildMachinesGrid(BuildContext context, List<Machine> machines) {
       child: GridView.builder(
         shrinkWrap: true,
         physics: const BouncingScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 150,
           crossAxisSpacing: 16.0,
           mainAxisSpacing: 16.0,
-          childAspectRatio: 0.8,
+          childAspectRatio: 0.75,
         ),
         itemCount: machines.length,
         itemBuilder: (context, index) {
-          return _buildMachineCard(context, machines[index]);
+          return _buildMachineCard(context, machines[index], highlightTerm);
         },
       ),
     ),
   );
 }
 
-Widget _buildMachineCard(BuildContext context, Machine machine) {
+Widget _buildMachineCard(BuildContext context, Machine machine, String highlightTerm) {
+  final locale = context.watch<LanguageCubit>().state.locale.languageCode;
+  final name = machine.getName(locale);
+
   return Card(
     elevation: 4,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -57,6 +62,10 @@ Widget _buildMachineCard(BuildContext context, Machine machine) {
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
+              errorBuilder: (_, __, ___) => Container(
+                color: Colors.grey.shade300,
+                child: const Icon(Icons.broken_image, size: 30),
+              ),
             ),
             // Semi-transparent overlay with machine name
             Positioned(
@@ -70,27 +79,73 @@ Widget _buildMachineCard(BuildContext context, Machine machine) {
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [
-                      Theme.of(context).colorScheme.surface.withOpacity(0.8),
+                      Theme.of(context).colorScheme.surface.withOpacity(0.9),
                       Colors.transparent,
                     ],
                   ),
                 ),
-                child: Text(
-                  machine.name,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurface,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                child: _buildHighlightedText(context, name, highlightTerm),
               ),
             ),
           ],
         ),
       ),
     ),
+  );
+}
+
+Widget _buildHighlightedText(BuildContext context, String text, String term) {
+  if (term.isEmpty) {
+    return Text(
+      text,
+      style: TextStyle(
+        color: Theme.of(context).colorScheme.onSurface,
+        fontWeight: FontWeight.bold,
+        fontSize: 12,
+      ),
+      textAlign: TextAlign.center,
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+
+  final lowerText = text.toLowerCase();
+  final lowerTerm = term.toLowerCase();
+  final matches = <TextSpan>[];
+
+  int start = 0;
+  int index = lowerText.indexOf(lowerTerm, start);
+
+  while (index != -1) {
+    if (index > start) {
+      matches.add(TextSpan(text: text.substring(start, index)));
+    }
+    matches.add(TextSpan(
+      text: text.substring(index, index + term.length),
+      style: TextStyle(
+        color: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      ),
+    ));
+    start = index + term.length;
+    index = lowerText.indexOf(lowerTerm, start);
+  }
+
+  if (start < text.length) {
+    matches.add(TextSpan(text: text.substring(start)));
+  }
+
+  return RichText(
+    text: TextSpan(
+      style: TextStyle(
+        color: Theme.of(context).colorScheme.onSurface,
+        fontWeight: FontWeight.bold,
+        fontSize: 12,
+      ),
+      children: matches,
+    ),
+    textAlign: TextAlign.center,
+    maxLines: 2,
+    overflow: TextOverflow.ellipsis,
   );
 }

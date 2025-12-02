@@ -10,26 +10,26 @@ AppBar(
       Container(
         margin: EdgeInsets.only(right: 8.0),
         padding: EdgeInsets.all(3.0),
-        child: IconButton(onPressed: () {}, icon: Icon(Icons.search)),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(17),
           color: Theme.of(context).colorScheme.surface.withOpacity(0.9),
         ),
+        child: IconButton(onPressed: () {}, icon: Icon(Icons.search)),
       ),
       Container(
         margin: EdgeInsets.only(right: 8.0),
         padding: EdgeInsets.all(3.0),
-        child: IconButton(onPressed: () {}, icon: Icon(Icons.settings)),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(17),
           color: Theme.of(context).colorScheme.surface.withOpacity(0.9),
         ),
+        child: IconButton(onPressed: () {}, icon: Icon(Icons.settings)),
       ),
     ], // Remove shadow when scrolling
     title: Text(
       "title",
       style: TextStyle(
-        color: Theme.of(context).colorScheme.onBackground,
+        color: Theme.of(context).colorScheme.onSurface,
         fontWeight: FontWeight.bold,
         fontSize: 20,
       ),

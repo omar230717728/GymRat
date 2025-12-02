@@ -15,8 +15,7 @@ class ExerciseCategory {
 class ExerciseCategoryCard extends StatelessWidget {
   final ExerciseCategory category;
 
-  const ExerciseCategoryCard({Key? key, required this.category})
-    : super(key: key);
+  const ExerciseCategoryCard({super.key, required this.category});
 
   @override
   Widget build(BuildContext context) {

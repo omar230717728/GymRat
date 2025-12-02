@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class YouTubeVideoScreen extends StatefulWidget {
   final String videoUrl;
 
-  const YouTubeVideoScreen({Key? key, required this.videoUrl})
-      : super(key: key);
+  const YouTubeVideoScreen({super.key, required this.videoUrl});
 
   @override
   _YouTubeVideoScreenState createState() => _YouTubeVideoScreenState();
@@ -40,7 +40,7 @@ class _YouTubeVideoScreenState extends State<YouTubeVideoScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text("Workout Video"),
+        title: Text(AppLocalizations.of(context)!.workoutVideo),
         backgroundColor: Colors.black,
       ),
       body: YoutubePlayer(

@@ -1,0 +1,552 @@
+{
+  "bodyParts": [
+    {
+      "id": "arms",
+      "name": "Arms",
+      "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+      "order": 1,
+      "muscles": [
+        {
+          "id": "biceps",
+          "name": "Biceps",
+          "description": "Front of upper arm responsible for elbow flexion and forearm supination.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 1,
+          "machines": [
+            {
+              "id": "barbell_station",
+              "name": "Barbell Curl Station",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Barbell",
+              "notes": "Use a straight bar or EZ-bar with room in front of a mirror to monitor form.",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "barbell_curl",
+                  "name": "Barbell Curl",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Biceps",
+                  "difficulty": "Beginner",
+                  "order": 1,
+                  "steps": [
+                    "Stand tall with your feet about shoulder-width apart, holding the barbell with an underhand grip.",
+                    "Keep your elbows pinned to your sides and your chest up.",
+                    "Curl the bar upward in a smooth arc until your hands are around shoulder height.",
+                    "Squeeze your biceps at the top for a brief pause.",
+                    "Lower the bar under control until your arms are fully extended without locking out the elbows."
+                  ],
+                  "description": "A classic mass-building exercise for the biceps that also engages the brachialis and forearms. You should feel most of the tension on the front of your upper arms, especially in the mid to top range of the curl.",
+                  "commonMistakes": [
+                    "Using momentum and swinging the torso backward to lift the weight.",
+                    "Letting the elbows drift forward or away from the ribcage, turning it into a shoulder exercise.",
+                    "Dropping the bar too quickly instead of controlling the negative portion of the lift.",
+                    "Curling the wrists instead of keeping them neutral, which stresses the joints."
+                  ],
+                  "equipmentType": "Barbell",
+                  "primaryMuscles": ["Biceps brachii"],
+                  "secondaryMuscles": ["Brachialis", "Brachioradialis", "Forearms"]
+                },
+                {
+                  "id": "ez_bar_curl",
+                  "name": "EZ-Bar Curl",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Biceps",
+                  "difficulty": "Beginner",
+                  "order": 2,
+                  "steps": [
+                    "Grip the EZ-bar on the angled sections with an underhand grip.",
+                    "Stand upright with your shoulders back and elbows close to your sides.",
+                    "Curl the bar toward your shoulders while exhaling and focusing on squeezing the biceps.",
+                    "Hold briefly at the top, then lower the bar slowly back to the starting position."
+                  ],
+                  "description": "The EZ-bar curl reduces wrist strain compared to a straight bar, making it more comfortable for many lifters while still heavily targeting the biceps.",
+                  "commonMistakes": [
+                    "Using too narrow or too wide a grip, putting unnecessary stress on wrists and elbows.",
+                    "Letting shoulders roll forward, which reduces biceps involvement.",
+                    "Rushing the movement and bouncing at the bottom."
+                  ],
+                  "equipmentType": "Barbell",
+                  "primaryMuscles": ["Biceps brachii"],
+                  "secondaryMuscles": ["Brachialis", "Forearms"]
+                }
+              ]
+            },
+            {
+              "id": "preacher_curl_bench",
+              "name": "Preacher Curl Bench",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Bench",
+              "notes": "Preacher bench with barbell, EZ-bar or dumbbell for strict curls.",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "preacher_ez_bar_curl",
+                  "name": "Preacher EZ-Bar Curl",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Biceps",
+                  "difficulty": "Intermediate",
+                  "order": 1,
+                  "steps": [
+                    "Adjust the preacher bench so your armpits rest comfortably at the top of the pad.",
+                    "Grab the EZ-bar with an underhand grip and extend your arms over the pad.",
+                    "Curl the bar upward by flexing the elbows, keeping your upper arms fixed on the pad.",
+                    "Stop just before the bar is directly above your shoulders and squeeze the biceps.",
+                    "Lower the bar under control until your arms are almost fully extended without locking out."
+                  ],
+                  "description": "The preacher curl isolates the biceps and reduces the ability to cheat, making it excellent for focused muscle tension and a strong stretch at the bottom.",
+                  "commonMistakes": [
+                    "Letting the elbows lift off the pad, which reduces isolation of the biceps.",
+                    "Going too heavy and bouncing the weight from the bottom stretched position.",
+                    "Hyperextending the elbows at the bottom, putting stress on the joint."
+                  ],
+                  "equipmentType": "Barbell",
+                  "primaryMuscles": ["Biceps brachii"],
+                  "secondaryMuscles": ["Brachialis"]
+                },
+                {
+                  "id": "preacher_dumbbell_curl",
+                  "name": "Preacher Dumbbell Curl",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Biceps",
+                  "difficulty": "Intermediate",
+                  "order": 2,
+                  "steps": [
+                    "Sit at the preacher bench holding a dumbbell in one hand.",
+                    "Rest the back of your upper arm fully on the pad with your arm extended.",
+                    "Curl the dumbbell up by flexing the elbow until your forearm is vertical.",
+                    "Squeeze the biceps at the top, then slowly lower the dumbbell back to the start."
+                  ],
+                  "description": "A unilateral variation that helps fix strength imbalances between arms while keeping the biceps under continuous tension.",
+                  "commonMistakes": [
+                    "Letting the shoulder roll forward instead of keeping the chest up.",
+                    "Using momentum to swing the dumbbell, especially near the bottom.",
+                    "Not controlling the negative portion, which reduces muscle growth stimulus."
+                  ],
+                  "equipmentType": "Dumbbell",
+                  "primaryMuscles": ["Biceps brachii"],
+                  "secondaryMuscles": ["Brachialis"]
+                }
+              ]
+            },
+            {
+              "id": "cable_station_biceps",
+              "name": "Cable Station - Biceps",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Cable",
+              "notes": "Adjustable cable column for curls with different attachments.",
+              "order": 3,
+              "exercises": [
+                {
+                  "id": "cable_biceps_curl_straight_bar",
+                  "name": "Cable Biceps Curl (Straight Bar)",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Biceps",
+                  "difficulty": "Beginner",
+                  "order": 1,
+                  "steps": [
+                    "Attach a straight bar to the low pulley of a cable station.",
+                    "Stand facing the machine, grasp the bar with an underhand grip and arms extended.",
+                    "Curl the bar toward your shoulders, keeping your elbows glued to your sides.",
+                    "Pause and squeeze the biceps at the top, then slowly lower the bar back down."
+                  ],
+                  "description": "The cable curl provides constant tension on the biceps throughout the entire range of motion, making it great for a strong pump and muscle control.",
+                  "commonMistakes": [
+                    "Leaning backward and using bodyweight to move the stack.",
+                    "Letting the shoulders shrug up instead of keeping them down.",
+                    "Allowing the weight stack to slam down between reps."
+                  ],
+                  "equipmentType": "Cable",
+                  "primaryMuscles": ["Biceps brachii"],
+                  "secondaryMuscles": ["Forearms"]
+                },
+                {
+                  "id": "cable_hammer_curl_rope",
+                  "name": "Cable Hammer Curl (Rope)",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Biceps",
+                  "difficulty": "Intermediate",
+                  "order": 2,
+                  "steps": [
+                    "Attach a rope handle to the low pulley.",
+                    "Stand tall holding the rope with a neutral grip (palms facing each other).",
+                    "Curl the rope upward while keeping your elbows at your sides.",
+                    "At the top, flex the elbows fully and squeeze the biceps and forearms.",
+                    "Lower under control until your arms are extended again."
+                  ],
+                  "description": "Hammer-style cable curls hit the brachialis and brachioradialis along with the biceps, contributing to overall upper arm thickness.",
+                  "commonMistakes": [
+                    "Letting elbows drift forward, reducing the tension on the brachialis.",
+                    "Pulling the rope apart too early, which can shorten the effective range.",
+                    "Using excessive momentum instead of strict, smooth curls."
+                  ],
+                  "equipmentType": "Cable",
+                  "primaryMuscles": ["Brachialis", "Biceps brachii"],
+                  "secondaryMuscles": ["Brachioradialis", "Forearms"]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "triceps",
+          "name": "Triceps",
+          "description": "Back of upper arm responsible for elbow extension and lockout strength.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 2,
+          "machines": [
+            {
+              "id": "cable_station_triceps",
+              "name": "Cable Station - Triceps",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Cable",
+              "notes": "High pulley station with bar or rope attachments for extension movements.",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "triceps_rope_pushdown",
+                  "name": "Rope Pushdown",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Triceps",
+                  "difficulty": "Beginner",
+                  "order": 1,
+                  "steps": [
+                    "Attach a rope handle to the high pulley and stand facing the cable stack.",
+                    "Grip the rope with both hands and bring elbows close to your sides.",
+                    "Start with your forearms up, around chest level, keeping your shoulders relaxed.",
+                    "Push the rope down by extending your elbows until your arms are straight.",
+                    "At the bottom, spread the rope ends slightly and squeeze your triceps.",
+                    "Slowly return to the starting position while keeping your elbows fixed."
+                  ],
+                  "description": "Rope pushdowns are a staple triceps isolation exercise, emphasizing the lateral head and giving a strong contraction at the bottom of the movement.",
+                  "commonMistakes": [
+                    "Allowing the elbows to drift forward, turning the movement into more of a chest/shoulder exercise.",
+                    "Leaning excessively over the weight and using bodyweight to push it down.",
+                    "Only moving through half the range of motion and skipping full lockout or controlled negatives.",
+                    "Letting the shoulders shrug up toward the ears."
+                  ],
+                  "equipmentType": "Cable",
+                  "primaryMuscles": ["Triceps brachii"],
+                  "secondaryMuscles": ["Forearms"]
+                },
+                {
+                  "id": "triceps_straight_bar_pushdown",
+                  "name": "Straight Bar Pushdown",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Triceps",
+                  "difficulty": "Beginner",
+                  "order": 2,
+                  "steps": [
+                    "Attach a straight or angled bar to the high pulley.",
+                    "Stand close to the cable machine with a slight forward lean and elbows pinned to your sides.",
+                    "Extend the elbows to push the bar down until your arms are fully straight.",
+                    "Briefly pause at the bottom, focusing on the triceps squeeze.",
+                    "Return the bar slowly to the starting position without letting elbows move."
+                  ],
+                  "description": "A classic triceps isolation move that allows heavier loading than many other triceps exercises. Great for building size and lockout strength.",
+                  "commonMistakes": [
+                    "Using too much weight and letting the shoulders roll forward.",
+                    "Turning it into a pullover by allowing elbows to shift forward.",
+                    "Locking the elbows aggressively with a snap rather than controlled extension."
+                  ],
+                  "equipmentType": "Cable",
+                  "primaryMuscles": ["Triceps brachii"],
+                  "secondaryMuscles": ["Forearms"]
+                },
+                {
+                  "id": "overhead_cable_triceps_extension",
+                  "name": "Overhead Cable Triceps Extension",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Triceps",
+                  "difficulty": "Intermediate",
+                  "order": 3,
+                  "steps": [
+                    "Attach a rope handle to the low pulley and stand facing away from the machine.",
+                    "Hold the rope behind your head with elbows pointing forward and upper arms close to your head.",
+                    "Extend your elbows to bring your hands upward until your arms are nearly straight.",
+                    "Control the rope back down behind your head, feeling a stretch in the long head of the triceps."
+                  ],
+                  "description": "Targets the long head of the triceps by putting it in a stretched, overhead position. Great for adding mass to the back of the arm.",
+                  "commonMistakes": [
+                    "Letting the elbows flare wide instead of keeping them close to the head.",
+                    "Overarching the lower back due to poor core engagement.",
+                    "Using too much weight and turning the movement into a shoulder press."
+                  ],
+                  "equipmentType": "Cable",
+                  "primaryMuscles": ["Triceps brachii (long head)"],
+                  "secondaryMuscles": ["Triceps brachii (lateral and medial heads)"]
+                }
+              ]
+            },
+            {
+              "id": "triceps_extension_machine",
+              "name": "Triceps Extension Machine",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Pin-loaded",
+              "notes": "Seated selectorized machine for elbow extension with guided path.",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "machine_triceps_extension",
+                  "name": "Machine Triceps Extension",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Triceps",
+                  "difficulty": "Beginner",
+                  "order": 1,
+                  "steps": [
+                    "Adjust the seat so your elbows line up with the machine's axis of rotation.",
+                    "Grip the handles with your elbows bent and tucked close to your body.",
+                    "Extend your elbows to push the handles away until your arms are straight.",
+                    "Pause and squeeze your triceps, then slowly return to the starting position."
+                  ],
+                  "description": "The machine triceps extension provides a stable, guided movement that isolates the triceps without requiring much balance or technique.",
+                  "commonMistakes": [
+                    "Setting the seat too high or too low, misaligning the elbow joint with the pivot point.",
+                    "Using momentum by bouncing at the bottom of the range.",
+                    "Locking out too aggressively instead of maintaining control."
+                  ],
+                  "equipmentType": "Machine",
+                  "primaryMuscles": ["Triceps brachii"],
+                  "secondaryMuscles": []
+                }
+              ]
+            },
+            {
+              "id": "dip_station",
+              "name": "Dip Station",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Bodyweight",
+              "notes": "Parallel bars or dip handles for bodyweight dips; some gyms also have an assisted dip machine.",
+              "order": 3,
+              "exercises": [
+                {
+                  "id": "bench_dip",
+                  "name": "Bench Dip",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Triceps",
+                  "difficulty": "Beginner",
+                  "order": 1,
+                  "steps": [
+                    "Sit on the edge of a bench and place your hands beside your hips.",
+                    "Walk your feet forward and slide your hips off the bench, supporting yourself with your arms.",
+                    "Lower your body by bending the elbows until your upper arms are roughly parallel to the floor.",
+                    "Push through your palms to extend your elbows and return to the top."
+                  ],
+                  "description": "Bench dips are an accessible way to train the triceps with bodyweight, especially for beginners or when no machines are available.",
+                  "commonMistakes": [
+                    "Letting the shoulders roll forward, which stresses the shoulder joint.",
+                    "Dropping too low, placing excessive strain on the front of the shoulders.",
+                    "Keeping the feet too close, which can reduce the effective range of motion."
+                  ],
+                  "equipmentType": "Bodyweight",
+                  "primaryMuscles": ["Triceps brachii"],
+                  "secondaryMuscles": ["Anterior deltoid", "Pectoralis major"]
+                },
+                {
+                  "id": "parallel_bar_dip_triceps",
+                  "name": "Parallel Bar Dip (Triceps Focus)",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Triceps",
+                  "difficulty": "Intermediate",
+                  "order": 2,
+                  "steps": [
+                    "Hold onto parallel bars and support your body with arms straight and legs hanging.",
+                    "Keep your torso more upright and your elbows close to your sides.",
+                    "Lower your body by bending the elbows until your upper arms are about parallel to the floor.",
+                    "Push yourself back up by extending the elbows to return to the top position."
+                  ],
+                  "description": "Dips are a powerful compound exercise that heavily load the triceps while also engaging the chest and shoulders. Keeping the torso more upright shifts emphasis towards the triceps.",
+                  "commonMistakes": [
+                    "Leaning too far forward, turning the movement into a chest dip.",
+                    "Only using a short range of motion instead of going deep enough.",
+                    "Allowing the shoulders to shrug excessively up toward the ears."
+                  ],
+                  "equipmentType": "Bodyweight",
+                  "primaryMuscles": ["Triceps brachii"],
+                  "secondaryMuscles": ["Pectoralis major", "Anterior deltoid"]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "forearms",
+          "name": "Forearms",
+          "description": "Muscles of the forearm responsible for wrist flexion, extension, grip strength and forearm rotation.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 3,
+          "machines": [
+            {
+              "id": "barbell_wrist_station",
+              "name": "Barbell Wrist Station",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Barbell",
+              "notes": "Use a barbell and bench or your thighs as support for wrist curls and extensions.",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "barbell_wrist_curl",
+                  "name": "Barbell Wrist Curl",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Forearms",
+                  "difficulty": "Beginner",
+                  "order": 1,
+                  "steps": [
+                    "Sit on a bench and rest your forearms on your thighs or a flat surface, palms facing up.",
+                    "Hold a barbell in your hands with wrists hanging just beyond the edge.",
+                    "Curl the barbell upward by flexing your wrists as high as comfortably possible.",
+                    "Pause and squeeze the forearm flexors at the top, then slowly lower the bar back down."
+                  ],
+                  "description": "Barbell wrist curls isolate the forearm flexors and help improve grip and forearm size.",
+                  "commonMistakes": [
+                    "Using a weight that is too heavy and relying on momentum instead of controlled movement.",
+                    "Lifting the forearms off the bench or thighs instead of keeping them planted.",
+                    "Not using full range of motion, cutting off the stretch at the bottom."
+                  ],
+                  "equipmentType": "Barbell",
+                  "primaryMuscles": ["Forearm flexors"],
+                  "secondaryMuscles": ["Finger flexors"]
+                },
+                {
+                  "id": "barbell_reverse_wrist_curl",
+                  "name": "Barbell Reverse Wrist Curl",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Forearms",
+                  "difficulty": "Beginner",
+                  "order": 2,
+                  "steps": [
+                    "Sit and rest your forearms on a bench or thighs with palms facing down.",
+                    "Hold the barbell with an overhand grip, wrists hanging off the edge.",
+                    "Extend your wrists upward, lifting the back of your hands toward the ceiling.",
+                    "Lower the bar under control back to the starting position."
+                  ],
+                  "description": "Reverse wrist curls target the forearm extensors on the top side of the forearm, balancing development and supporting wrist health.",
+                  "commonMistakes": [
+                    "Using too much weight and jerking the bar up.",
+                    "Allowing forearms to lift off the support surface.",
+                    "Cutting the range of motion short on the way down."
+                  ],
+                  "equipmentType": "Barbell",
+                  "primaryMuscles": ["Forearm extensors"],
+                  "secondaryMuscles": []
+                }
+              ]
+            },
+            {
+              "id": "dumbbell_forearm_station",
+              "name": "Dumbbell Forearm Station",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Dumbbell",
+              "notes": "Use a bench, thighs or any support with dumbbells for one-arm wrist work.",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "dumbbell_wrist_curl",
+                  "name": "Dumbbell Wrist Curl",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Forearms",
+                  "difficulty": "Beginner",
+                  "order": 1,
+                  "steps": [
+                    "Sit and hold a dumbbell in one hand with your forearm resting on a bench or your thigh, palm facing up.",
+                    "Allow the wrist to extend so the dumbbell lowers toward the floor.",
+                    "Curl the dumbbell upward by flexing your wrist.",
+                    "Squeeze at the top, then repeat and switch arms."
+                  ],
+                  "description": "The dumbbell wrist curl allows you to train each forearm individually, helping fix strength imbalances and improving grip strength.",
+                  "commonMistakes": [
+                    "Using the shoulder or elbow to move the weight instead of isolating the wrist.",
+                    "Moving too fast and bouncing at the bottom.",
+                    "Neglecting the non-dominant side, leading to imbalances."
+                  ],
+                  "equipmentType": "Dumbbell",
+                  "primaryMuscles": ["Forearm flexors"],
+                  "secondaryMuscles": []
+                },
+                {
+                  "id": "dumbbell_reverse_wrist_curl",
+                  "name": "Dumbbell Reverse Wrist Curl",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Forearms",
+                  "difficulty": "Beginner",
+                  "order": 2,
+                  "steps": [
+                    "Sit and hold a dumbbell with your palm facing down, forearm supported on a bench or thigh.",
+                    "Let the wrist slowly drop down, then extend it upward lifting the back of your hand.",
+                    "Focus on controlling the dumbbell throughout the movement.",
+                    "Repeat for reps, then switch arms."
+                  ],
+                  "description": "Reverse dumbbell wrist curls build the often-neglected forearm extensors, helping to balance the forearm and support healthy wrist joints.",
+                  "commonMistakes": [
+                    "Using too heavy a dumbbell and jerking the wrist into extension.",
+                    "Letting the forearm roll or rotate rather than moving only at the wrist.",
+                    "Not fully lowering into the stretch at the bottom."
+                  ],
+                  "equipmentType": "Dumbbell",
+                  "primaryMuscles": ["Forearm extensors"],
+                  "secondaryMuscles": []
+                }
+              ]
+            },
+            {
+              "id": "grip_trainer_station",
+              "name": "Grip Trainer / Farmer's Walk",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Other",
+              "notes": "Implements like hand grippers, thick bars and heavy dumbbells for loaded carries.",
+              "order": 3,
+              "exercises": [
+                {
+                  "id": "farmers_walk",
+                  "name": "Farmer's Walk",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Forearms",
+                  "difficulty": "Intermediate",
+                  "order": 1,
+                  "steps": [
+                    "Pick up a heavy dumbbell or farmer's handle in each hand.",
+                    "Stand tall with your shoulders back and core braced.",
+                    "Walk for a set distance or time while maintaining a strong, upright posture.",
+                    "Set the weights down safely at the end of the walk."
+                  ],
+                  "description": "Farmer's walks are one of the best functional exercises for overall grip strength, forearm development and total-body stability.",
+                  "commonMistakes": [
+                    "Letting the shoulders slump forward instead of keeping the chest up.",
+                    "Walking with short, choppy steps instead of controlled strides.",
+                    "Allowing the weights to bang into the legs during the walk."
+                  ],
+                  "equipmentType": "Dumbbell",
+                  "primaryMuscles": ["Forearm flexors", "Brachioradialis"],
+                  "secondaryMuscles": ["Trapezius", "Core", "Legs"]
+                },
+                {
+                  "id": "hand_gripper_squeezes",
+                  "name": "Hand Gripper Squeezes",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Forearms",
+                  "difficulty": "Beginner",
+                  "order": 2,
+                  "steps": [
+                    "Hold a hand gripper in one hand with the handle seated in your palm.",
+                    "Squeeze the handles together as far as you can, then slowly release.",
+                    "Perform controlled repetitions or long holds, then switch hands."
+                  ],
+                  "description": "Hand grippers are a simple and effective tool to directly strengthen your crushing grip and forearm flexors.",
+                  "commonMistakes": [
+                    "Using only the fingertips instead of seating the handle deep in the palm.",
+                    "Snapping the gripper open and closed without control.",
+                    "Overtraining grip every day without rest, which can cause elbow or wrist irritation."
+                  ],
+                  "equipmentType": "Grip Tool",
+                  "primaryMuscles": ["Forearm flexors"],
+                  "secondaryMuscles": ["Finger flexors"]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+
+
+  ]
+}

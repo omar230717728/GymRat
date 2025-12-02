@@ -6,6 +6,10 @@ import '../shared/app_text_styles.dart';
 enum AppTheme {
   green,
   red,
+  blue,
+  purple,
+  orange,
+  darkNeon,
 }
 
 /// ThemeManager: returns ThemeData for each theme
@@ -15,7 +19,15 @@ class ThemeManager {
       case AppTheme.green:
         return _buildTheme(AppColorsGreen());
       case AppTheme.red:
-        return _buildTheme(AppColorsRed());  
+        return _buildTheme(AppColorsRed());
+      case AppTheme.blue:
+        return _buildTheme(AppColorsBlue());
+      case AppTheme.purple:
+        return _buildTheme(AppColorsPurple());
+      case AppTheme.orange:
+        return _buildTheme(AppColorsOrange());
+      case AppTheme.darkNeon:
+        return _buildTheme(AppColorsDarkNeon());
     }
   }
 
@@ -99,8 +111,6 @@ class ThemeManager {
         onSecondary: colors.textPrimary,
         error: colors.error,
         onError: colors.textPrimary,
-        background: colors.background,
-        onBackground: colors.textPrimary,
         surface: colors.surface,
         onSurface: colors.textPrimary,
       ),

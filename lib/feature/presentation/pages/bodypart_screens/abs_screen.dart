@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/utils/machine.dart';
 import 'package:flutter_application_1/core/shared/machine_grid.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class AbsScreen extends StatelessWidget {
   const AbsScreen({super.key});
@@ -22,7 +23,7 @@ class AbsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Abs Workouts")),
+      appBar: AppBar(title: Text("${AppLocalizations.of(context)!.abs} ${AppLocalizations.of(context)!.workouts}")),
       body: StreamBuilder<List<Machine>>(
         stream: fetchMachines(),
         builder: (context, snapshot) {

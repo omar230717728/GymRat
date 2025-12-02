@@ -7,7 +7,9 @@ import 'package:flutter_application_1/feature/presentation/pages/favorite_screen
 import 'package:flutter_application_1/feature/presentation/pages/gym_parts_home.dart';
 import 'package:flutter_application_1/feature/presentation/pages/profile_screen.dart';
 import 'package:flutter_application_1/feature/presentation/pages/search_screen.dart';
+import 'package:flutter_application_1/feature/presentation/pages/progress_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -30,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _buildHomeNavigator(),
       SearchScreen(),
       SafeArea(child: FavoritesScreen()),
-      ProfileScreen(),
+      const ProgressScreen(),
     ];
   }
 
@@ -51,13 +53,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       extendBodyBehindAppBar: true,
-      extendBody:
-          true, // ← ADD THIS LINE - allows body to extend behind navigation bar
+      extendBody: true,
       appBar: _buildAppBar(),
       body: WillPopScope(
         onWillPop: () async {
@@ -94,40 +94,49 @@ class _MyHomePageState extends State<MyHomePage> {
         Container(
           margin: EdgeInsets.only(right: 8.0),
           padding: EdgeInsets.all(3.0),
-          child: IconButton(onPressed: () {}, icon: Icon(Icons.search)),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(17),
             color: Theme.of(context).colorScheme.surface.withOpacity(0.9),
           ),
+          child: IconButton(onPressed: () {}, icon: Icon(Icons.search)),
         ),
         Container(
           margin: EdgeInsets.only(right: 8.0),
           padding: EdgeInsets.all(3.0),
-          child: IconButton(onPressed: () {}, icon: Icon(Icons.settings)),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(17),
             color: Theme.of(context).colorScheme.surface.withOpacity(0.9),
           ),
+          child: IconButton(onPressed: () {}, icon: Icon(Icons.settings)),
         ),
       ],
       title: Text(
-        "GymRat",
+        AppLocalizations.of(context)!.appTitle,
         style: TextStyle(
-          color: Theme.of(context).colorScheme.onBackground,
+          color: Theme.of(context).colorScheme.onSurface,
           fontWeight: FontWeight.bold,
           fontSize: 20,
         ),
       ),
-      leading: Container(
-        padding: EdgeInsets.all(5.0),
-        margin: EdgeInsets.only(left: 8.0),
-        child: CircleAvatar(
-          radius: 21,
-          backgroundColor: Theme.of(context).colorScheme.primary,
+      leading: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ProfileScreen()),
+          );
+        },
+        child: Container(
+          padding: EdgeInsets.all(5.0),
+          margin: EdgeInsets.only(left: 8.0),
           child: CircleAvatar(
-            radius: 17,
-            backgroundImage: NetworkImage(
-              "https://i.imgur.com/BoN9kdC.png", // placeholder profile photo
+            radius: 21,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            child: CircleAvatar(
+              radius: 17,
+              backgroundImage: NetworkImage(
+                FirebaseAuth.instance.currentUser?.photoURL ??
+                    "https://i.imgur.com/BoN9kdC.png",
+              ),
             ),
           ),
         ),
@@ -169,11 +178,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               },
 
-              tabs: const [
-                GButton(icon: Icons.home, text: 'Home'),
-                GButton(icon: Icons.search, text: 'Search'),
-                GButton(icon: Icons.favorite, text: 'Favorites'),
-                GButton(icon:  Icons.show_chart, text: 'Progress'),
+              tabs: [
+                GButton(icon: Icons.home, text: AppLocalizations.of(context)!.home),
+                GButton(icon: Icons.search, text: AppLocalizations.of(context)!.search),
+                GButton(icon: Icons.favorite, text: AppLocalizations.of(context)!.favorites),
+                GButton(icon:  Icons.show_chart, text: AppLocalizations.of(context)!.progress),
               ],
             ),
           ),

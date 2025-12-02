@@ -1,11 +1,13 @@
 class Machine {
   final String id;
-  final String name;
-  final String description;
+  final Map<String, dynamic> name;
+  final Map<String, dynamic> description;
   final String imageUrl;
   final String videoUrl;
-  final List<String> instructions;
-  final String bodyPart; // ⭐ added back for search filters
+  final Map<String, dynamic> instructions;
+  final String bodyPart;
+  final String difficulty;
+  final Map<String, dynamic> targetMuscles;
 
   Machine({
     required this.id,
@@ -15,32 +17,30 @@ class Machine {
     required this.videoUrl,
     required this.instructions,
     required this.bodyPart,
+    this.difficulty = 'beginner',
+    this.targetMuscles = const {},
   });
 
-  // ⭐ Restore this to fix ALL your body part screens
   factory Machine.fromMap(String id, Map<String, dynamic> data) {
     return Machine(
       id: id,
-      name: data['name'] ?? 'Unknown',
-      description: data['description'] ?? '',
-      imageUrl: data['imageUrl'] ?? '',
-      videoUrl: data['videoUrl'] ?? '',
-      bodyPart: data['bodyPart'] ?? '',           // ⭐ required
-      instructions: List<String>.from(data['instructions'] ?? []),
-    );
-  }
-
-  // ⭐ The one used for Firebase favorites
-  factory Machine.fromFirestore(Map<String, dynamic> data, String docId) {
-    return Machine(
-      id: docId,
-      name: data['name'] ?? 'Unknown',
-      description: data['description'] ?? '',
+      name: data['name'] is Map ? data['name'] : {'en': data['name'] ?? 'Unknown'},
+      description: data['description'] is Map ? data['description'] : {'en': data['description'] ?? ''},
       imageUrl: data['imageUrl'] ?? '',
       videoUrl: data['videoUrl'] ?? '',
       bodyPart: data['bodyPart'] ?? '',
-      instructions: List<String>.from(data['instructions'] ?? []),
+      instructions: data['instructions'] is Map 
+          ? data['instructions'] 
+          : {'en': List<String>.from(data['instructions'] ?? [])},
+      difficulty: data['difficulty'] ?? 'beginner',
+      targetMuscles: data['targetMuscles'] is Map
+          ? data['targetMuscles']
+          : {'en': List<String>.from(data['targetMuscles'] ?? [])},
     );
+  }
+
+  factory Machine.fromFirestore(Map<String, dynamic> data, String docId) {
+    return Machine.fromMap(docId, data);
   }
 
   Map<String, dynamic> toFirestore() {
@@ -51,6 +51,32 @@ class Machine {
       'videoUrl': videoUrl,
       'bodyPart': bodyPart,
       'instructions': instructions,
+      'difficulty': difficulty,
+      'targetMuscles': targetMuscles,
     };
+  }
+
+  String getName(String locale) {
+    return name[locale] ?? name['en'] ?? 'Unknown';
+  }
+
+  String getDescription(String locale) {
+    return description[locale] ?? description['en'] ?? '';
+  }
+
+  List<String> getInstructions(String locale) {
+    final inst = instructions[locale] ?? instructions['en'];
+    if (inst is List) {
+      return List<String>.from(inst);
+    }
+    return [];
+  }
+
+  List<String> getTargetMuscles(String locale) {
+    final muscles = targetMuscles[locale] ?? targetMuscles['en'];
+    if (muscles is List) {
+      return List<String>.from(muscles);
+    }
+    return [];
   }
 }

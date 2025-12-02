@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/auth/login_screen.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class LoginRequiredPopup extends StatelessWidget {
   final VoidCallback onConfirm;   // Login / Signup
@@ -67,13 +68,13 @@ class LoginRequiredPopup extends StatelessWidget {
                 children: [
                   // Title
                   Text(
-                    "Sign in to save favorites",
+                    AppLocalizations.of(context)!.signInToSaveFavorites,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color:
-                          Theme.of(context).colorScheme.onBackground,
+                          Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
 
@@ -81,13 +82,13 @@ class LoginRequiredPopup extends StatelessWidget {
 
                   // Subtitle
                   Text(
-                    "Create an account to save machines and track your progress.",
+                    AppLocalizations.of(context)!.createAccountToSave,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 14.5,
                       color: Theme.of(context)
                           .colorScheme
-                          .onBackground
+                          .onSurface
                           .withOpacity(0.7),
                     ),
                   ),
@@ -108,9 +109,9 @@ class LoginRequiredPopup extends StatelessWidget {
                           borderRadius: BorderRadius.circular(14),
                         ),
                       ),
-                      child: const Text(
-                        "Login / Create Account",
-                        style: TextStyle(fontSize: 16),
+                      child: Text(
+                        AppLocalizations.of(context)!.loginCreateAccount,
+                        style: const TextStyle(fontSize: 16),
                       ),
                     ),
                   ),
@@ -121,11 +122,11 @@ class LoginRequiredPopup extends StatelessWidget {
                   TextButton(
                     onPressed: onCancel,
                     child: Text(
-                      "Cancel",
+                      AppLocalizations.of(context)!.cancel,
                       style: TextStyle(
                         color: Theme.of(context)
                             .colorScheme
-                            .onBackground
+                            .onSurface
                             .withOpacity(0.7),
                         fontSize: 15,
                       ),

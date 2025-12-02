@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -67,14 +68,14 @@ class _LoginScreenState extends State<LoginScreen>
       final user = _auth.currentUser;
 
       if (user != null && !user.emailVerified) {
-        _showSnack('Please verify your email before logging in.');
+        _showSnack(AppLocalizations.of(context)!.verifyEmailMessage);
         setState(() => _isLoading = false);
         return;
       }
 
       _onAuthSuccess();
     } on FirebaseAuthException catch (e) {
-      _showSnack(e.message ?? 'Login failed');
+      _showSnack(e.message ?? AppLocalizations.of(context)!.loginFailed);
     } catch (e) {
       _showSnack('Something went wrong: $e');
     } finally {
@@ -98,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen>
 
       final user = cred.user;
       if (user == null) {
-        _showSnack('Signup failed.');
+        _showSnack(AppLocalizations.of(context)!.signupFailed);
         setState(() => _isLoading = false);
         return;
       }
@@ -112,12 +113,9 @@ class _LoginScreenState extends State<LoginScreen>
         'favoritesCount': 0,
       });
 
-      _showSnack('Account created! Please check your email to verify.');
-
-      // Switch to login tab after signup
-      _tabController.animateTo(0);
+      _onAuthSuccess();
     } on FirebaseAuthException catch (e) {
-      _showSnack(e.message ?? 'Signup failed');
+      _showSnack(e.message ?? AppLocalizations.of(context)!.signupFailed);
     } catch (e) {
       _showSnack('Something went wrong: $e');
     } finally {
@@ -132,18 +130,18 @@ class _LoginScreenState extends State<LoginScreen>
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Reset Password'),
+          title: Text(AppLocalizations.of(context)!.resetPassword),
           content: TextField(
             controller: controller,
             keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              labelText: 'Email',
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.email,
             ),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -153,12 +151,12 @@ class _LoginScreenState extends State<LoginScreen>
                 try {
                   await _auth.sendPasswordResetEmail(email: email);
                   Navigator.pop(context);
-                  _showSnack('Password reset email sent.');
+                  _showSnack(AppLocalizations.of(context)!.passwordResetSent);
                 } on FirebaseAuthException catch (e) {
-                  _showSnack(e.message ?? 'Failed to send reset email.');
+                  _showSnack(e.message ?? AppLocalizations.of(context)!.failedToSendReset);
                 }
               },
-              child: const Text('Send'),
+              child: Text(AppLocalizations.of(context)!.send),
             ),
           ],
         );
@@ -269,7 +267,7 @@ class _LoginScreenState extends State<LoginScreen>
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Welcome back, beast mode!',
+                            AppLocalizations.of(context)!.welcomeBackBeast,
                             style: theme.textTheme.bodyMedium,
                           ),
                           const SizedBox(height: 16),
@@ -281,22 +279,21 @@ class _LoginScreenState extends State<LoginScreen>
                             unselectedLabelColor:
                                 theme.textTheme.bodyMedium?.color,
                             indicatorColor: theme.colorScheme.primary,
-                            tabs: const [
-                              Tab(text: 'Login'),
-                              Tab(text: 'Sign Up'),
+                            tabs: [
+                              Tab(text: AppLocalizations.of(context)!.login),
+                              Tab(text: AppLocalizations.of(context)!.signup),
                             ],
+                            onTap: (index) {
+                              setState(() {});
+                            },
                           ),
                           const SizedBox(height: 12),
 
-                          SizedBox(
-                            height: 310,
-                            child: TabBarView(
-                              controller: _tabController,
-                              children: [
-                                _buildLoginForm(context),
-                                _buildSignupForm(context),
-                              ],
-                            ),
+                          AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 300),
+                            child: _tabController.index == 0
+                                ? _buildLoginForm(context)
+                                : _buildSignupForm(context),
                           ),
                         ],
                       ),
@@ -319,16 +316,16 @@ class _LoginScreenState extends State<LoginScreen>
           TextFormField(
             controller: _loginEmailController,
             keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              labelText: 'Email',
-              prefixIcon: Icon(Icons.email),
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.email,
+              prefixIcon: const Icon(Icons.email),
             ),
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'Email is required';
+                return AppLocalizations.of(context)!.emailRequired;
               }
               if (!value.contains('@')) {
-                return 'Enter a valid email';
+                return AppLocalizations.of(context)!.validEmail;
               }
               return null;
             },
@@ -337,16 +334,16 @@ class _LoginScreenState extends State<LoginScreen>
           TextFormField(
             controller: _loginPasswordController,
             obscureText: true,
-            decoration: const InputDecoration(
-              labelText: 'Password',
-              prefixIcon: Icon(Icons.lock),
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.password,
+              prefixIcon: const Icon(Icons.lock),
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Password is required';
+                return AppLocalizations.of(context)!.passwordRequired;
               }
               if (value.length < 6) {
-                return 'Minimum 6 characters';
+                return AppLocalizations.of(context)!.minCharacters;
               }
               return null;
             },
@@ -356,7 +353,7 @@ class _LoginScreenState extends State<LoginScreen>
             alignment: Alignment.centerRight,
             child: TextButton(
               onPressed: _isLoading ? null : _handleForgotPassword,
-              child: const Text('Forgot password?'),
+              child: Text(AppLocalizations.of(context)!.forgotPassword),
             ),
           ),
           const SizedBox(height: 8),
@@ -370,16 +367,16 @@ class _LoginScreenState extends State<LoginScreen>
                       width: 20,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : const Text('Login'),
+                    : Text(AppLocalizations.of(context)!.login),
             ),
           ),
           const SizedBox(height: 12),
           Row(
-            children: const [
+            children: [
               Expanded(child: Divider()),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8),
-                child: Text('OR'),
+                child: Text(AppLocalizations.of(context)!.or),
               ),
               Expanded(child: Divider()),
             ],
@@ -390,7 +387,7 @@ class _LoginScreenState extends State<LoginScreen>
             child: OutlinedButton.icon(
               onPressed: _isLoading ? null : _handleGoogleSignIn,
               icon: const Icon(Icons.g_mobiledata, size: 28),
-              label: const Text('Continue with Google'),
+              label: Text(AppLocalizations.of(context)!.googleSignIn),
             ),
           ),
         ],
@@ -405,13 +402,13 @@ class _LoginScreenState extends State<LoginScreen>
         children: [
           TextFormField(
             controller: _signupFullNameController,
-            decoration: const InputDecoration(
-              labelText: 'Full Name',
-              prefixIcon: Icon(Icons.person),
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.fullName,
+              prefixIcon: const Icon(Icons.person),
             ),
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'Full name is required';
+                return AppLocalizations.of(context)!.nameRequired;
               }
               return null;
             },
@@ -420,16 +417,16 @@ class _LoginScreenState extends State<LoginScreen>
           TextFormField(
             controller: _signupEmailController,
             keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              labelText: 'Email',
-              prefixIcon: Icon(Icons.email),
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.email,
+              prefixIcon: const Icon(Icons.email),
             ),
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'Email is required';
+                return AppLocalizations.of(context)!.emailRequired;
               }
               if (!value.contains('@')) {
-                return 'Enter a valid email';
+                return AppLocalizations.of(context)!.validEmail;
               }
               return null;
             },
@@ -438,16 +435,16 @@ class _LoginScreenState extends State<LoginScreen>
           TextFormField(
             controller: _signupPasswordController,
             obscureText: true,
-            decoration: const InputDecoration(
-              labelText: 'Password',
-              prefixIcon: Icon(Icons.lock),
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.password,
+              prefixIcon: const Icon(Icons.lock),
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Password is required';
+                return AppLocalizations.of(context)!.passwordRequired;
               }
               if (value.length < 6) {
-                return 'Minimum 6 characters';
+                return AppLocalizations.of(context)!.minCharacters;
               }
               return null;
             },
@@ -463,14 +460,14 @@ class _LoginScreenState extends State<LoginScreen>
                       width: 20,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : const Text('Create Account'),
+                  : Text(AppLocalizations.of(context)!.createAccount),
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'A verification email will be sent to you.\nYou must verify before logging in.',
+          Text(
+            AppLocalizations.of(context)!.verificationNote,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 12),
+            style: const TextStyle(fontSize: 12),
           ),
         ],
       ),

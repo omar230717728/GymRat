@@ -4,6 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/core/themes/app_theme.dart';
 import 'package:flutter_application_1/feature/cubit/theme_cubit.dart';
+import 'package:flutter_application_1/feature/cubit/language_cubit.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_application_1/core/services/data_uploader.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -49,7 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       context: context,
       builder: (_) {
         return AlertDialog(
-          title: Text("Edit $title"),
+          title: Text(AppLocalizations.of(context)!.editTitle(title)),
           content: TextField(
             controller: controller,
             decoration: InputDecoration(hintText: "Enter new $title"),
@@ -57,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text("Cancel"),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -74,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 }
                 Navigator.pop(context);
               },
-              child: const Text("Save"),
+              child: Text(AppLocalizations.of(context)!.save),
             )
           ],
         );
@@ -85,6 +91,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _logout() async {
     await _auth.signOut();
     Navigator.pop(context); // return to previous screen
+  }
+
+  Future<void> _pickAndUploadImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() => _loading = true);
+      try {
+        final file = File(pickedFile.path);
+        final ref = FirebaseStorage.instance
+            .ref()
+            .child('user_avatars')
+            .child('${_auth.currentUser!.uid}.jpg');
+
+        await ref.putFile(file);
+        final url = await ref.getDownloadURL();
+
+        await _auth.currentUser!.updatePhotoURL(url);
+        await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
+          'photoURL': url,
+        });
+
+        setState(() {
+          _loading = false;
+        });
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context)!.profilePictureUpdated)),
+        );
+      } catch (e) {
+        setState(() => _loading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context)!.errorUploadingImage(e.toString()))),
+        );
+      }
+    }
   }
 
   @override
@@ -110,15 +153,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // ---------- AVATAR + NAME ----------
-              CircleAvatar(
-                radius: 45,
-                backgroundColor: theme.colorScheme.primary,
-                child: CircleAvatar(
-                  radius: 42,
-                  backgroundImage: _auth.currentUser?.photoURL != null
-                      ? NetworkImage(_auth.currentUser!.photoURL!)
-                      : const AssetImage("assets/images/avatar.png")
-                          as ImageProvider,
+              GestureDetector(
+                onTap: _pickAndUploadImage,
+                child: Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: 45,
+                      backgroundColor: theme.colorScheme.primary,
+                      child: CircleAvatar(
+                        radius: 42,
+                        backgroundImage: _auth.currentUser?.photoURL != null
+                            ? NetworkImage(_auth.currentUser!.photoURL!)
+                            : const AssetImage("assets/images/avatar.png")
+                                as ImageProvider,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primary,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.camera_alt, size: 16, color: Colors.white),
+                      ),
+                    ),
+                  ],
                 ),
               ),
 
@@ -127,11 +189,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    userData!['name'] ?? "No Name",
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
+                  Flexible(
+                    child: Text(
+                      userData!['name'] ?? "No Name",
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   const SizedBox(width: 6),
@@ -181,6 +246,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               // ---------- THEME SELECTOR ----------
               _buildThemeSelector(context),
 
+              const SizedBox(height: 25),
+
+              // ---------- LANGUAGE SELECTOR ----------
+              _buildLanguageSelector(context),
+
               const SizedBox(height: 30),
 
               // ---------- LOGOUT ----------
@@ -188,7 +258,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: _logout,
-                  child: const Text("Logout"),
+                  child: Text(AppLocalizations.of(context)!.logout),
                 ),
               ),
             ],
@@ -202,7 +272,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Your Progress",
+        Text(AppLocalizations.of(context)!.recentProgress,
             style: theme.textTheme.bodyLarge
                 ?.copyWith(fontSize: 22, fontWeight: FontWeight.bold)),
         const SizedBox(height: 16),
@@ -210,10 +280,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _buildStatCard("Favorites", "${userData!['favoritesCount'] ?? 0}",
+            _buildStatCard(AppLocalizations.of(context)!.favorites, "${userData!['favoritesCount'] ?? 0}",
                 Icons.favorite, theme),
-            _buildStatCard("Workouts", "0", Icons.fitness_center, theme),
-            _buildStatCard("Streak", "🔥 0", Icons.local_fire_department, theme),
+            _buildStatCard(AppLocalizations.of(context)!.totalWorkouts, "0", Icons.fitness_center, theme),
+            _buildStatCard(AppLocalizations.of(context)!.weeklyStreak, "🔥 0", Icons.local_fire_department, theme),
           ],
         ),
 
@@ -265,7 +335,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Themes",
+          AppLocalizations.of(context)!.theme,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -273,16 +343,102 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         const SizedBox(height: 12),
 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Wrap(
+          spacing: 12,
+          runSpacing: 12,
           children: [
             _themeButton(context, "Green", AppTheme.green,
                 themeCubit.state.currentTheme == AppTheme.green),
             _themeButton(context, "Red", AppTheme.red,
                 themeCubit.state.currentTheme == AppTheme.red),
+            _themeButton(context, "Blue", AppTheme.blue,
+                themeCubit.state.currentTheme == AppTheme.blue),
+            _themeButton(context, "Purple", AppTheme.purple,
+                themeCubit.state.currentTheme == AppTheme.purple),
+            _themeButton(context, "Orange", AppTheme.orange,
+                themeCubit.state.currentTheme == AppTheme.orange),
+            _themeButton(context, "Neon", AppTheme.darkNeon,
+                themeCubit.state.currentTheme == AppTheme.darkNeon),
           ],
-        )
+        ),
+        const SizedBox(height: 20),
+        Center(
+          child: TextButton(
+            onPressed: () async {
+              await DataUploader().uploadData();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(AppLocalizations.of(context)!.dataUploaded)),
+              );
+            },
+            child: Text(AppLocalizations.of(context)!.seedData),
+          ),
+        ),
       ],
+    );
+  }
+
+  Widget _buildLanguageSelector(BuildContext context) {
+    final languageCubit = context.watch<LanguageCubit>();
+    final currentLocale = languageCubit.state.locale;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppLocalizations.of(context)!.language,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+        ),
+        const SizedBox(height: 12),
+        Wrap(
+          spacing: 12,
+          runSpacing: 12,
+          children: [
+            _languageButton(context, "English", const Locale('en'), currentLocale),
+            _languageButton(context, "Türkçe", const Locale('tr'), currentLocale),
+            _languageButton(context, "Deutsch", const Locale('de'), currentLocale),
+            _languageButton(context, "العربية", const Locale('ar'), currentLocale),
+            _languageButton(context, "Русский", const Locale('ru'), currentLocale),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _languageButton(BuildContext context, String title, Locale locale, Locale currentLocale) {
+    final isSelected = locale.languageCode == currentLocale.languageCode;
+    return GestureDetector(
+      onTap: () {
+        context.read<LanguageCubit>().changeLanguage(locale);
+      },
+      child: Container(
+        width: 100,
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(14),
+          color: isSelected
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.surface,
+          border: Border.all(
+            color: Theme.of(context).colorScheme.primary,
+            width: 2,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            title,
+            style: TextStyle(
+              color: isSelected
+                  ? Theme.of(context).colorScheme.onPrimary
+                  : Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+        ),
+      ),
     );
   }
 
