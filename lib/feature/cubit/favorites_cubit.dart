@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application_1/core/utils/machine.dart';
+import 'package:flutter_application_1/core/models/exercise_model.dart';
 import 'package:flutter_application_1/feature/cubit/favorite_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,19 +20,19 @@ class FavoritesCubit extends Cubit<FavoritesState> {
         .collection('favorites')
         .get();
 
-    final machines = snap.docs
-        .map((doc) => Machine.fromFirestore(doc.data(), doc.id))
+    final exercises = snap.docs
+        .map((doc) => ExerciseModel.fromSnapshot(doc))
         .toList();
 
-    emit(FavoritesState(favorites: machines));
+    emit(FavoritesState(favorites: exercises));
   }
 
-  Future<void> toggleFavorite(Machine machine) async {
+  Future<void> toggleFavorite(ExerciseModel exercise) async {
     final uid = _auth.currentUser?.uid;
     if (uid == null) return;
 
     final userRef = _firestore.collection('users').doc(uid);
-    final favRef = userRef.collection('favorites').doc(machine.id);
+    final favRef = userRef.collection('favorites').doc(exercise.id);
 
     // Make sure favoritesCount exists for old users
     await userRef.set({'favoritesCount': 0}, SetOptions(merge: true));
@@ -45,7 +45,19 @@ class FavoritesCubit extends Cubit<FavoritesState> {
         'favoritesCount': FieldValue.increment(-1),
       });
     } else {
-      await favRef.set(machine.toFirestore());
+      // We need to save the exercise data to Firestore so we can reconstruct it
+      // ExerciseModel doesn't have toMap/toJson yet, so I'll create one or manually map it here.
+      // I'll manually map it for now.
+      final data = {
+        'name': exercise.name,
+        'imageUrl': exercise.imageUrl,
+        'videoUrl': exercise.videoUrl,
+        'steps': exercise.steps,
+        'commonMistakes': exercise.commonMistakes,
+        'targetMuscles': exercise.targetMuscles,
+        'order': exercise.order,
+      };
+      await favRef.set(data);
       await userRef.update({
         'favoritesCount': FieldValue.increment(1),
       });

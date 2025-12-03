@@ -1,7 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/utils/machine.dart';
 import 'package:flutter_application_1/feature/cubit/favorite_state.dart';
 import 'package:flutter_application_1/feature/cubit/favorites_cubit.dart';
 import 'package:flutter_application_1/feature/cubit/language_cubit.dart';

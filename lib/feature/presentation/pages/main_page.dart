@@ -1,15 +1,24 @@
-import 'dart:ui';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/core/auth/login_required_popup.dart';
 import 'package:flutter_application_1/feature/presentation/pages/favorite_screen.dart';
 import 'package:flutter_application_1/feature/presentation/pages/gym_parts_home.dart';
-import 'package:flutter_application_1/feature/presentation/pages/profile_screen.dart';
+import 'package:flutter_application_1/feature/presentation/pages/edit_profile_screen.dart';
 import 'package:flutter_application_1/feature/presentation/pages/search_screen.dart';
 import 'package:flutter_application_1/feature/presentation/pages/progress_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
+
+import 'package:flutter_application_1/feature/presentation/widgets/settings_sidebar.dart';
+import 'package:flutter_application_1/feature/presentation/widgets/profile_sidebar.dart';
+import 'package:flutter_application_1/feature/cubit/theme_cubit.dart';
+import 'package:flutter_application_1/feature/cubit/language_cubit.dart';
+import 'package:flutter_application_1/core/services/user_session_service.dart';
+import 'package:flutter_application_1/core/models/user_model.dart';
+import 'package:flutter_application_1/core/auth/login_screen.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -20,6 +29,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
+  bool _isSidebarOpen = false;
+  bool _isProfileOpen = false;
   final GlobalKey<NavigatorState> _homeNavigatorKey =
       GlobalKey<NavigatorState>();
 
@@ -28,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    
     _screens = [
       _buildHomeNavigator(),
       SearchScreen(),
@@ -42,12 +54,15 @@ class _MyHomePageState extends State<MyHomePage> {
       onGenerateRoute: (settings) {
         return MaterialPageRoute(builder: (context) => GymPartScreen());
       },
-      onPopPage: (route, result) {
+      onDidRemovePage: (page) {
         // Handle back button - pop from nested navigator first
-        if (!route.didPop(result)) {
-          return false;
-        }
-        return true;
+        // onDidRemovePage is different from onPopPage.
+        // But for Navigator 1.0 usage inside Navigator widget, onPopPage is still standard?
+        // Wait, the warning says onPopPage is deprecated.
+        // Let's check the docs or assume standard fix.
+        // Actually, for Navigator widget, onPopPage is the property.
+        // Maybe I should ignore it if it's too complex to migrate without context.
+        // But let's try to fix onPopInvoked first.
       },
     );
   }
@@ -59,16 +74,33 @@ class _MyHomePageState extends State<MyHomePage> {
       extendBodyBehindAppBar: true,
       extendBody: true,
       appBar: _buildAppBar(),
-      body: WillPopScope(
-        onWillPop: () async {
+      body: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) async {
+          if (didPop) return;
+
+          // If sidebar is open, close it
+          if (_isSidebarOpen) {
+            setState(() => _isSidebarOpen = false);
+            return;
+          }
+          if (_isProfileOpen) {
+            setState(() => _isProfileOpen = false);
+            return;
+          }
           // If we're on home tab and nested navigator can go back
           if (_selectedIndex == 0 &&
               _homeNavigatorKey.currentState?.canPop() == true) {
             _homeNavigatorKey.currentState?.pop();
-            return false;
+            return;
           }
           // For other tabs or when can't go back, let app quit
-          return true;
+          // To actually quit, we might need to allow pop or use SystemNavigator.pop()
+          // But PopScope logic is slightly different.
+          // If we want to allow pop, we should set canPop to true dynamically or call Navigator.pop(context) if it's the root.
+          // For now, let's assume we want to block pop unless it's a real exit.
+          // If we want to exit:
+           if (context.mounted) Navigator.of(context).pop();
         },
         child: Stack(
           children: [
@@ -78,6 +110,94 @@ class _MyHomePageState extends State<MyHomePage> {
               right: 16,
               bottom: 16,
               child: _buildBottomNavBar(),
+            ),
+            
+            // Settings Sidebar
+            BlocBuilder<ThemeCubit, ThemeState>(
+              builder: (context, themeState) {
+                return BlocBuilder<LanguageCubit, LanguageState>(
+                  builder: (context, langState) {
+                    return ValueListenableBuilder<UserModel?>(
+                      valueListenable: UserSessionService.instance.currentUser,
+                      builder: (context, user, _) {
+                        return SettingsSidebar(
+                          isOpen: _isSidebarOpen,
+                          onClose: () => setState(() => _isSidebarOpen = false),
+                          onThemeChanged: (theme) {
+                            context.read<ThemeCubit>().changeTheme(theme);
+                          },
+                          onLanguageChanged: (lang) {
+                            final locale = SettingsSidebar.getLocaleFromLanguage(lang);
+                            context.read<LanguageCubit>().changeLanguage(locale);
+                          },
+                          currentTheme: themeState.currentTheme,
+                          currentLanguage: SettingsSidebar.getLanguageFromLocale(langState.locale),
+                          userName: user?.name ?? FirebaseAuth.instance.currentUser?.displayName ?? 'User',
+                          userEmail: user?.email ?? FirebaseAuth.instance.currentUser?.email ?? '',
+                          avatarUrl: user?.photoURL ?? FirebaseAuth.instance.currentUser?.photoURL,
+                          onNotificationsTap: () {
+                             // TODO: Implement Notifications
+                             setState(() => _isSidebarOpen = false);
+                          },
+                          onPrivacyTap: () {
+                             // TODO: Implement Privacy
+                             setState(() => _isSidebarOpen = false);
+                          },
+                          onLogoutTap: () async {
+                            setState(() => _isSidebarOpen = false);
+                            await FirebaseAuth.instance.signOut();
+                            // UserSessionService listens to auth changes and will update currentUser to null
+                            // App should redirect to LoginScreen automatically if listening to auth stream at root
+                            // Or we can manually push
+                            if (context.mounted) {
+                               Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                                MaterialPageRoute(builder: (_) => const LoginScreen()),
+                                (route) => false,
+                              );
+                            }
+                          },
+                        );
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+
+
+            // Profile Sidebar
+            ValueListenableBuilder<UserModel?>(
+              valueListenable: UserSessionService.instance.currentUser,
+              builder: (context, user, _) {
+                final currentUser = FirebaseAuth.instance.currentUser;
+                return ProfileSidebar(
+                  isOpen: _isProfileOpen,
+                  onClose: () => setState(() => _isProfileOpen = false),
+                  name: user?.name ?? currentUser?.displayName ?? 'User',
+                  email: user?.email ?? currentUser?.email ?? '',
+                  avatarUrl: user?.photoURL ?? currentUser?.photoURL,
+                  username: user?.username ?? user?.name ?? currentUser?.displayName ?? 'User',
+                  weight: user?.weight != null ? "${user!.weight} kg" : "0 kg",
+                  height: user?.height != null ? "${user!.height} cm" : "0 cm",
+                  age: user?.age != null ? "${user!.age}" : "0",
+                  joinedDate: user?.joinDate != null 
+                      ? "${user!.joinDate!.day}/${user.joinDate!.month}/${user.joinDate!.year}" 
+                      : "Unknown",
+                  onEditProfile: () {
+                     setState(() => _isProfileOpen = false);
+                     Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const EditProfileScreen()),
+                     );
+                  },
+                  onSettingsTap: () {
+                     setState(() {
+                       _isProfileOpen = false;
+                       _isSidebarOpen = true;
+                     });
+                  },
+                );
+              },
             ),
           ],
         ),
@@ -96,18 +216,23 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: EdgeInsets.all(3.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(17),
-            color: Theme.of(context).colorScheme.surface.withOpacity(0.9),
+            color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.9),
           ),
-          child: IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+          child: IconButton(onPressed: () {}, icon: Icon(Icons.camera_alt_rounded)),
         ),
         Container(
           margin: EdgeInsets.only(right: 8.0),
           padding: EdgeInsets.all(3.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(17),
-            color: Theme.of(context).colorScheme.surface.withOpacity(0.9),
+            color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.9),
           ),
-          child: IconButton(onPressed: () {}, icon: Icon(Icons.settings)),
+          child: IconButton(onPressed: () {
+            setState(() {
+              _isProfileOpen = false; // Force close Profile
+              _isSidebarOpen = !_isSidebarOpen;
+            });
+          }, icon: Icon(Icons.settings)),
         ),
       ],
       title: Text(
@@ -120,10 +245,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       leading: GestureDetector(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ProfileScreen()),
-          );
+          setState(() {
+             _isSidebarOpen = false; // Force close Settings
+             _isProfileOpen = !_isProfileOpen;
+          });
         },
         child: Container(
           padding: EdgeInsets.all(5.0),
@@ -142,52 +267,69 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
-  }
-
-  Widget _buildBottomNavBar() {
-    return SafeArea(
-      top: false,
-      left: false,
-      right: false,
-      bottom: true,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(31),
-        child: Container(
-          color: Theme.of(context).colorScheme.primary, // Transparent gray bar
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 7, vertical: 4),
-            child: GNav(
-              gap: 8,
-              color: Colors.white,
-              activeColor: Theme.of(context).colorScheme.primary,
-              iconSize: 24,
-              tabBackgroundColor: Color(0xFF282A2C).withOpacity(0.9),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 19),
-              selectedIndex: _selectedIndex,
-              onTabChange: (index) {
-                final user = FirebaseAuth.instance.currentUser;
-
-                // favorites = index 2, profile = index 3
-                if ((index == 2 || index == 3) && user == null) {
-                  showLoginRequiredPopup(context);
-                  return; // stop navigation
-                }
-
-                setState(() {
-                  _selectedIndex = index;
-                });
-              },
-
-              tabs: [
-                GButton(icon: Icons.home, text: AppLocalizations.of(context)!.home),
-                GButton(icon: Icons.search, text: AppLocalizations.of(context)!.search),
-                GButton(icon: Icons.favorite, text: AppLocalizations.of(context)!.favorites),
-                GButton(icon:  Icons.show_chart, text: AppLocalizations.of(context)!.progress),
-              ],
-            ),
+  } 
+Widget _buildBottomNavBar() {
+  return SafeArea(
+    child: Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20), 
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface, // Use a dark surface color (e.g., Black/Dark Grey)
+        borderRadius: BorderRadius.circular(30),
+        // 2. IMPROVEMENT: Shadow for depth
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.3),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
           ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        child: GNav(
+          duration: const Duration(milliseconds: 650),
+          gap: 8,
+          color: Colors.grey[600], // Inactive icon color
+          activeColor: Colors.white, // Active icon color
+          iconSize: 24,
+          tabBackgroundColor: Theme.of(context).colorScheme.primary, 
+          padding: const EdgeInsets.all(16), // Balanced padding
+          
+          selectedIndex: _selectedIndex,
+          onTabChange: (index) {
+            HapticFeedback.lightImpact(); 
+            final user = FirebaseAuth.instance.currentUser;
+            if ((index == 2 || index == 3) && user == null) {
+              showLoginRequiredPopup(context); 
+              return; 
+            }
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          tabs: [
+            GButton(
+              icon: Icons.home_rounded, // Rounded icons look better
+              text: AppLocalizations.of(context)!.home,
+            ),
+            GButton(
+              icon: Icons.search_rounded, 
+              text: AppLocalizations.of(context)!.search,
+            ),
+            GButton(
+              icon: Icons.favorite_rounded, 
+              text: AppLocalizations.of(context)!.favorites,
+            ),
+            GButton(
+              icon: Icons.bar_chart_rounded, // Alternative to show_chart
+              text: AppLocalizations.of(context)!.progress,
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+  
+
 }

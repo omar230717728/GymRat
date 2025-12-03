@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/utils/machine.dart';
+import 'package:flutter_application_1/core/models/exercise_model.dart';
 import 'package:flutter_application_1/feature/presentation/pages/details_screen/machine_detail.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/feature/cubit/language_cubit.dart';
 
-Widget buildMachinesGrid(BuildContext context, List<Machine> machines, {String highlightTerm = ""}) {
+Widget buildMachinesGrid(BuildContext context, List<ExerciseModel> exercises, {String highlightTerm = ""}) {
   return Container(
     decoration: BoxDecoration(
       gradient: LinearGradient(
@@ -27,18 +27,18 @@ Widget buildMachinesGrid(BuildContext context, List<Machine> machines, {String h
           mainAxisSpacing: 16.0,
           childAspectRatio: 0.75,
         ),
-        itemCount: machines.length,
+        itemCount: exercises.length,
         itemBuilder: (context, index) {
-          return _buildMachineCard(context, machines[index], highlightTerm);
+          return _buildMachineCard(context, exercises[index], highlightTerm);
         },
       ),
     ),
   );
 }
 
-Widget _buildMachineCard(BuildContext context, Machine machine, String highlightTerm) {
+Widget _buildMachineCard(BuildContext context, ExerciseModel exercise, String highlightTerm) {
   final locale = context.watch<LanguageCubit>().state.locale.languageCode;
-  final name = machine.getName(locale);
+  final name = exercise.name[locale] ?? exercise.name['en'] ?? 'Unknown';
 
   return Card(
     elevation: 4,
@@ -48,7 +48,7 @@ Widget _buildMachineCard(BuildContext context, Machine machine, String highlight
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => MachineDetailScreen(machine: machine),
+            builder: (context) => MachineDetailScreen(exercise: exercise),
           ),
         );
       },
@@ -58,7 +58,7 @@ Widget _buildMachineCard(BuildContext context, Machine machine, String highlight
           children: [
             // Machine Image
             Image.network(
-              machine.imageUrl,
+              exercise.imageUrl,
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,

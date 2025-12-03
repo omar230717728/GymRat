@@ -1,57 +1,52 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/utils/machine.dart';
+import 'package:flutter_application_1/core/models/exercise_model.dart';
 import 'package:flutter_application_1/core/shared/machine_grid.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
+import 'package:flutter_application_1/core/di/injection_container.dart';
+import 'package:flutter_application_1/core/repositories/gym_repository.dart';
 
-class AbsScreen extends StatelessWidget {
+class AbsScreen extends StatefulWidget {
   const AbsScreen({super.key});
 
-  // Fetch machines for "abs" body part
-  Stream<List<Machine>> fetchMachines() {
-    return FirebaseFirestore.instance
-        .collection('machines')
-        .where('bodyPart', isEqualTo: 'abs')
-        .snapshots()
-        .map((snapshot) {
-      return snapshot.docs
-          .map((doc) => Machine.fromMap(doc.id, doc.data()))
-          .toList();
-    });
+  @override
+  State<AbsScreen> createState() => _AbsScreenState();
+}
+
+class _AbsScreenState extends State<AbsScreen> {
+  Future<List<ExerciseModel>> fetchExercises() async {
+    final allExercises = await sl<GymRepository>().getAllExercises();
+    // Filter for Abs exercises
+    return allExercises.where((e) {
+      return e.targetMuscles.any((m) => 
+        m.toLowerCase().contains('abs') || 
+        m.toLowerCase().contains('abdominal') ||
+        m.toLowerCase().contains('core')
+      );
+    }).toList();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("${AppLocalizations.of(context)!.abs} ${AppLocalizations.of(context)!.workouts}")),
-      body: StreamBuilder<List<Machine>>(
-        stream: fetchMachines(),
+      body: FutureBuilder<List<ExerciseModel>>(
+        future: fetchExercises(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
-
+          
           if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                "Error: ${snapshot.error}",
-                style: const TextStyle(color: Colors.red),
-              ),
-            );
+             return Center(child: Text('Error: ${snapshot.error}'));
           }
 
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(
-              child: Text(
-                "No machines found.",
-                style: TextStyle(fontSize: 18),
-              ),
-            );
+          final exercises = snapshot.data ?? [];
+
+          if (exercises.isEmpty) {
+             return Center(child: Text(AppLocalizations.of(context)!.noResults));
           }
 
-          final machines = snapshot.data!;
-
-          return buildMachinesGrid(context, machines);
+          return buildMachinesGrid(context, exercises);
         },
       ),
     );

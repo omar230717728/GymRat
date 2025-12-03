@@ -304,4 +304,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get seedData => 'Seed Data (Dev Only)';
+
+  @override
+  String get loginRequired => 'Login Required';
+
+  @override
+  String get loginRequiredMessage => 'Please login to continue.';
 }

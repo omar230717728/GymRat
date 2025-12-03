@@ -304,4 +304,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get seedData => 'Örnek Veri Yükle (Geliştirici)';
+
+  @override
+  String get loginRequired => 'Login Required';
+
+  @override
+  String get loginRequiredMessage => 'Please login to continue.';
 }

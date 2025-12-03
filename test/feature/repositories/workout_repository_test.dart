@@ -1,42 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_1/core/models/workout_entry.dart';
+import 'package:flutter_application_1/core/services/firestore_service.dart';
 import 'package:flutter_application_1/feature/repositories/workout_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockFirebaseFirestore extends Mock implements FirebaseFirestore {}
-class MockCollectionReference extends Mock implements CollectionReference<Map<String, dynamic>> {}
+class MockFirestoreService extends Mock implements FirestoreService {}
 class MockDocumentReference extends Mock implements DocumentReference<Map<String, dynamic>> {}
-class MockQuerySnapshot extends Mock implements QuerySnapshot<Map<String, dynamic>> {}
 class MockQueryDocumentSnapshot extends Mock implements QueryDocumentSnapshot<Map<String, dynamic>> {}
-class MockQuery extends Mock implements Query<Map<String, dynamic>> {}
 
 void main() {
-  late MockFirebaseFirestore mockFirestore;
+  late MockFirestoreService mockFirestoreService;
   late WorkoutRepository repository;
-  late MockCollectionReference mockUsersCollection;
-  late MockDocumentReference mockUserDoc;
-  late MockCollectionReference mockWorkoutsCollection;
-  late MockDocumentReference mockWorkoutDoc;
+  late MockDocumentReference mockDocumentReference;
 
   setUp(() {
     registerFallbackValue(<String, dynamic>{});
     
-    mockFirestore = MockFirebaseFirestore();
-    mockUsersCollection = MockCollectionReference();
-    mockUserDoc = MockDocumentReference();
-    mockWorkoutsCollection = MockCollectionReference();
-    mockWorkoutDoc = MockDocumentReference();
+    mockFirestoreService = MockFirestoreService();
+    mockDocumentReference = MockDocumentReference();
 
-    when(() => mockFirestore.collection('users')).thenReturn(mockUsersCollection);
-    when(() => mockUsersCollection.doc(any())).thenReturn(mockUserDoc);
-    when(() => mockUserDoc.collection('workouts')).thenReturn(mockWorkoutsCollection);
-    when(() => mockWorkoutsCollection.doc(any())).thenReturn(mockWorkoutDoc);
-    
-    // Mock update on user doc
-    when(() => mockUserDoc.update(any())).thenAnswer((_) async {});
-
-    repository = WorkoutRepository(firestore: mockFirestore);
+    repository = WorkoutRepository(firestoreService: mockFirestoreService);
   });
 
   group('WorkoutRepository', () {
@@ -51,13 +35,32 @@ void main() {
       timestamp: DateTime.now(),
     );
 
-    test('logWorkout calls Firestore set', () async {
-      when(() => mockWorkoutDoc.set(any())).thenAnswer((_) async {});
+    test('logWorkout calls FirestoreService setDocument and updateDocument', () async {
+      when(() => mockFirestoreService.setDocument(
+            path: any(named: 'path'),
+            docId: any(named: 'docId'),
+            data: any(named: 'data'),
+          )).thenAnswer((_) async {});
+
+      when(() => mockFirestoreService.updateDocument(
+            path: any(named: 'path'),
+            docId: any(named: 'docId'),
+            data: any(named: 'data'),
+          )).thenAnswer((_) async {});
 
       await repository.logWorkout('user1', entry);
 
-      verify(() => mockWorkoutDoc.set(any())).called(1);
-      verify(() => mockUserDoc.update(any())).called(1);
+      verify(() => mockFirestoreService.setDocument(
+            path: 'users/user1/workouts',
+            docId: entry.id,
+            data: entry.toMap(),
+          )).called(1);
+
+      verify(() => mockFirestoreService.updateDocument(
+            path: 'users',
+            docId: 'user1',
+            data: any(named: 'data'),
+          )).called(1);
     });
   });
 }

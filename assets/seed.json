@@ -43,8 +43,14 @@
                     "Curling the wrists instead of keeping them neutral, which stresses the joints."
                   ],
                   "equipmentType": "Barbell",
-                  "primaryMuscles": ["Biceps brachii"],
-                  "secondaryMuscles": ["Brachialis", "Brachioradialis", "Forearms"]
+                  "primaryMuscles": [
+                    "Biceps brachii"
+                  ],
+                  "secondaryMuscles": [
+                    "Brachialis",
+                    "Brachioradialis",
+                    "Forearms"
+                  ]
                 },
                 {
                   "id": "ez_bar_curl",
@@ -66,8 +72,13 @@
                     "Rushing the movement and bouncing at the bottom."
                   ],
                   "equipmentType": "Barbell",
-                  "primaryMuscles": ["Biceps brachii"],
-                  "secondaryMuscles": ["Brachialis", "Forearms"]
+                  "primaryMuscles": [
+                    "Biceps brachii"
+                  ],
+                  "secondaryMuscles": [
+                    "Brachialis",
+                    "Forearms"
+                  ]
                 }
               ]
             },
@@ -100,8 +111,12 @@
                     "Hyperextending the elbows at the bottom, putting stress on the joint."
                   ],
                   "equipmentType": "Barbell",
-                  "primaryMuscles": ["Biceps brachii"],
-                  "secondaryMuscles": ["Brachialis"]
+                  "primaryMuscles": [
+                    "Biceps brachii"
+                  ],
+                  "secondaryMuscles": [
+                    "Brachialis"
+                  ]
                 },
                 {
                   "id": "preacher_dumbbell_curl",
@@ -123,8 +138,12 @@
                     "Not controlling the negative portion, which reduces muscle growth stimulus."
                   ],
                   "equipmentType": "Dumbbell",
-                  "primaryMuscles": ["Biceps brachii"],
-                  "secondaryMuscles": ["Brachialis"]
+                  "primaryMuscles": [
+                    "Biceps brachii"
+                  ],
+                  "secondaryMuscles": [
+                    "Brachialis"
+                  ]
                 }
               ]
             },
@@ -156,8 +175,12 @@
                     "Allowing the weight stack to slam down between reps."
                   ],
                   "equipmentType": "Cable",
-                  "primaryMuscles": ["Biceps brachii"],
-                  "secondaryMuscles": ["Forearms"]
+                  "primaryMuscles": [
+                    "Biceps brachii"
+                  ],
+                  "secondaryMuscles": [
+                    "Forearms"
+                  ]
                 },
                 {
                   "id": "cable_hammer_curl_rope",
@@ -180,8 +203,14 @@
                     "Using excessive momentum instead of strict, smooth curls."
                   ],
                   "equipmentType": "Cable",
-                  "primaryMuscles": ["Brachialis", "Biceps brachii"],
-                  "secondaryMuscles": ["Brachioradialis", "Forearms"]
+                  "primaryMuscles": [
+                    "Brachialis",
+                    "Biceps brachii"
+                  ],
+                  "secondaryMuscles": [
+                    "Brachioradialis",
+                    "Forearms"
+                  ]
                 }
               ]
             }
@@ -225,8 +254,12 @@
                     "Letting the shoulders shrug up toward the ears."
                   ],
                   "equipmentType": "Cable",
-                  "primaryMuscles": ["Triceps brachii"],
-                  "secondaryMuscles": ["Forearms"]
+                  "primaryMuscles": [
+                    "Triceps brachii"
+                  ],
+                  "secondaryMuscles": [
+                    "Forearms"
+                  ]
                 },
                 {
                   "id": "triceps_straight_bar_pushdown",
@@ -249,8 +282,12 @@
                     "Locking the elbows aggressively with a snap rather than controlled extension."
                   ],
                   "equipmentType": "Cable",
-                  "primaryMuscles": ["Triceps brachii"],
-                  "secondaryMuscles": ["Forearms"]
+                  "primaryMuscles": [
+                    "Triceps brachii"
+                  ],
+                  "secondaryMuscles": [
+                    "Forearms"
+                  ]
                 },
                 {
                   "id": "overhead_cable_triceps_extension",
@@ -272,8 +309,12 @@
                     "Using too much weight and turning the movement into a shoulder press."
                   ],
                   "equipmentType": "Cable",
-                  "primaryMuscles": ["Triceps brachii (long head)"],
-                  "secondaryMuscles": ["Triceps brachii (lateral and medial heads)"]
+                  "primaryMuscles": [
+                    "Triceps brachii (long head)"
+                  ],
+                  "secondaryMuscles": [
+                    "Triceps brachii (lateral and medial heads)"
+                  ]
                 }
               ]
             },
@@ -305,7 +346,9 @@
                     "Locking out too aggressively instead of maintaining control."
                   ],
                   "equipmentType": "Machine",
-                  "primaryMuscles": ["Triceps brachii"],
+                  "primaryMuscles": [
+                    "Triceps brachii"
+                  ],
                   "secondaryMuscles": []
                 }
               ]
@@ -338,8 +381,13 @@
                     "Keeping the feet too close, which can reduce the effective range of motion."
                   ],
                   "equipmentType": "Bodyweight",
-                  "primaryMuscles": ["Triceps brachii"],
-                  "secondaryMuscles": ["Anterior deltoid", "Pectoralis major"]
+                  "primaryMuscles": [
+                    "Triceps brachii"
+                  ],
+                  "secondaryMuscles": [
+                    "Anterior deltoid",
+                    "Pectoralis major"
+                  ]
                 },
                 {
                   "id": "parallel_bar_dip_triceps",
@@ -361,8 +409,13 @@
                     "Allowing the shoulders to shrug excessively up toward the ears."
                   ],
                   "equipmentType": "Bodyweight",
-                  "primaryMuscles": ["Triceps brachii"],
-                  "secondaryMuscles": ["Pectoralis major", "Anterior deltoid"]
+                  "primaryMuscles": [
+                    "Triceps brachii"
+                  ],
+                  "secondaryMuscles": [
+                    "Pectoralis major",
+                    "Anterior deltoid"
+                  ]
                 }
               ]
             }
@@ -403,8 +456,12 @@
                     "Not using full range of motion, cutting off the stretch at the bottom."
                   ],
                   "equipmentType": "Barbell",
-                  "primaryMuscles": ["Forearm flexors"],
-                  "secondaryMuscles": ["Finger flexors"]
+                  "primaryMuscles": [
+                    "Forearm flexors"
+                  ],
+                  "secondaryMuscles": [
+                    "Finger flexors"
+                  ]
                 },
                 {
                   "id": "barbell_reverse_wrist_curl",
@@ -426,7 +483,9 @@
                     "Cutting the range of motion short on the way down."
                   ],
                   "equipmentType": "Barbell",
-                  "primaryMuscles": ["Forearm extensors"],
+                  "primaryMuscles": [
+                    "Forearm extensors"
+                  ],
                   "secondaryMuscles": []
                 }
               ]
@@ -459,7 +518,9 @@
                     "Neglecting the non-dominant side, leading to imbalances."
                   ],
                   "equipmentType": "Dumbbell",
-                  "primaryMuscles": ["Forearm flexors"],
+                  "primaryMuscles": [
+                    "Forearm flexors"
+                  ],
                   "secondaryMuscles": []
                 },
                 {
@@ -482,7 +543,9 @@
                     "Not fully lowering into the stretch at the bottom."
                   ],
                   "equipmentType": "Dumbbell",
-                  "primaryMuscles": ["Forearm extensors"],
+                  "primaryMuscles": [
+                    "Forearm extensors"
+                  ],
                   "secondaryMuscles": []
                 }
               ]
@@ -515,8 +578,15 @@
                     "Allowing the weights to bang into the legs during the walk."
                   ],
                   "equipmentType": "Dumbbell",
-                  "primaryMuscles": ["Forearm flexors", "Brachioradialis"],
-                  "secondaryMuscles": ["Trapezius", "Core", "Legs"]
+                  "primaryMuscles": [
+                    "Forearm flexors",
+                    "Brachioradialis"
+                  ],
+                  "secondaryMuscles": [
+                    "Trapezius",
+                    "Core",
+                    "Legs"
+                  ]
                 },
                 {
                   "id": "hand_gripper_squeezes",
@@ -537,8 +607,2245 @@
                     "Overtraining grip every day without rest, which can cause elbow or wrist irritation."
                   ],
                   "equipmentType": "Grip Tool",
-                  "primaryMuscles": ["Forearm flexors"],
-                  "secondaryMuscles": ["Finger flexors"]
+                  "primaryMuscles": [
+                    "Forearm flexors"
+                  ],
+                  "secondaryMuscles": [
+                    "Finger flexors"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chest",
+      "name": "Chest",
+      "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+      "order": 2,
+      "muscles": [
+        {
+          "id": "upper_chest",
+          "name": "Upper Chest",
+          "description": "Clavicular head of the pectoralis major responsible for upward and inward pressing angles.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 1,
+          "machines": [
+            {
+              "id": "incline_bench_press",
+              "name": "Incline Bench Press (Barbell)",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Barbell",
+              "notes": "Bench set to 30°–45° for optimal upper chest activation.",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "incline_barbell_press",
+                  "name": "Incline Barbell Press",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Upper Chest",
+                  "difficulty": "Intermediate",
+                  "order": 1,
+                  "steps": [
+                    "Lie on a 30°–45° incline bench holding a barbell with a slightly wider than shoulder-width grip.",
+                    "Lower the bar in a straight line toward the upper chest/clavicle region.",
+                    "Keep elbows at about 45° from the body.",
+                    "Press the bar upward while squeezing the upper chest.",
+                    "Lock out smoothly without overextending your shoulders."
+                  ],
+                  "description": "One of the most effective mass builders for the upper chest. The incline angle shifts load to the clavicular head of the pecs.",
+                  "commonMistakes": [
+                    "Setting the incline too high, turning it into a shoulder exercise.",
+                    "Letting elbows flare excessively wide.",
+                    "Bouncing the bar off the chest.",
+                    "Arching the lower back too aggressively."
+                  ],
+                  "equipmentType": "Barbell",
+                  "primaryMuscles": [
+                    "Pectoralis major (clavicular head)"
+                  ],
+                  "secondaryMuscles": [
+                    "Anterior deltoid",
+                    "Triceps brachii"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "incline_dumbbell_press",
+              "name": "Incline Dumbbell Press",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Dumbbell",
+              "notes": "Allows a deeper stretch and greater stabilization demands.",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "incline_dumbbell_press_exercise",
+                  "name": "Incline Dumbbell Press",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "difficulty": "Intermediate",
+                  "targetedMuscle": "Upper Chest",
+                  "order": 1,
+                  "steps": [
+                    "Sit on an incline bench holding dumbbells at chest height.",
+                    "Press the dumbbells upward in an arc, bringing them closer together at the top.",
+                    "Lower slowly until elbows drop slightly below chest level.",
+                    "Keep wrists neutral and elbows at 45°."
+                  ],
+                  "description": "Provides a deeper stretch and better isolation of the upper chest compared to barbell versions.",
+                  "commonMistakes": [
+                    "Pressing with elbows too flared out.",
+                    "Letting the dumbbells drift too far outward.",
+                    "Letting wrists bend backward."
+                  ],
+                  "equipmentType": "Dumbbell",
+                  "primaryMuscles": [
+                    "Pectoralis major (clavicular head)"
+                  ],
+                  "secondaryMuscles": [
+                    "Anterior deltoid",
+                    "Triceps brachii"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "incline_cable_fly_station",
+              "name": "Incline Cable Fly Station",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Cable",
+              "notes": "Cables allow continuous tension throughout the fly path.",
+              "order": 3,
+              "exercises": [
+                {
+                  "id": "incline_cable_fly",
+                  "name": "Incline Cable Fly",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "difficulty": "Intermediate",
+                  "targetedMuscle": "Upper Chest",
+                  "order": 1,
+                  "steps": [
+                    "Attach handles to low pulleys and lie back on an incline bench.",
+                    "Lift arms in a wide arc, bringing hands together above the upper chest.",
+                    "Lower arms until you feel a deep pec stretch.",
+                    "Keep a slight bend in your elbows to protect the joint."
+                  ],
+                  "description": "Highly effective for isolating and shaping the upper chest with constant tension.",
+                  "commonMistakes": [
+                    "Turning the fly into a press by bending elbows too much.",
+                    "Using too much weight and losing control.",
+                    "Letting shoulders roll forward at the bottom."
+                  ],
+                  "equipmentType": "Cable",
+                  "primaryMuscles": [
+                    "Pectoralis major (clavicular head)"
+                  ],
+                  "secondaryMuscles": [
+                    "Anterior deltoid"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "middle_chest",
+          "name": "Middle Chest",
+          "description": "The sternal head of the pecs responsible for horizontal pressing and fly movements.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 2,
+          "machines": [
+            {
+              "id": "flat_barbell_press",
+              "name": "Flat Barbell Press",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Barbell",
+              "notes": "The king of chest mass builders.",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "barbell_bench_press",
+                  "name": "Barbell Bench Press",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "difficulty": "Intermediate",
+                  "targetedMuscle": "Middle Chest",
+                  "order": 1,
+                  "steps": [
+                    "Lie on a flat bench with your feet planted.",
+                    "Hold the bar slightly wider than shoulder width.",
+                    "Lower the bar to mid-chest level under control.",
+                    "Press the bar upward until elbows are extended."
+                  ],
+                  "description": "A foundational strength and hypertrophy movement that heavily loads the mid-pec fibers.",
+                  "commonMistakes": [
+                    "Flaring elbows too wide causing shoulder stress.",
+                    "Lowering bar too high toward neck.",
+                    "Bouncing bar off chest.",
+                    "Feet lifting off the floor."
+                  ],
+                  "equipmentType": "Barbell",
+                  "primaryMuscles": [
+                    "Pectoralis major (sternal head)"
+                  ],
+                  "secondaryMuscles": [
+                    "Anterior deltoid",
+                    "Triceps brachii"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "flat_dumbbell_press",
+              "name": "Flat Dumbbell Press",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Dumbbell",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "flat_dumbbell_press_ex",
+                  "name": "Flat Dumbbell Press",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Middle Chest",
+                  "difficulty": "Intermediate",
+                  "order": 1,
+                  "steps": [
+                    "Lie on a flat bench with dumbbells resting on shoulders.",
+                    "Press dumbbells upward in an arc toward the center.",
+                    "Lower them until elbows are slightly below the bench.",
+                    "Maintain a neutral wrist position."
+                  ],
+                  "description": "Provides greater range of motion and stretch than barbell pressing.",
+                  "commonMistakes": [
+                    "Letting dumbbells drift too far apart.",
+                    "Using uneven arm paths.",
+                    "Allowing wrists to bend backward."
+                  ],
+                  "equipmentType": "Dumbbell",
+                  "primaryMuscles": [
+                    "Pectoralis major (sternal head)"
+                  ],
+                  "secondaryMuscles": [
+                    "Anterior deltoid",
+                    "Triceps brachii"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "pec_fly_machine",
+              "name": "Seated Chest Fly Machine",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Machine",
+              "notes": "Great isolation with fixed motion path.",
+              "order": 3,
+              "exercises": [
+                {
+                  "id": "machine_pec_fly",
+                  "name": "Machine Chest Fly",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Middle Chest",
+                  "difficulty": "Beginner",
+                  "order": 1,
+                  "steps": [
+                    "Sit upright with chest up and shoulder blades retracted.",
+                    "Hold the machine handles with elbows slightly bent.",
+                    "Bring handles together in front of your chest.",
+                    "Return in a slow, wide arc for a full stretch."
+                  ],
+                  "description": "One of the best machines for isolating the mid-pecs with minimal shoulder involvement.",
+                  "commonMistakes": [
+                    "Turning the fly into a press with too much elbow bend.",
+                    "Letting shoulders round forward.",
+                    "Not using full range of motion."
+                  ],
+                  "equipmentType": "Machine",
+                  "primaryMuscles": [
+                    "Pectoralis major (sternal head)"
+                  ],
+                  "secondaryMuscles": [
+                    "Anterior deltoid"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lower_chest",
+          "name": "Lower Chest",
+          "description": "Abdominal head of the pecs emphasized through downward pressing angles.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 3,
+          "machines": [
+            {
+              "id": "decline_barbell_press",
+              "name": "Decline Barbell Press",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Barbell",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "decline_bench_press",
+                  "name": "Decline Bench Press",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Lower Chest",
+                  "difficulty": "Intermediate",
+                  "order": 1,
+                  "steps": [
+                    "Lie on a decline bench with feet secured.",
+                    "Grip the bar slightly wider than shoulder width.",
+                    "Lower bar toward lower chest/upper stomach.",
+                    "Press upward in a controlled arc."
+                  ],
+                  "description": "Optimizes activation of the lower pec fibers and reduces shoulder strain.",
+                  "commonMistakes": [
+                    "Lowering the bar too high.",
+                    "Bouncing off the chest.",
+                    "Letting elbows flare excessively."
+                  ],
+                  "equipmentType": "Barbell",
+                  "primaryMuscles": [
+                    "Pectoralis major (lower fibers)"
+                  ],
+                  "secondaryMuscles": [
+                    "Anterior deltoid",
+                    "Triceps brachii"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "decline_dumbbell_press",
+              "name": "Decline Dumbbell Press",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Dumbbell",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "decline_dumbbell_press_ex",
+                  "name": "Decline Dumbbell Press",
+                  "targetedMuscle": "Lower Chest",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "difficulty": "Intermediate",
+                  "order": 1,
+                  "steps": [
+                    "Lie on a decline bench with dumbbells at chest height.",
+                    "Press upward bringing dumbbells slightly together at the top.",
+                    "Lower slowly toward lower chest line."
+                  ],
+                  "description": "Provides more stretch and independent arm movement than barbell pressing.",
+                  "commonMistakes": [
+                    "Letting dumbbells drift too far sideways.",
+                    "Not controlling the negative.",
+                    "Using too high of a decline angle."
+                  ],
+                  "equipmentType": "Dumbbell",
+                  "primaryMuscles": [
+                    "Pectoralis major (lower fibers)"
+                  ],
+                  "secondaryMuscles": [
+                    "Anterior deltoid",
+                    "Triceps brachii"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "high_to_low_cable_fly",
+              "name": "High-to-Low Cable Fly",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Cable",
+              "order": 3,
+              "exercises": [
+                {
+                  "id": "cable_high_low_fly",
+                  "name": "Cable High to Low Fly",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Lower Chest",
+                  "difficulty": "Intermediate",
+                  "order": 1,
+                  "steps": [
+                    "Set pulleys at the highest position.",
+                    "Step forward with handles in hand, slight lean.",
+                    "Bring arms downward in an arc to hip level.",
+                    "Return upward under control."
+                  ],
+                  "description": "Emphasizes the downward fiber direction of the lower chest.",
+                  "commonMistakes": [
+                    "Using too much weight and jerking the arms down.",
+                    "Letting shoulders roll forward.",
+                    "Cutting off the stretch."
+                  ],
+                  "equipmentType": "Cable",
+                  "primaryMuscles": [
+                    "Pectoralis major (lower fibers)"
+                  ],
+                  "secondaryMuscles": [
+                    "Anterior deltoid"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shoulders",
+      "name": "Shoulders",
+      "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+      "order": 3,
+      "muscles": [
+        {
+          "id": "front_delts",
+          "name": "Front Delts",
+          "description": "Anterior head of the deltoids responsible for forward arm lifting and pushing movements.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 1,
+          "machines": [
+            {
+              "id": "barbell_overhead_press_station",
+              "name": "Barbell Overhead Press Station",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Barbell",
+              "notes": "Standing or seated overhead press using a barbell.",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "barbell_overhead_press",
+                  "name": "Barbell Overhead Press (OHP)",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "difficulty": "Intermediate",
+                  "targetedMuscle": "Front Delts",
+                  "order": 1,
+                  "steps": [
+                    "Stand with feet shoulder-width apart holding the barbell at shoulder height.",
+                    "Brace your core and keep your glutes tight.",
+                    "Press the bar straight upward until your arms are extended.",
+                    "Lower the bar slowly back to the top of your chest."
+                  ],
+                  "description": "The foundation of shoulder strength training. Strong emphasis on front delts but also engages entire shoulder complex.",
+                  "commonMistakes": [
+                    "Overarching the lower back (hyperextension).",
+                    "Letting elbows flare excessively.",
+                    "Not keeping the bar path straight.",
+                    "Shrugging shoulders during the press."
+                  ],
+                  "equipmentType": "Barbell",
+                  "primaryMuscles": [
+                    "Deltoid (anterior)"
+                  ],
+                  "secondaryMuscles": [
+                    "Deltoid (lateral)",
+                    "Triceps brachii",
+                    "Upper chest"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "smith_overhead_press_station",
+              "name": "Smith Machine Shoulder Press",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Smith Machine",
+              "notes": "Guided vertical path helps isolate deltoids.",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "smith_machine_shoulder_press",
+                  "name": "Smith Machine Shoulder Press",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Front Delts",
+                  "difficulty": "Beginner",
+                  "order": 1,
+                  "steps": [
+                    "Sit or stand under the Smith bar with hands slightly wider than shoulders.",
+                    "Unrack and lower bar to chin level.",
+                    "Press upward in a straight line.",
+                    "Lower under control."
+                  ],
+                  "description": "Great for isolating the deltoids without worrying about stabilizing the bar.",
+                  "commonMistakes": [
+                    "Using a bench angle that shifts load to upper chest.",
+                    "Overarching the back.",
+                    "Moving elbows too far forward or backward."
+                  ],
+                  "equipmentType": "Smith Machine",
+                  "primaryMuscles": [
+                    "Deltoid (anterior)"
+                  ],
+                  "secondaryMuscles": [
+                    "Deltoid (lateral)",
+                    "Triceps brachii"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "front_raise_dumbbell_station",
+              "name": "Front Raise Dumbbell Station",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Dumbbell",
+              "notes": "Dumbbells for unilateral or bilateral front raises.",
+              "order": 3,
+              "exercises": [
+                {
+                  "id": "dumbbell_front_raise",
+                  "name": "Dumbbell Front Raise",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Front Delts",
+                  "order": 1,
+                  "steps": [
+                    "Hold dumbbells in front of your thighs with palms facing down.",
+                    "Raise arms straight in front until shoulder height.",
+                    "Pause briefly, lower slowly."
+                  ],
+                  "description": "Isolates the anterior deltoids with minimal involvement of other muscles.",
+                  "commonMistakes": [
+                    "Swinging the dumbbells using momentum.",
+                    "Raising weights above shoulder height.",
+                    "Shrugging shoulders upward during the raise."
+                  ],
+                  "equipmentType": "Dumbbell",
+                  "primaryMuscles": [
+                    "Deltoid (anterior)"
+                  ],
+                  "secondaryMuscles": [
+                    "Upper chest"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "side_delts",
+          "name": "Side Delts",
+          "description": "Lateral head of the deltoids responsible for arm abduction and width.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 2,
+          "machines": [
+            {
+              "id": "lateral_raise_machine",
+              "name": "Lateral Raise Machine (Selectorized)",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Machine",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "machine_lateral_raise",
+                  "name": "Machine Lateral Raise",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Side Delts",
+                  "order": 1,
+                  "steps": [
+                    "Sit with pads against your elbows.",
+                    "Raise arms outward to shoulder level.",
+                    "Lower slowly for full stretch."
+                  ],
+                  "description": "Provides constant tension on side delts with minimal cheating.",
+                  "commonMistakes": [
+                    "Shrugging shoulders upward.",
+                    "Using too much weight and swinging.",
+                    "Not reaching parallel arm height."
+                  ],
+                  "equipmentType": "Machine",
+                  "primaryMuscles": [
+                    "Deltoid (lateral)"
+                  ],
+                  "secondaryMuscles": [
+                    "Deltoid (anterior)"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "dumbbell_lateral_raise",
+              "name": "Dumbbell Lateral Raise Station",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "equipmentType": "Dumbbell",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "dumbbell_lateral_raise_ex",
+                  "name": "Dumbbell Lateral Raise",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Side Delts",
+                  "order": 1,
+                  "steps": [
+                    "Hold dumbbells at your sides.",
+                    "Raise arms outward until they reach shoulder height.",
+                    "Lower back under control."
+                  ],
+                  "description": "A classic movement for building shoulder width and roundness.",
+                  "commonMistakes": [
+                    "Swinging weights with momentum.",
+                    "Turning palms downward excessively.",
+                    "Shrugging shoulders."
+                  ],
+                  "equipmentType": "Dumbbell",
+                  "primaryMuscles": [
+                    "Deltoid (lateral)"
+                  ],
+                  "secondaryMuscles": [
+                    "Upper traps"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "cable_lateral_raise",
+              "name": "Cable Lateral Raise",
+              "equipmentType": "Cable",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "notes": "Low pulley cable for unilateral side delt training.",
+              "order": 3,
+              "exercises": [
+                {
+                  "id": "single_arm_cable_lateral_raise",
+                  "name": "Single Arm Cable Lateral Raise",
+                  "difficulty": "Intermediate",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Side Delts",
+                  "order": 1,
+                  "steps": [
+                    "Attach a single handle to low pulley.",
+                    "Stand sideways and grip the handle with outside arm.",
+                    "Raise arm outward to shoulder height.",
+                    "Lower slowly with control."
+                  ],
+                  "description": "Provides constant tension and helps fix imbalances in shoulder strength.",
+                  "commonMistakes": [
+                    "Leaning body excessively away from cable.",
+                    "Using hips to swing the weight.",
+                    "Not pausing at peak contraction."
+                  ],
+                  "equipmentType": "Cable",
+                  "primaryMuscles": [
+                    "Deltoid (lateral)"
+                  ],
+                  "secondaryMuscles": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "rear_delts",
+          "name": "Rear Delts",
+          "description": "Posterior head of the deltoids responsible for horizontal abduction and external rotation.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 3,
+          "machines": [
+            {
+              "id": "reverse_fly_machine",
+              "name": "Reverse Fly Machine (Pec Deck Rear Mode)",
+              "equipmentType": "Machine",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "machine_reverse_fly",
+                  "name": "Machine Reverse Fly",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Rear Delts",
+                  "difficulty": "Beginner",
+                  "order": 1,
+                  "steps": [
+                    "Sit facing the machine with chest against pad.",
+                    "Hold handles with arms slightly bent.",
+                    "Pull arms outward and backward in an arc.",
+                    "Return forward under control."
+                  ],
+                  "description": "Excellent isolation of the posterior deltoids with minimal trap involvement.",
+                  "commonMistakes": [
+                    "Using upper traps to initiate movement.",
+                    "Rounding lower back.",
+                    "Swinging torso backward."
+                  ],
+                  "equipmentType": "Machine",
+                  "primaryMuscles": [
+                    "Deltoid (posterior)"
+                  ],
+                  "secondaryMuscles": [
+                    "Rhomboids",
+                    "Middle traps"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "rear_delt_dumbbell_station",
+              "name": "Rear Delt Dumbbell Row/Raise Station",
+              "equipmentType": "Dumbbell",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "bent_over_reverse_dumbbell_fly",
+                  "name": "Bent-Over Reverse Dumbbell Fly",
+                  "difficulty": "Intermediate",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Rear Delts",
+                  "order": 1,
+                  "steps": [
+                    "Bend forward at hips with slight knee bend.",
+                    "Hold dumbbells beneath chest.",
+                    "Raise arms outward and backward until shoulder height.",
+                    "Lower under control."
+                  ],
+                  "description": "A staple movement to round out shoulder development by isolating rear delts.",
+                  "commonMistakes": [
+                    "Using momentum to swing weights.",
+                    "Letting traps take over.",
+                    "Not bending over enough."
+                  ],
+                  "equipmentType": "Dumbbell",
+                  "primaryMuscles": [
+                    "Deltoid (posterior)"
+                  ],
+                  "secondaryMuscles": [
+                    "Rhomboids",
+                    "Middle traps"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "cable_face_pull_station",
+              "name": "Cable Face Pull Station",
+              "equipmentType": "Cable",
+              "notes": "Rope + high pulley for face pulls.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 3,
+              "exercises": [
+                {
+                  "id": "cable_face_pull",
+                  "name": "Cable Face Pull",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Rear Delts",
+                  "order": 1,
+                  "steps": [
+                    "Attach rope to high pulley.",
+                    "Pull rope towards forehead with elbows flared.",
+                    "Externally rotate shoulders at the end (rope splits).",
+                    "Return slowly."
+                  ],
+                  "description": "One of the best exercises for rear delts, shoulder health, posture and rotator cuff strength.",
+                  "commonMistakes": [
+                    "Pulling with biceps instead of rear delts.",
+                    "Shrugging shoulders upward.",
+                    "Not externally rotating at the top."
+                  ],
+                  "equipmentType": "Cable",
+                  "primaryMuscles": [
+                    "Deltoid (posterior)"
+                  ],
+                  "secondaryMuscles": [
+                    "Rotator cuff",
+                    "Rhomboids",
+                    "Traps"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "back",
+      "name": "Back",
+      "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+      "order": 4,
+      "muscles": [
+        {
+          "id": "lats",
+          "name": "Lats",
+          "description": "Large V-shaped back muscle responsible for pulling the arms downward and backward, creating the 'V-taper'.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 1,
+          "machines": [
+            {
+              "id": "lat_pulldown_machine",
+              "name": "Lat Pulldown Machine",
+              "equipmentType": "Cable",
+              "notes": "Primary machine for vertical pulling.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "wide_grip_lat_pulldown",
+                  "name": "Wide Grip Lat Pulldown",
+                  "difficulty": "Beginner",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Lats",
+                  "order": 1,
+                  "steps": [
+                    "Sit down with thighs secured under pads.",
+                    "Grip the bar wider than shoulder width.",
+                    "Pull the bar down to your upper chest while leaning slightly back.",
+                    "Squeeze your back, then return slowly to the top."
+                  ],
+                  "description": "Classic movement for building back width and emphasizing upper lat fibers.",
+                  "commonMistakes": [
+                    "Pulling bar behind the neck (dangerous).",
+                    "Using momentum instead of back muscles.",
+                    "Letting shoulders shrug upward.",
+                    "Not reaching full stretch at the top."
+                  ],
+                  "equipmentType": "Cable",
+                  "primaryMuscles": [
+                    "Latissimus dorsi"
+                  ],
+                  "secondaryMuscles": [
+                    "Biceps brachii",
+                    "Teres major",
+                    "Lower traps"
+                  ]
+                },
+                {
+                  "id": "close_grip_lat_pulldown",
+                  "name": "Close Grip Lat Pulldown (V-bar)",
+                  "difficulty": "Beginner",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Lats",
+                  "order": 2,
+                  "steps": [
+                    "Attach a V-bar handle to the pulldown machine.",
+                    "Sit upright and pull the handle toward your chest.",
+                    "Keep elbows close to your sides.",
+                    "Slowly return to full extension with stretch."
+                  ],
+                  "description": "Better for lower lats activation and gives a deep contraction.",
+                  "commonMistakes": [
+                    "Rounding the back excessively.",
+                    "Pulling with arms instead of lats.",
+                    "Not letting lats stretch fully."
+                  ],
+                  "equipmentType": "Cable",
+                  "primaryMuscles": [
+                    "Latissimus dorsi (lower fibers)"
+                  ],
+                  "secondaryMuscles": [
+                    "Biceps brachii",
+                    "Brachialis"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "seated_row_machine",
+              "name": "Seated Row Machine",
+              "equipmentType": "Cable",
+              "notes": "Horizontal row variations for mid-back and lats.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "seated_cable_row",
+                  "name": "Seated Cable Row (Close Grip)",
+                  "difficulty": "Beginner",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Lats",
+                  "order": 1,
+                  "steps": [
+                    "Sit on the row bench with feet on the platform.",
+                    "Grab the V-handle and sit upright.",
+                    "Pull the handle into your lower stomach.",
+                    "Squeeze shoulder blades together."
+                  ],
+                  "description": "Great for thickness and mid-back development, hitting the lats and rhomboids.",
+                  "commonMistakes": [
+                    "Rounding lower back.",
+                    "Shrugging shoulders.",
+                    "Using too much momentum."
+                  ],
+                  "equipmentType": "Cable",
+                  "primaryMuscles": [
+                    "Latissimus dorsi"
+                  ],
+                  "secondaryMuscles": [
+                    "Rhomboids",
+                    "Middle traps",
+                    "Rear delts"
+                  ]
+                },
+                {
+                  "id": "wide_grip_seated_row",
+                  "name": "Wide Grip Seated Row",
+                  "difficulty": "Intermediate",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Back",
+                  "order": 2,
+                  "steps": [
+                    "Use a wide straight bar on the row machine.",
+                    "Pull the bar towards your upper stomach/lower chest.",
+                    "Lean slightly forward at the stretch, then pull back upright."
+                  ],
+                  "description": "Emphasizes rear delts, upper back, and outer lat fibers.",
+                  "commonMistakes": [
+                    "Overleaning backward.",
+                    "Pulling bar too high toward neck.",
+                    "Rounding your upper back."
+                  ],
+                  "equipmentType": "Cable",
+                  "primaryMuscles": [
+                    "Rhomboids",
+                    "Rear delts"
+                  ],
+                  "secondaryMuscles": [
+                    "Lats",
+                    "Middle traps"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "tbar_row_station",
+              "name": "T-Bar Row Machine",
+              "equipmentType": "Plate-loaded",
+              "notes": "Heavy back thickness movement.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 3,
+              "exercises": [
+                {
+                  "id": "tbar_row_wide",
+                  "name": "T-Bar Row (Wide Grip)",
+                  "difficulty": "Intermediate",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "targetedMuscle": "Back",
+                  "order": 1,
+                  "steps": [
+                    "Stand on the platform and grip the wide handles.",
+                    "Keep chest supported on pad if machine has one.",
+                    "Pull handles toward your chest.",
+                    "Squeeze shoulder blades, then lower slowly."
+                  ],
+                  "description": "Thickens the entire upper/middle back and hits rear delts hard.",
+                  "commonMistakes": [
+                    "Using too much weight and short range of motion.",
+                    "Shrugging instead of retracting shoulders.",
+                    "Rounding lower back."
+                  ],
+                  "equipmentType": "Plate-loaded",
+                  "primaryMuscles": [
+                    "Rhomboids",
+                    "Middle traps"
+                  ],
+                  "secondaryMuscles": [
+                    "Lats",
+                    "Rear delts"
+                  ]
+                },
+                {
+                  "id": "tbar_row_close",
+                  "name": "T-Bar Row (Close Grip)",
+                  "difficulty": "Intermediate",
+                  "targetedMuscle": "Lats",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 2,
+                  "steps": [
+                    "Grip close neutral handles.",
+                    "Pull elbows tight to your torso.",
+                    "Row toward lower chest/upper stomach.",
+                    "Lower with slow control."
+                  ],
+                  "description": "Places more emphasis on lower lats and mid-back.",
+                  "commonMistakes": [
+                    "Jerking the weight from the bottom.",
+                    "Not controlling the eccentric.",
+                    "Standing too upright (reduces lat involvement)."
+                  ],
+                  "equipmentType": "Plate-loaded",
+                  "primaryMuscles": [
+                    "Latissimus dorsi"
+                  ],
+                  "secondaryMuscles": [
+                    "Rhomboids",
+                    "Rear delts"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "upper_back",
+          "name": "Upper Back",
+          "description": "Rhomboids, middle traps, rear delts and associated scapular retraction muscles.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 2,
+          "machines": [
+            {
+              "id": "chest_supported_row_machine",
+              "name": "Chest Supported Row Machine",
+              "equipmentType": "Machine",
+              "notes": "Great for strict form and removing lower back momentum.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "machine_chest_supported_row",
+                  "name": "Machine Chest Supported Row",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Upper Back",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Sit with chest against the pad.",
+                    "Grab handles (neutral or pronated).",
+                    "Pull elbows backward while squeezing shoulder blades.",
+                    "Lower under control."
+                  ],
+                  "description": "Eliminates cheating and isolates mid/upper back perfectly.",
+                  "commonMistakes": [
+                    "Rounding upper back.",
+                    "Shrugging instead of retracting.",
+                    "Using too much weight."
+                  ],
+                  "equipmentType": "Machine",
+                  "primaryMuscles": [
+                    "Rhomboids",
+                    "Middle traps"
+                  ],
+                  "secondaryMuscles": [
+                    "Rear delts",
+                    "Lats"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "reverse_chest_supported_row",
+              "name": "Reverse Grip Row (Machine)",
+              "equipmentType": "Machine",
+              "notes": "Supinated grip increases biceps and lower trap contribution.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "machine_reverse_grip_row",
+                  "name": "Machine Reverse Grip Row",
+                  "difficulty": "Intermediate",
+                  "targetedMuscle": "Upper Back",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Use an underhand grip on machine handles.",
+                    "Pull elbows tightly toward your sides.",
+                    "Squeeze shoulder blades hard.",
+                    "Return slowly."
+                  ],
+                  "description": "Targets rhomboids and traps while also increasing biceps involvement.",
+                  "commonMistakes": [
+                    "Shrugging during the pull.",
+                    "Overextending shoulders forward.",
+                    "Jerking the weight."
+                  ],
+                  "equipmentType": "Machine",
+                  "primaryMuscles": [
+                    "Rhomboids",
+                    "Middle traps"
+                  ],
+                  "secondaryMuscles": [
+                    "Biceps",
+                    "Rear delts"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lower_back",
+          "name": "Lower Back",
+          "description": "Erector spinae group responsible for spinal stability, extension and posture.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 3,
+          "machines": [
+            {
+              "id": "back_extension_bench",
+              "name": "Back Extension Bench (Hyperextension)",
+              "equipmentType": "Bench",
+              "notes": "45-degree or flat hyperextension bench for lower back training.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "back_extensions",
+                  "name": "Back Extensions",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Lower Back",
+                  "videoUrl": "https://www.youtube.com?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Position hips on pad with ankles locked.",
+                    "Lower torso until spine is neutral.",
+                    "Extend torso upward by contracting lower back.",
+                    "Avoid hyperextending at top."
+                  ],
+                  "description": "Strengthens erectors, glutes and hamstrings for total posterior chain stability.",
+                  "commonMistakes": [
+                    "Hyperextending the spine at the top.",
+                    "Rounding lower back excessively.",
+                    "Using momentum instead of controlled movement."
+                  ],
+                  "equipmentType": "Bench",
+                  "primaryMuscles": [
+                    "Erector spinae"
+                  ],
+                  "secondaryMuscles": [
+                    "Glutes",
+                    "Hamstrings"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "reverse_hyper_machine",
+              "name": "Reverse Hyperextension Machine",
+              "equipmentType": "Machine",
+              "notes": "Louie Simmons' legendary back rehab + strength machine.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "reverse_hyper",
+                  "name": "Reverse Hyperextension",
+                  "difficulty": "Intermediate",
+                  "targetedMuscle": "Lower Back",
+                  "videoUrl": "https://www.youtube.com?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Lie face down on the reverse hyper pad.",
+                    "Hook ankles into strap or foot roller.",
+                    "Lift legs upward using glutes and erectors.",
+                    "Lower under control."
+                  ],
+                  "description": "One of the safest ways to train lower back while providing decompression at the bottom.",
+                  "commonMistakes": [
+                    "Swinging legs with momentum.",
+                    "Hyperextending lower back.",
+                    "Incorrect hip position on pad."
+                  ],
+                  "equipmentType": "Machine",
+                  "primaryMuscles": [
+                    "Erector spinae"
+                  ],
+                  "secondaryMuscles": [
+                    "Glutes",
+                    "Hamstrings"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "traps",
+          "name": "Trapezius",
+          "description": "Upper, middle, and lower trap muscles responsible for shrugging, scapular elevation, retraction and stabilization.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 4,
+          "machines": [
+            {
+              "id": "smith_shrug_station",
+              "name": "Smith Machine Shrug Station",
+              "equipmentType": "Smith Machine",
+              "notes": "Guided vertical bar path for heavy shrugs.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "smith_machine_shrugs",
+                  "name": "Smith Machine Shrugs",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Traps",
+                  "videoUrl": "https://www.youtube.com?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Stand upright holding Smith bar at your sides.",
+                    "Shrug shoulders straight upward.",
+                    "Pause and squeeze traps.",
+                    "Lower slowly."
+                  ],
+                  "description": "Allows heavy trap loading without balance limitations.",
+                  "commonMistakes": [
+                    "Rolling shoulders (dangerous).",
+                    "Using legs to bounce weight.",
+                    "Shrugging with bent elbows."
+                  ],
+                  "equipmentType": "Smith Machine",
+                  "primaryMuscles": [
+                    "Upper trapezius"
+                  ],
+                  "secondaryMuscles": [
+                    "Levator scapulae"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "dumbbell_shrug_station",
+              "name": "Dumbbell Shrug Station",
+              "equipmentType": "Dumbbell",
+              "notes": "Basic free-weight trap builder.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "dumbbell_shrugs",
+                  "name": "Dumbbell Shrugs",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Traps",
+                  "videoUrl": "https://www.youtube.com?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Stand tall holding dumbbells at sides.",
+                    "Shrug shoulders upward in a straight line.",
+                    "Pause, squeeze traps, lower slowly."
+                  ],
+                  "description": "Simple and highly effective trapezius developer.",
+                  "commonMistakes": [
+                    "Rolling shoulders.",
+                    "Shrugging with bent elbows.",
+                    "Using too heavy weights leading to poor form."
+                  ],
+                  "equipmentType": "Dumbbell",
+                  "primaryMuscles": [
+                    "Upper trapezius"
+                  ],
+                  "secondaryMuscles": [
+                    "Middle trapezius"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "barbell_shrug_station",
+              "name": "Barbell Shrug Station",
+              "equipmentType": "Barbell",
+              "notes": "Heavy free-weight shrug options.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 3,
+              "exercises": [
+                {
+                  "id": "barbell_shrug",
+                  "name": "Barbell Shrug",
+                  "difficulty": "Intermediate",
+                  "targetedMuscle": "Traps",
+                  "videoUrl": "https://www.youtube.com?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Stand holding barbell slightly in front of thighs.",
+                    "Shrug upward toward ears.",
+                    "Lower under control."
+                  ],
+                  "description": "Allows maximal overload for trap development.",
+                  "commonMistakes": [
+                    "Rolling shoulders in circles.",
+                    "Using hips to jerk weight.",
+                    "Using too much weight and short ROM."
+                  ],
+                  "equipmentType": "Barbell",
+                  "primaryMuscles": [
+                    "Upper trapezius"
+                  ],
+                  "secondaryMuscles": [
+                    "Levator scapulae",
+                    "Middle trapezius"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "legs",
+      "name": "Legs",
+      "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+      "order": 5,
+      "muscles": [
+        {
+          "id": "quads",
+          "name": "Quads",
+          "description": "Muscles at the front of the thigh responsible for knee extension and powerful lower-body movements.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 1,
+          "machines": [
+            {
+              "id": "leg_press_machine",
+              "name": "Leg Press Machine",
+              "equipmentType": "Machine",
+              "notes": "Heavy machine for quad-dominant leg pressing movements.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "leg_press",
+                  "name": "Leg Press",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Quads",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Sit in the machine with feet shoulder-width apart on the platform.",
+                    "Lower the sled until knees reach 90 degrees.",
+                    "Press through heels to extend legs.",
+                    "Avoid locking out knees at the top."
+                  ],
+                  "description": "A safe and effective quad mass builder with controlled movement and reduced back strain.",
+                  "commonMistakes": [
+                    "Allowing knees to collapse inward.",
+                    "Using too short a range of motion.",
+                    "Locking out knees aggressively.",
+                    "Lifting hips off the seat (dangerous)."
+                  ],
+                  "equipmentType": "Machine",
+                  "primaryMuscles": [
+                    "Quadriceps"
+                  ],
+                  "secondaryMuscles": [
+                    "Glutes",
+                    "Hamstrings"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "leg_extension_machine",
+              "name": "Leg Extension Machine",
+              "equipmentType": "Machine",
+              "notes": "Isolation machine strictly for quadriceps.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "leg_extension",
+                  "name": "Leg Extension",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Quads",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Sit on the machine and place legs under the pad.",
+                    "Extend legs by contracting quads.",
+                    "Squeeze at the top.",
+                    "Lower slowly with control."
+                  ],
+                  "description": "Perfect for isolating the quadriceps, especially the rectus femoris and vastus muscles.",
+                  "commonMistakes": [
+                    "Kicking the weight up.",
+                    "Not using full extension.",
+                    "Using momentum instead of muscle control."
+                  ],
+                  "equipmentType": "Machine",
+                  "primaryMuscles": [
+                    "Quadriceps"
+                  ],
+                  "secondaryMuscles": []
+                }
+              ]
+            },
+            {
+              "id": "smith_squat_station",
+              "name": "Smith Machine Squat",
+              "equipmentType": "Smith Machine",
+              "notes": "Guided squat path useful for beginners or isolation training.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 3,
+              "exercises": [
+                {
+                  "id": "smith_machine_squat",
+                  "name": "Smith Machine Squat",
+                  "difficulty": "Intermediate",
+                  "targetedMuscle": "Quads",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Stand under bar with feet slightly in front of bar path.",
+                    "Lower into squat until thighs reach parallel.",
+                    "Push through heels to stand back up."
+                  ],
+                  "description": "Smith squats emphasize quads by allowing a more upright torso.",
+                  "commonMistakes": [
+                    "Setting feet too far forward.",
+                    "Letting knees cave inward.",
+                    "Using too much weight and shallow depth."
+                  ],
+                  "equipmentType": "Smith Machine",
+                  "primaryMuscles": [
+                    "Quadriceps"
+                  ],
+                  "secondaryMuscles": [
+                    "Glutes"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "barbell_squat_rack",
+              "name": "Barbell Squat Rack",
+              "equipmentType": "Barbell",
+              "notes": "The ultimate quad-building free weight exercise.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 4,
+              "exercises": [
+                {
+                  "id": "barbell_back_squat",
+                  "name": "Barbell Back Squat",
+                  "difficulty": "Advanced",
+                  "targetedMuscle": "Quads",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Place bar on traps and stand with feet shoulder-width apart.",
+                    "Sit backward and downward into a deep squat.",
+                    "Drive upward through mid-foot."
+                  ],
+                  "description": "The king of leg exercises, heavily recruiting the quads and glutes.",
+                  "commonMistakes": [
+                    "Rounding lower back.",
+                    "Heels coming off the ground.",
+                    "Shallow squats."
+                  ],
+                  "equipmentType": "Barbell",
+                  "primaryMuscles": [
+                    "Quadriceps"
+                  ],
+                  "secondaryMuscles": [
+                    "Glutes",
+                    "Hamstrings",
+                    "Lower back"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hamstrings",
+          "name": "Hamstrings",
+          "description": "Posterior thigh muscles responsible for knee flexion and hip extension.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 2,
+          "machines": [
+            {
+              "id": "lying_leg_curl_machine",
+              "name": "Lying Leg Curl Machine",
+              "equipmentType": "Machine",
+              "notes": "Isolates hamstring curl movement.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "lying_leg_curl",
+                  "name": "Lying Leg Curl",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Hamstrings",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Lie face down and secure ankles under pad.",
+                    "Curl feet toward glutes.",
+                    "Lower pad under control without dropping it."
+                  ],
+                  "description": "Isolates hamstrings effectively without loading the spine.",
+                  "commonMistakes": [
+                    "Arching lower back excessively.",
+                    "Lifting hips off the pad.",
+                    "Using momentum at bottom."
+                  ],
+                  "equipmentType": "Machine",
+                  "primaryMuscles": [
+                    "Hamstrings"
+                  ],
+                  "secondaryMuscles": [
+                    "Calves"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "seated_leg_curl_machine",
+              "name": "Seated Leg Curl Machine",
+              "equipmentType": "Machine",
+              "notes": "Safer and often more comfortable than lying curl.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "seated_leg_curl",
+                  "name": "Seated Leg Curl",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Hamstrings",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Sit with legs extended under top pad.",
+                    "Curl pad downward by flexing knees.",
+                    "Return slowly to stretch position."
+                  ],
+                  "description": "Great for full contraction and stretch of the hamstrings.",
+                  "commonMistakes": [
+                    "Pulling with the hips.",
+                    "Shortening range of motion.",
+                    "Locking knees at top."
+                  ],
+                  "equipmentType": "Machine",
+                  "primaryMuscles": [
+                    "Hamstrings"
+                  ],
+                  "secondaryMuscles": [
+                    "Calves"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "barbell_rdl",
+              "name": "Barbell Romanian Deadlift",
+              "equipmentType": "Barbell",
+              "notes": "The best free weight exercise for hamstring lengthening and hip hinge strength.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 3,
+              "exercises": [
+                {
+                  "id": "romanian_deadlift",
+                  "name": "Romanian Deadlift (RDL)",
+                  "difficulty": "Intermediate",
+                  "targetedMuscle": "Hamstrings",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Stand with barbell at hip height.",
+                    "Push hips backward while keeping bar close to legs.",
+                    "Lower until hamstrings stretch strongly.",
+                    "Stand back up by driving hips forward."
+                  ],
+                  "description": "Builds strong hamstrings and glutes while teaching proper hip hinging.",
+                  "commonMistakes": [
+                    "Rounding the lower back.",
+                    "Bending knees too much (turns into squat).",
+                    "Letting bar drift away from legs."
+                  ],
+                  "equipmentType": "Barbell",
+                  "primaryMuscles": [
+                    "Hamstrings"
+                  ],
+                  "secondaryMuscles": [
+                    "Glutes",
+                    "Lower back"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "glutes",
+          "name": "Glutes",
+          "description": "Largest muscle group in the body responsible for hip thrusting, hip extension, rotation and locking out heavy lifts.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 3,
+          "machines": [
+            {
+              "id": "hip_thrust_machine",
+              "name": "Hip Thrust Machine",
+              "equipmentType": "Machine",
+              "notes": "Popular glute-focused machine with hip thrust motion.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "machine_hip_thrust",
+                  "name": "Machine Hip Thrust",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Glutes",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Sit under the padded bar and place upper back against bench.",
+                    "Press hips upward by squeezing glutes.",
+                    "Lower slowly with tension."
+                  ],
+                  "description": "One of the best mass-building glute exercises with excellent isolation.",
+                  "commonMistakes": [
+                    "Arching lower back at top.",
+                    "Pushing through toes instead of heels.",
+                    "Not reaching full hip extension."
+                  ],
+                  "equipmentType": "Machine",
+                  "primaryMuscles": [
+                    "Gluteus maximus"
+                  ],
+                  "secondaryMuscles": [
+                    "Hamstrings"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "barbell_hip_thrust",
+              "name": "Barbell Hip Thrust Station",
+              "equipmentType": "Barbell",
+              "notes": "Most powerful free-weight glute builder.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "barbell_hip_thrust_ex",
+                  "name": "Barbell Hip Thrust",
+                  "difficulty": "Intermediate",
+                  "targetedMuscle": "Glutes",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Sit with upper back on bench and barbell over hips.",
+                    "Drive hips upward while squeezing glutes.",
+                    "Pause at top.",
+                    "Lower slowly."
+                  ],
+                  "description": "The most famous glute-building exercise with maximal contraction.",
+                  "commonMistakes": [
+                    "Using lower back to lift weight.",
+                    "Not locking out hips.",
+                    "Letting feet be too far forward."
+                  ],
+                  "equipmentType": "Barbell",
+                  "primaryMuscles": [
+                    "Gluteus maximus"
+                  ],
+                  "secondaryMuscles": [
+                    "Hamstrings"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "cable_glute_kickback",
+              "name": "Cable Glute Kickback",
+              "equipmentType": "Cable",
+              "notes": "Single-leg glute focus with ankle strap.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 3,
+              "exercises": [
+                {
+                  "id": "cable_kickback",
+                  "name": "Cable Glute Kickback",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Glutes",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Attach ankle strap to low pulley.",
+                    "Kick leg backward in controlled arc.",
+                    "Squeeze glute at top.",
+                    "Return slowly."
+                  ],
+                  "description": "Great for isolating gluteus maximus and building shape.",
+                  "commonMistakes": [
+                    "Arching lower back.",
+                    "Swinging leg with momentum.",
+                    "Using too much weight."
+                  ],
+                  "equipmentType": "Cable",
+                  "primaryMuscles": [
+                    "Gluteus maximus"
+                  ],
+                  "secondaryMuscles": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "calves",
+          "name": "Calves",
+          "description": "Gastrocnemius and soleus muscles responsible for ankle extension and lower-leg aesthetics.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 4,
+          "machines": [
+            {
+              "id": "seated_calf_machine",
+              "name": "Seated Calf Raise Machine",
+              "equipmentType": "Machine",
+              "notes": "Targets the soleus muscle.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "seated_calf_raise",
+                  "name": "Seated Calf Raise",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Calves",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Sit with knees under pad and feet on platform.",
+                    "Raise heels as high as possible.",
+                    "Pause at peak contraction.",
+                    "Lower back to deep stretch."
+                  ],
+                  "description": "Soleus-focused movement for deeper calf development.",
+                  "commonMistakes": [
+                    "Using too much weight and bouncing.",
+                    "Not reaching full stretch.",
+                    "Letting knees lift off pad."
+                  ],
+                  "equipmentType": "Machine",
+                  "primaryMuscles": [
+                    "Soleus"
+                  ],
+                  "secondaryMuscles": [
+                    "Gastrocnemius"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "standing_calf_machine",
+              "name": "Standing Calf Raise Machine",
+              "equipmentType": "Machine",
+              "notes": "Primarily targets gastrocnemius.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "standing_calf_raise",
+                  "name": "Standing Calf Raise",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Calves",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Stand with shoulders under pads and feet on platform.",
+                    "Raise heels to full extension.",
+                    "Lower slowly into deep stretch."
+                  ],
+                  "description": "Develops the gastrocnemius for fuller upper calf shape.",
+                  "commonMistakes": [
+                    "Bouncing at the bottom.",
+                    "Not reaching full extension.",
+                    "Placing feet too far forward/backward."
+                  ],
+                  "equipmentType": "Machine",
+                  "primaryMuscles": [
+                    "Gastrocnemius"
+                  ],
+                  "secondaryMuscles": [
+                    "Soleus"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "calf_press_leg_press_machine",
+              "name": "Calf Press on Leg Press Machine",
+              "equipmentType": "Machine",
+              "notes": "Allows heavy loading safely.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 3,
+              "exercises": [
+                {
+                  "id": "calf_press_leg_press",
+                  "name": "Leg Press Calf Raise",
+                  "difficulty": "Intermediate",
+                  "targetedMuscle": "Calves",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Place feet on bottom of leg press platform.",
+                    "Push through balls of feet to raise heels.",
+                    "Lower back down to full stretch."
+                  ],
+                  "description": "Allows stronger lifters to load calves significantly.",
+                  "commonMistakes": [
+                    "Not using full range.",
+                    "Locking knees.",
+                    "Placing feet too close together."
+                  ],
+                  "equipmentType": "Machine",
+                  "primaryMuscles": [
+                    "Gastrocnemius"
+                  ],
+                  "secondaryMuscles": [
+                    "Soleus"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "abs",
+      "name": "Abs & Core",
+      "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+      "order": 6,
+      "muscles": [
+        {
+          "id": "upper_abs",
+          "name": "Upper Abs",
+          "description": "Upper fibers of the rectus abdominis, responsible for spinal flexion bringing the ribcage toward the pelvis.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 1,
+          "machines": [
+            {
+              "id": "cable_crunch_station",
+              "name": "Cable Crunch Station",
+              "equipmentType": "Cable",
+              "notes": "Allows weighted spinal flexion to target upper abs heavily.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "kneeling_cable_crunch",
+                  "name": "Kneeling Cable Crunch",
+                  "difficulty": "Intermediate",
+                  "targetedMuscle": "Upper Abs",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Attach a rope to a high pulley.",
+                    "Kneel facing the machine and hold rope near your ears.",
+                    "Crunch forward by bringing elbows toward thighs.",
+                    "Return to starting position with control."
+                  ],
+                  "description": "One of the best weighted exercises for building thick, strong upper abs.",
+                  "commonMistakes": [
+                    "Pulling with arms instead of abs.",
+                    "Bending at hips instead of curling spine.",
+                    "Using too much weight and short range of motion."
+                  ],
+                  "equipmentType": "Cable",
+                  "primaryMuscles": [
+                    "Rectus abdominis (upper fibers)"
+                  ],
+                  "secondaryMuscles": [
+                    "Obliques"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "ab_crunch_machine",
+              "name": "Ab Crunch Machine",
+              "equipmentType": "Machine",
+              "notes": "Selectorized machine for isolated crunch motion.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "machine_ab_crunch",
+                  "name": "Machine Ab Crunch",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Upper Abs",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Sit with chest pad against torso.",
+                    "Flex spine to bring chest pad down.",
+                    "Return slowly to starting position."
+                  ],
+                  "description": "Helps beginners feel abdominal contraction without worrying about form.",
+                  "commonMistakes": [
+                    "Using hip flexors instead of abs.",
+                    "Pulling with arms or shoulders.",
+                    "Shortening the range of motion."
+                  ],
+                  "equipmentType": "Machine",
+                  "primaryMuscles": [
+                    "Rectus abdominis (upper)"
+                  ],
+                  "secondaryMuscles": []
+                }
+              ]
+            },
+            {
+              "id": "decline_bench_upper_abs",
+              "name": "Decline Crunch Bench",
+              "equipmentType": "Bench",
+              "notes": "Decline bench increases resistance through gravity.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 3,
+              "exercises": [
+                {
+                  "id": "decline_crunch",
+                  "name": "Decline Crunch",
+                  "difficulty": "Intermediate",
+                  "targetedMuscle": "Upper Abs",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Lie on decline bench with feet locked.",
+                    "Curl torso upward toward knees.",
+                    "Lower under control to full stretch."
+                  ],
+                  "description": "Harder than flat crunches due to increased resistance.",
+                  "commonMistakes": [
+                    "Jerking torso upward.",
+                    "Using neck muscles to pull head.",
+                    "Not fully curling spine."
+                  ],
+                  "equipmentType": "Bench",
+                  "primaryMuscles": [
+                    "Rectus abdominis (upper fibers)"
+                  ],
+                  "secondaryMuscles": [
+                    "Hip flexors"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lower_abs",
+          "name": "Lower Abs",
+          "description": "Lower portion of rectus abdominis responsible for lifting pelvis toward ribcage.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 2,
+          "machines": [
+            {
+              "id": "roman_chair_station",
+              "name": "Roman Chair / Captain's Chair",
+              "equipmentType": "Bodyweight",
+              "notes": "Supports forearms while performing leg raises.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "hanging_leg_raise_chair",
+                  "name": "Captain’s Chair Leg Raise",
+                  "difficulty": "Intermediate",
+                  "targetedMuscle": "Lower Abs",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Support yourself on the arm pads.",
+                    "Lift knees upward to chest level.",
+                    "Lower legs slowly without swinging."
+                  ],
+                  "description": "A powerful lower-ab contraction exercise with minimal grip involvement.",
+                  "commonMistakes": [
+                    "Swinging legs with momentum.",
+                    "Not rounding spine to engage abs.",
+                    "Letting hips drop backward."
+                  ],
+                  "equipmentType": "Bodyweight",
+                  "primaryMuscles": [
+                    "Rectus abdominis (lower fibers)"
+                  ],
+                  "secondaryMuscles": [
+                    "Hip flexors"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "hanging_leg_raise_bar",
+              "name": "Hanging Leg Raise Bar",
+              "equipmentType": "Bodyweight",
+              "notes": "Advanced lower-ab exercise requiring strong core control.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "hanging_leg_raise",
+                  "name": "Hanging Leg Raise",
+                  "difficulty": "Advanced",
+                  "targetedMuscle": "Lower Abs",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Hang from pull-up bar with straight arms.",
+                    "Lift legs upward while curling pelvis.",
+                    "Lower legs slowly under full control."
+                  ],
+                  "description": "One of the hardest lower ab exercises, building strength and core stability.",
+                  "commonMistakes": [
+                    "Swinging violently.",
+                    "Not performing pelvic tilt.",
+                    "Using hip flexors only."
+                  ],
+                  "equipmentType": "Bodyweight",
+                  "primaryMuscles": [
+                    "Rectus abdominis (lower fibers)"
+                  ],
+                  "secondaryMuscles": [
+                    "Hip flexors",
+                    "Obliques"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "reverse_crunch_mat",
+              "name": "Reverse Crunch on Mat",
+              "equipmentType": "Bodyweight",
+              "notes": "Floor-based lower ab contraction.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 3,
+              "exercises": [
+                {
+                  "id": "reverse_crunch",
+                  "name": "Reverse Crunch",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Lower Abs",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Lie on back with legs raised.",
+                    "Curl pelvis upward to lift hips.",
+                    "Lower slowly with control."
+                  ],
+                  "description": "Perfect beginner lower-ab activation exercise.",
+                  "commonMistakes": [
+                    "Swinging hips upward too fast.",
+                    "Not rounding spine.",
+                    "Dropping legs too far downward."
+                  ],
+                  "equipmentType": "Bodyweight",
+                  "primaryMuscles": [
+                    "Rectus abdominis (lower)"
+                  ],
+                  "secondaryMuscles": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "obliques",
+          "name": "Obliques",
+          "description": "Twisting, side bending, and rotation muscles on the sides of the torso.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 3,
+          "machines": [
+            {
+              "id": "cable_woodchopper_station",
+              "name": "Cable Woodchopper Station",
+              "equipmentType": "Cable",
+              "notes": "High-to-low and low-to-high torso rotation.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "cable_woodchopper_high_to_low",
+                  "name": "Cable Woodchopper (High to Low)",
+                  "difficulty": "Intermediate",
+                  "targetedMuscle": "Obliques",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Attach handle high on cable stack.",
+                    "Pull handle diagonally downward across body.",
+                    "Twist through torso while keeping arms slightly bent."
+                  ],
+                  "description": "Targets internal and external obliques through rotational movement.",
+                  "commonMistakes": [
+                    "Overusing arms instead of torso.",
+                    "Not rotating hips.",
+                    "Using too much weight."
+                  ],
+                  "equipmentType": "Cable",
+                  "primaryMuscles": [
+                    "Obliques"
+                  ],
+                  "secondaryMuscles": [
+                    "Rectus abdominis"
+                  ]
+                },
+                {
+                  "id": "cable_woodchopper_low_to_high",
+                  "name": "Cable Woodchopper (Low to High)",
+                  "difficulty": "Intermediate",
+                  "targetedMuscle": "Obliques",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 2,
+                  "steps": [
+                    "Attach handle low.",
+                    "Pull diagonally upward across body.",
+                    "Rotate torso fully."
+                  ],
+                  "description": "Challenges obliques through upward rotational movement.",
+                  "commonMistakes": [
+                    "Pulling with arms only.",
+                    "Not pivoting feet.",
+                    "Using momentum."
+                  ],
+                  "equipmentType": "Cable",
+                  "primaryMuscles": [
+                    "Obliques"
+                  ],
+                  "secondaryMuscles": [
+                    "Rectus abdominis"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "side_bend_dumbbell_station",
+              "name": "Dumbbell Side Bend Station",
+              "equipmentType": "Dumbbell",
+              "notes": "Simple but effective oblique exercise.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "dumbbell_side_bend",
+                  "name": "Dumbbell Side Bend",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Obliques",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Hold dumbbell in one hand.",
+                    "Lean sideways while keeping torso straight.",
+                    "Contract oblique to return upright."
+                  ],
+                  "description": "Simple unilateral oblique exercise improving symmetry and side strength.",
+                  "commonMistakes": [
+                    "Leaning too far forward/backward.",
+                    "Using heavy weights and poor control.",
+                    "Overbending spine."
+                  ],
+                  "equipmentType": "Dumbbell",
+                  "primaryMuscles": [
+                    "Obliques"
+                  ],
+                  "secondaryMuscles": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "core",
+          "name": "Deep Core / Stability",
+          "description": "Transverse abdominis, pelvic stabilizers, diaphragm and lower back stabilizing muscles.",
+          "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+          "order": 4,
+          "machines": [
+            {
+              "id": "plank_mat",
+              "name": "Plank Mat Station",
+              "equipmentType": "Bodyweight",
+              "notes": "Floor mat for planks and core stability.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 1,
+              "exercises": [
+                {
+                  "id": "plank_hold",
+                  "name": "Plank Hold",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Core",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Place forearms on ground.",
+                    "Lift torso into straight line.",
+                    "Hold position while bracing core."
+                  ],
+                  "description": "Strengthens deep core stabilizers without spine movement.",
+                  "commonMistakes": [
+                    "Letting hips sag.",
+                    "Raising hips too high.",
+                    "Not engaging glutes."
+                  ],
+                  "equipmentType": "Bodyweight",
+                  "primaryMuscles": [
+                    "Transverse abdominis"
+                  ],
+                  "secondaryMuscles": [
+                    "Glutes",
+                    "Lower back"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "ab_wheel_station",
+              "name": "Ab Wheel Roller",
+              "equipmentType": "Other",
+              "notes": "Advanced anti-extension exercise.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 2,
+              "exercises": [
+                {
+                  "id": "ab_wheel_rollout",
+                  "name": "Ab Wheel Rollout",
+                  "difficulty": "Advanced",
+                  "targetedMuscle": "Core",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Kneel and hold ab wheel handles.",
+                    "Roll forward while keeping spine neutral.",
+                    "Pull back using core contraction."
+                  ],
+                  "description": "One of the hardest core stability exercises, requiring strong anti-extension strength.",
+                  "commonMistakes": [
+                    "Letting lower back collapse.",
+                    "Overextending too far.",
+                    "Using arms instead of core."
+                  ],
+                  "equipmentType": "Other",
+                  "primaryMuscles": [
+                    "Rectus abdominis",
+                    "Transverse abdominis"
+                  ],
+                  "secondaryMuscles": [
+                    "Lats",
+                    "Hip flexors"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "stability_ball_station",
+              "name": "Stability Ball Station",
+              "equipmentType": "Other",
+              "notes": "Great tool for dynamic core movements.",
+              "imageUrl": "https://placehold.co/600x400?text=GymRat+Image",
+              "order": 3,
+              "exercises": [
+                {
+                  "id": "stability_ball_crunch",
+                  "name": "Stability Ball Crunch",
+                  "difficulty": "Beginner",
+                  "targetedMuscle": "Core",
+                  "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                  "order": 1,
+                  "steps": [
+                    "Sit on ball and walk feet forward until lower back rests on ball.",
+                    "Crunch torso upward.",
+                    "Lower into a deep stretch."
+                  ],
+                  "description": "Allows greater spinal range of motion for enhanced ab activation.",
+                  "commonMistakes": [
+                    "Letting ball roll too far.",
+                    "Pulling neck with hands.",
+                    "Hyperextending spine too much."
+                  ],
+                  "equipmentType": "Other",
+                  "primaryMuscles": [
+                    "Rectus abdominis"
+                  ],
+                  "secondaryMuscles": [
+                    "Obliques"
+                  ]
                 }
               ]
             }
@@ -546,7 +2853,5 @@
         }
       ]
     }
-
-
   ]
 }

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/auth/login_required_popup.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_application_1/core/utils/machine.dart';
+import 'package:flutter_application_1/core/models/exercise_model.dart';
 import 'package:flutter_application_1/feature/cubit/favorites_cubit.dart';
 import 'package:flutter_application_1/feature/cubit/favorite_state.dart';
 import 'package:flutter_application_1/feature/presentation/pages/details_screen/machine_detail.dart';
@@ -56,15 +56,16 @@ class FavoritesScreen extends StatelessWidget {
           ),
           itemCount: favorites.length,
           itemBuilder: (context, index) {
-            final machine = favorites[index];
+            final exercise = favorites[index];
             return Dismissible(
-              key: Key(machine.id),
+              key: Key(exercise.id),
               direction: DismissDirection.endToStart,
               onDismissed: (direction) {
-                context.read<FavoritesCubit>().toggleFavorite(machine);
+                context.read<FavoritesCubit>().toggleFavorite(exercise);
                 final locale = context.read<LanguageCubit>().state.locale.languageCode;
+                final name = exercise.name[locale] ?? exercise.name['en'] ?? 'Unknown';
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("${machine.getName(locale)} ${AppLocalizations.of(context)!.removedFromFavorites}")),
+                  SnackBar(content: Text("$name ${AppLocalizations.of(context)!.removedFromFavorites}")),
                 );
               },
               background: Container(
@@ -76,7 +77,7 @@ class FavoritesScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 20),
                 child: const Icon(Icons.delete, color: Colors.white, size: 30),
               ),
-              child: _buildGridItem(context, machine),
+              child: _buildGridItem(context, exercise),
             );
           },
         );
@@ -84,13 +85,18 @@ class FavoritesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildGridItem(BuildContext context, Machine machine) {
+  Widget _buildGridItem(BuildContext context, ExerciseModel exercise) {
+    final locale = context.watch<LanguageCubit>().state.locale.languageCode;
+    final name = exercise.name[locale] ?? exercise.name['en'] ?? 'Unknown';
+    // Use target muscles as a subtitle since we don't have bodyPart directly
+    final subtitle = exercise.targetMuscles.isNotEmpty ? exercise.targetMuscles.first : '';
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => MachineDetailScreen(machine: machine),
+            builder: (_) => MachineDetailScreen(exercise: exercise),
           ),
         );
       },
@@ -113,9 +119,9 @@ class FavoritesScreen extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                 child: Hero(
-                  tag: machine.id,
+                  tag: exercise.id,
                   child: Image.network(
-                    machine.imageUrl,
+                    exercise.imageUrl,
                     width: double.infinity,
                     fit: BoxFit.cover,
                     errorBuilder: (_, __, ___) => Container(
@@ -132,7 +138,7 @@ class FavoritesScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    machine.getName(context.watch<LanguageCubit>().state.locale.languageCode),
+                    name,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -141,14 +147,15 @@ class FavoritesScreen extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    machine.bodyPart.toUpperCase(),
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.w600,
+                  if (subtitle.isNotEmpty)
+                    Text(
+                      subtitle.toUpperCase(),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),

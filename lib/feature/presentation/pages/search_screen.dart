@@ -1,11 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/utils/machine.dart';
+import 'package:flutter_application_1/core/models/exercise_model.dart';
 import 'package:flutter_application_1/core/shared/machine_grid.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/feature/cubit/language_cubit.dart';
 import 'package:flutter_application_1/core/di/injection_container.dart';
-import 'package:flutter_application_1/feature/repositories/machine_repository.dart';
+import 'package:flutter_application_1/core/repositories/gym_repository.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -17,8 +16,8 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _controller = TextEditingController();
-  List<Machine> allMachines = [];
-  List<Machine> filtered = [];
+  List<ExerciseModel> allExercises = [];
+  List<ExerciseModel> filtered = [];
   bool loading = true;
 
   final List<String> filters = [
@@ -29,21 +28,19 @@ class _SearchScreenState extends State<SearchScreen> {
     "legs",
     "shoulders",
   ];
-
   String selectedDifficulty = "";
-  String selectedEquipment = "";
   String activeFilter = "";
 
   @override
   void initState() {
     super.initState();
-    loadMachines();
+    loadExercises();
     _controller.addListener(() => applySearch());
   }
 
-  Future<void> loadMachines() async {
-    allMachines = await sl<MachineRepository>().getMachines();
-    filtered = allMachines;
+  Future<void> loadExercises() async {
+    allExercises = await sl<GymRepository>().getAllExercises();
+    filtered = allExercises;
     loading = false;
     setState(() {});
   }
@@ -54,16 +51,14 @@ class _SearchScreenState extends State<SearchScreen> {
     final locale = context.read<LanguageCubit>().state.locale.languageCode;
 
     setState(() {
-      filtered = allMachines.where((m) {
-        final name = m.getName(locale);
+      filtered = allExercises.where((e) {
+        final name = e.name[locale] ?? e.name['en'] ?? 'Unknown';
         final matchesText = name.toLowerCase().contains(q);
-        final matchesBodyPart =
-            activeFilter.isEmpty ? true : m.bodyPart == activeFilter;
-        final matchesDifficulty = selectedDifficulty.isEmpty
-            ? true
-            : m.difficulty == selectedDifficulty;
-        // Assuming machine has equipment field, if not we skip or add it to model
-        // For now, let's assume filtering by difficulty is enough or check if model has equipment
+        final matchesBodyPart = activeFilter.isEmpty 
+            ? true 
+            : e.targetMuscles.any((m) => m.toLowerCase().contains(activeFilter));
+        final matchesDifficulty = true; 
+
         return matchesText && matchesBodyPart && matchesDifficulty;
       }).toList();
     });
@@ -74,16 +69,6 @@ class _SearchScreenState extends State<SearchScreen> {
       activeFilter = part == activeFilter ? "" : part;
     });
     applySearch();
-  }
-
-  String _getLocalizedDifficulty(String key) {
-    final loc = AppLocalizations.of(context)!;
-    switch (key) {
-      case 'beginner': return loc.beginner;
-      case 'intermediate': return loc.intermediate;
-      case 'advanced': return loc.advanced;
-      default: return key.toUpperCase();
-    }
   }
 
   String _getLocalizedBodyPart(String key) {
@@ -98,65 +83,6 @@ class _SearchScreenState extends State<SearchScreen> {
       default: return key.toUpperCase();
     }
   }
-
-  void _showFilterSheet() {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setModalState) {
-            return Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.filterByDifficulty,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 10),
-                  Wrap(
-                    spacing: 10,
-                    children: ["beginner", "intermediate", "advanced"].map((d) {
-                      final isSelected = selectedDifficulty == d;
-                      return FilterChip(
-                        label: Text(_getLocalizedDifficulty(d)),
-                        selected: isSelected,
-                        onSelected: (selected) {
-                          setModalState(() {
-                            selectedDifficulty = selected ? d : "";
-                          });
-                          setState(() {
-                            // Update parent state as well
-                            selectedDifficulty = selected ? d : "";
-                          });
-                          applySearch();
-                        },
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text(AppLocalizations.of(context)!.done),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     if (loading) return const Center(child: CircularProgressIndicator());
@@ -164,17 +90,17 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.search),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.filter_list,
-              color: selectedDifficulty.isNotEmpty
-                  ? Theme.of(context).colorScheme.primary
-                  : null,
-            ),
-            onPressed: _showFilterSheet,
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: Icon(
+        //       Icons.filter_list,
+        //       color: selectedDifficulty.isNotEmpty
+        //           ? Theme.of(context).colorScheme.primary
+        //           : null,
+        //     ),
+        //     onPressed: _showFilterSheet,
+        //   ),
+        // ],
       ),
       body: Column(
         children: [
@@ -192,7 +118,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
 
-          // Body Part Filters
+          // Body Part Filters - keeping them but they might be less effective without direct mapping
           SizedBox(
             height: 45,
             child: ListView(

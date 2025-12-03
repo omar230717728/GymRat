@@ -108,5 +108,7 @@
         }
     },
     "dataUploaded": "Data uploaded successfully!",
-    "seedData": "Seed Data (Dev Only)"
+    "seedData": "Seed Data (Dev Only)",
+    "loginRequired": "Login Required",
+    "loginRequiredMessage": "Please login to continue."
 }

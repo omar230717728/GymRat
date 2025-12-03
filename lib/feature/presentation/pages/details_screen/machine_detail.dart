@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/core/services/favorites_service.dart';
-import 'package:flutter_application_1/core/utils/helper_functions.dart';
-
-import 'package:flutter_application_1/core/utils/machine.dart';
+import 'package:flutter_application_1/feature/cubit/favorite_state.dart';
 import 'package:flutter_application_1/core/auth/login_required_popup.dart';
 import 'package:flutter_application_1/core/auth/login_screen.dart';
-import 'package:flutter_application_1/feature/cubit/favorite_state.dart';
 import 'package:flutter_application_1/feature/cubit/favorites_cubit.dart';
 import 'package:flutter_application_1/feature/cubit/language_cubit.dart';
 import 'package:flutter_application_1/feature/presentation/pages/details_screen/youtube_video_screen.dart';
@@ -16,12 +12,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_1/core/di/injection_container.dart';
 import 'package:flutter_application_1/feature/repositories/workout_repository.dart';
 import 'package:flutter_application_1/core/models/workout_entry.dart';
+import 'package:flutter_application_1/core/models/exercise_model.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
+import 'package:flutter_application_1/feature/cubit/progress_cubit.dart';
+import 'package:flutter_application_1/core/services/user_session_service.dart';
 
 class MachineDetailScreen extends StatefulWidget {
-  final Machine machine;
+  final ExerciseModel exercise;
 
-  const MachineDetailScreen({super.key, required this.machine});
+  const MachineDetailScreen({super.key, required this.exercise});
 
   @override
   State<MachineDetailScreen> createState() => _MachineDetailScreenState();
@@ -33,6 +32,12 @@ class _MachineDetailScreenState extends State<MachineDetailScreen>
   @override
   void initState() {
     super.initState();
+    final name = widget.exercise.name['en'] ?? widget.exercise.name.values.first;
+    UserSessionService.instance.logProgress(
+      machineName: name,
+      exerciseName: name,
+      muscleName: widget.exercise.targetMuscles.isNotEmpty ? widget.exercise.targetMuscles.first : null,
+    );
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -65,16 +70,20 @@ class _MachineDetailScreenState extends State<MachineDetailScreen>
   }
 
   void _toggleFavorite(BuildContext context) {
-    context.read<FavoritesCubit>().toggleFavorite(widget.machine);
+    context.read<FavoritesCubit>().toggleFavorite(widget.exercise);
   }
 
   void _openVideo() {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => YouTubeVideoScreen(videoUrl: widget.machine.videoUrl),
+        builder: (_) => YouTubeVideoScreen(videoUrl: widget.exercise.videoUrl),
       ),
     );
+  }
+
+  bool isUserLoggedIn() {
+    return FirebaseAuth.instance.currentUser != null;
   }
 
   Future<void> _showLogWorkoutDialog(BuildContext context) async {
@@ -83,11 +92,8 @@ class _MachineDetailScreenState extends State<MachineDetailScreen>
         context: context,
         builder: (_) => LoginRequiredPopup(
           onConfirm: () {
-            Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const LoginScreen()),
-            );
+            // Navigation handled by popup
+            // After login, user can try logging workout again
           },
           onCancel: () => Navigator.pop(context),
         ),
@@ -150,8 +156,8 @@ class _MachineDetailScreenState extends State<MachineDetailScreen>
                 if (sets > 0 && reps > 0) {
                   final entry = WorkoutEntry(
                     id: const Uuid().v4(),
-                    machineId: widget.machine.id,
-                    machineName: widget.machine.getName('en'),
+                    machineId: widget.exercise.id,
+                    machineName: widget.exercise.name['en'] ?? 'Unknown',
                     sets: sets,
                     reps: reps,
                     weight: weight,
@@ -183,7 +189,7 @@ class _MachineDetailScreenState extends State<MachineDetailScreen>
     return BlocBuilder<FavoritesCubit, FavoritesState>(
       builder: (context, state) {
         final isFavorite = state.favorites.any(
-          (m) => m.id == widget.machine.id,
+          (m) => m.id == widget.exercise.id,
         );
 
         return Scaffold(
@@ -214,7 +220,9 @@ class _MachineDetailScreenState extends State<MachineDetailScreen>
                   bottomRight: Radius.circular(20),
                 ),
                 image: DecorationImage(
-                  image: NetworkImage(widget.machine.imageUrl),
+                  image: widget.exercise.imageUrl.isNotEmpty 
+                      ? NetworkImage(widget.exercise.imageUrl) 
+                      : const AssetImage("assets/body_part_images/Screenshot 2025-09-30 232210.jpg") as ImageProvider,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -260,10 +268,9 @@ class _MachineDetailScreenState extends State<MachineDetailScreen>
   // ---------------- CONTENT ----------------
   Widget _buildContent(BuildContext context, bool isFavorite) {
     final locale = context.watch<LanguageCubit>().state.locale.languageCode;
-    final name = widget.machine.getName(locale);
-    final description = widget.machine.getDescription(locale);
-    final instructions = widget.machine.getInstructions(locale);
-    final targetMuscles = widget.machine.getTargetMuscles(locale);
+    final name = widget.exercise.name[locale] ?? widget.exercise.name['en'] ?? 'Unknown';
+    final steps = widget.exercise.steps; // Assuming steps are already localized or just strings
+    final targetMuscles = widget.exercise.targetMuscles;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -298,19 +305,11 @@ class _MachineDetailScreenState extends State<MachineDetailScreen>
                       context: context,
                       barrierColor: Colors.transparent,
                       builder: (_) => LoginRequiredPopup(
-                        onConfirm: () async {
-                          Navigator.pop(context);
-                          final result = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const LoginScreen(),
-                            ),
+                        onConfirm: () {
+                          // Navigation handled by popup
+                          context.read<FavoritesCubit>().toggleFavorite(
+                            widget.exercise,
                           );
-                          if (result == true) {
-                            context.read<FavoritesCubit>().toggleFavorite(
-                              widget.machine,
-                            );
-                          }
                         },
                         onCancel: () => Navigator.pop(context),
                       ),
@@ -319,7 +318,7 @@ class _MachineDetailScreenState extends State<MachineDetailScreen>
                   }
 
                   // No setState here – Cubit handles it
-                  context.read<FavoritesCubit>().toggleFavorite(widget.machine);
+                  context.read<FavoritesCubit>().toggleFavorite(widget.exercise);
                 },
               ),
             ],
@@ -332,11 +331,11 @@ class _MachineDetailScreenState extends State<MachineDetailScreen>
             spacing: 8,
             runSpacing: 8,
             children: [
-              _buildTag(
-                context,
-                _getLocalizedDifficulty(context, widget.machine.difficulty),
-                _getDifficultyColor(widget.machine.difficulty),
-              ),
+              // _buildTag(
+              //   context,
+              //   _getLocalizedDifficulty(context, widget.machine.difficulty),
+              //   _getDifficultyColor(widget.machine.difficulty),
+              // ),
               ...targetMuscles.map(
                 (m) => _buildTag(context, _getLocalizedBodyPart(context, m), Theme.of(context).colorScheme.secondary),
               ),
@@ -363,30 +362,30 @@ class _MachineDetailScreenState extends State<MachineDetailScreen>
 
           const SizedBox(height: 16),
 
-          // Description
-          Text(
-            AppLocalizations.of(context)!.description,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-          ),
+          // Description (Optional if we have it)
+          // Text(
+          //   AppLocalizations.of(context)!.description,
+          //   style: TextStyle(
+          //     fontSize: 20,
+          //     fontWeight: FontWeight.bold,
+          //     color: Theme.of(context).colorScheme.onSurface,
+          //   ),
+          // ),
 
-          const SizedBox(height: 8),
+          // const SizedBox(height: 8),
 
-          Text(
-            description,
-            style: TextStyle(
-              fontSize: 16,
-              height: 1.5,
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface.withOpacity(0.8),
-            ),
-          ),
+          // Text(
+          //   description,
+          //   style: TextStyle(
+          //     fontSize: 16,
+          //     height: 1.5,
+          //     color: Theme.of(
+          //       context,
+          //     ).colorScheme.onSurface.withOpacity(0.8),
+          //   ),
+          // ),
 
-          const SizedBox(height: 24),
+          // const SizedBox(height: 24),
 
           // Instructions
           Text(
@@ -402,7 +401,7 @@ class _MachineDetailScreenState extends State<MachineDetailScreen>
 
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: instructions.map((step) {
+            children: steps.map((step) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Row(
@@ -455,27 +454,27 @@ class _MachineDetailScreenState extends State<MachineDetailScreen>
     );
   }
 
-  Color _getDifficultyColor(String difficulty) {
-    switch (difficulty.toLowerCase()) {
-      case 'beginner':
-        return Colors.green;
-      case 'intermediate':
-        return Colors.orange;
-      case 'advanced':
-        return Colors.red;
-      default:
-        return Colors.blue;
-    }
-  }
-  String _getLocalizedDifficulty(BuildContext context, String key) {
-    final loc = AppLocalizations.of(context)!;
-    switch (key.toLowerCase()) {
-      case 'beginner': return loc.beginner;
-      case 'intermediate': return loc.intermediate;
-      case 'advanced': return loc.advanced;
-      default: return key.toUpperCase();
-    }
-  }
+  // Color _getDifficultyColor(String difficulty) {
+  //   switch (difficulty.toLowerCase()) {
+  //     case 'beginner':
+  //       return Colors.green;
+  //     case 'intermediate':
+  //       return Colors.orange;
+  //     case 'advanced':
+  //       return Colors.red;
+  //     default:
+  //       return Colors.blue;
+  //   }
+  // }
+  // String _getLocalizedDifficulty(BuildContext context, String key) {
+  //   final loc = AppLocalizations.of(context)!;
+  //   switch (key.toLowerCase()) {
+  //     case 'beginner': return loc.beginner;
+  //     case 'intermediate': return loc.intermediate;
+  //     case 'advanced': return loc.advanced;
+  //     default: return key.toUpperCase();
+  //   }
+  // }
 
   String _getLocalizedBodyPart(BuildContext context, String key) {
     final loc = AppLocalizations.of(context)!;

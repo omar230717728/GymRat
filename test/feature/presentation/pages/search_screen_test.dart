@@ -1,9 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/utils/machine.dart';
+import 'package:flutter_application_1/core/models/exercise_model.dart';
 import 'package:flutter_application_1/feature/cubit/language_cubit.dart';
 import 'package:flutter_application_1/feature/presentation/pages/search_screen.dart';
-import 'package:flutter_application_1/feature/repositories/machine_repository.dart';
+import 'package:flutter_application_1/core/repositories/gym_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
@@ -13,7 +13,7 @@ import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'dart:io';
 
 class MockLanguageCubit extends MockCubit<LanguageState> implements LanguageCubit {}
-class MockMachineRepository extends Mock implements MachineRepository {}
+class MockGymRepository extends Mock implements GymRepository {}
 
 class MockHttpOverrides extends HttpOverrides {
   @override
@@ -25,35 +25,34 @@ class MockHttpOverrides extends HttpOverrides {
 
 void main() {
   late MockLanguageCubit mockLanguageCubit;
-  late MockMachineRepository mockMachineRepository;
+  late MockGymRepository mockGymRepository;
 
   setUp(() {
     HttpOverrides.global = MockHttpOverrides();
     mockLanguageCubit = MockLanguageCubit();
-    mockMachineRepository = MockMachineRepository();
+    mockGymRepository = MockGymRepository();
 
     final sl = GetIt.instance;
-    if (sl.isRegistered<MachineRepository>()) {
-      sl.unregister<MachineRepository>();
+    if (sl.isRegistered<GymRepository>()) {
+      sl.unregister<GymRepository>();
     }
-    sl.registerLazySingleton<MachineRepository>(() => mockMachineRepository);
+    sl.registerLazySingleton<GymRepository>(() => mockGymRepository);
 
-    // Mock machine data
-    final machines = [
-      Machine(
+    // Mock exercise data
+    final exercises = [
+      ExerciseModel(
         id: '1',
         name: {'en': 'Bench Press', 'tr': 'Sehpa Presi'},
-        description: {'en': 'Chest exercise'},
         imageUrl: 'url',
         videoUrl: 'url',
-        bodyPart: 'chest',
-        instructions: {'en': ['Step 1']},
-        targetMuscles: {'en': ['Chest']},
-        difficulty: 'intermediate',
+        steps: ['Step 1'],
+        commonMistakes: [],
+        targetMuscles: ['Chest'],
+        order: 1,
       )
     ];
 
-    when(() => mockMachineRepository.getMachines()).thenAnswer((_) async => machines);
+    when(() => mockGymRepository.getAllExercises()).thenAnswer((_) async => exercises);
   });
 
   tearDown(() {
@@ -75,7 +74,7 @@ void main() {
     when(() => mockLanguageCubit.state).thenReturn(LanguageState(const Locale('en')));
 
     await tester.pumpWidget(createWidgetUnderTest());
-    await tester.pump(); // Trigger loadMachines
+    await tester.pump(); // Trigger loadExercises
     await tester.pump(); // Rebuild after setState
 
     // Verify initial load

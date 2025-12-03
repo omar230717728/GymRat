@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -54,10 +53,14 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 
+  // -----------------------------------------
+  // LOGIN
+  // -----------------------------------------
   Future<void> _handleLogin() async {
     if (!_loginFormKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
+
     try {
       final cred = await _auth.signInWithEmailAndPassword(
         email: _loginEmailController.text.trim(),
@@ -68,25 +71,27 @@ class _LoginScreenState extends State<LoginScreen>
       final user = _auth.currentUser;
 
       if (user != null && !user.emailVerified) {
-        _showSnack(AppLocalizations.of(context)!.verifyEmailMessage);
+        _showSnack('Please verify your email before logging in.');
         setState(() => _isLoading = false);
         return;
       }
 
       _onAuthSuccess();
     } on FirebaseAuthException catch (e) {
-      _showSnack(e.message ?? AppLocalizations.of(context)!.loginFailed);
-    } catch (e) {
-      _showSnack('Something went wrong: $e');
+      _showSnack(e.message ?? 'Login failed');
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
   }
 
+  // -----------------------------------------
+  // SIGNUP
+  // -----------------------------------------
   Future<void> _handleSignup() async {
     if (!_signupFormKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
+
     try {
       final email = _signupEmailController.text.trim();
       final password = _signupPasswordController.text;
@@ -99,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen>
 
       final user = cred.user;
       if (user == null) {
-        _showSnack(AppLocalizations.of(context)!.signupFailed);
+        _showSnack('Signup failed.');
         setState(() => _isLoading = false);
         return;
       }
@@ -111,37 +116,40 @@ class _LoginScreenState extends State<LoginScreen>
         'email': email,
         'createdAt': FieldValue.serverTimestamp(),
         'favoritesCount': 0,
+        'theme': 'green',
       });
 
-      _onAuthSuccess();
+      _showSnack('Account created! Please verify your email.');
+
+      _tabController.animateTo(0);
     } on FirebaseAuthException catch (e) {
-      _showSnack(e.message ?? AppLocalizations.of(context)!.signupFailed);
-    } catch (e) {
-      _showSnack('Something went wrong: $e');
+      _showSnack(e.message ?? 'Signup failed');
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
   }
 
+  // -----------------------------------------
+  // FORGOT PASSWORD
+  // -----------------------------------------
   Future<void> _handleForgotPassword() async {
     final controller = TextEditingController(text: _loginEmailController.text);
 
     await showDialog(
       context: context,
-      builder: (context) {
+      builder: (_) {
         return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.resetPassword),
+          title: const Text('Reset Password'),
           content: TextField(
             controller: controller,
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.email,
+            decoration: const InputDecoration(
+              labelText: 'Email',
             ),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text(AppLocalizations.of(context)!.cancel),
+              child: const Text('Cancel'),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -151,12 +159,12 @@ class _LoginScreenState extends State<LoginScreen>
                 try {
                   await _auth.sendPasswordResetEmail(email: email);
                   Navigator.pop(context);
-                  _showSnack(AppLocalizations.of(context)!.passwordResetSent);
-                } on FirebaseAuthException catch (e) {
-                  _showSnack(e.message ?? AppLocalizations.of(context)!.failedToSendReset);
+                  _showSnack('Password reset email sent.');
+                } catch (e) {
+                  _showSnack('Error sending reset email.');
                 }
               },
-              child: Text(AppLocalizations.of(context)!.send),
+              child: const Text('Send'),
             ),
           ],
         );
@@ -164,8 +172,12 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 
+  // -----------------------------------------
+  // GOOGLE SIGN-IN
+  // -----------------------------------------
   Future<void> _handleGoogleSignIn() async {
     setState(() => _isLoading = true);
+
     try {
       final googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) {
@@ -184,37 +196,54 @@ class _LoginScreenState extends State<LoginScreen>
       final user = userCred.user;
 
       if (user == null) {
-        _showSnack('Google sign-in failed.');
+        _showSnack('Google login failed.');
         setState(() => _isLoading = false);
         return;
       }
 
       final userRef = _firestore.collection('users').doc(user.uid);
-      if (!(await userRef.get()).exists) {
-        await userRef.set({
-          'name': user.displayName ?? '',
-          'email': user.email ?? '',
-          'createdAt': FieldValue.serverTimestamp(),
-          'favoritesCount': 0,
-        });
+      
+      // Always update user data to ensure we have the latest name/photo
+      await userRef.set({
+        'name': user.displayName ?? '',
+        'email': user.email ?? '',
+        'photoURL': user.photoURL,
+        'lastLogin': FieldValue.serverTimestamp(),
+        // Only set createdAt if it doesn't exist (using merge)
+        // Note: set with merge will overwrite fields present in the map. 
+        // To preserve createdAt if it exists, we shouldn't overwrite it if we can help it, 
+        // but with set(merge) we can't conditionally set.
+        // Better approach: update specific fields.
+      }, SetOptions(merge: true));
+
+      // Ensure createdAt exists
+      final docSnap = await userRef.get();
+      if (!docSnap.exists || !docSnap.data()!.containsKey('createdAt')) {
+         await userRef.set({'createdAt': FieldValue.serverTimestamp()}, SetOptions(merge: true));
+      }
+      
+      // Initialize other fields if missing
+      if (!docSnap.exists || !docSnap.data()!.containsKey('favoritesCount')) {
+         await userRef.set({'favoritesCount': 0, 'theme': 'green'}, SetOptions(merge: true));
       }
 
       _onAuthSuccess();
     } catch (e) {
-      _showSnack('Google sign-in failed: $e');
+      _showSnack('Google sign-in failed.');
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
   }
 
+  // -----------------------------------------
+  // SUCCESS → Pop with TRUE
+  // -----------------------------------------
   void _onAuthSuccess() {
-    // Go back to previous screen or replace with your home page route
     Navigator.pop(context, true);
   }
 
   @override
   Widget build(BuildContext context) {
-    
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -232,71 +261,58 @@ class _LoginScreenState extends State<LoginScreen>
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 420),
-                child: AnimatedScale(
-                  scale: 1,
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOutBack,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    elevation: 10,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const SizedBox(height: 8),
-                          Hero(
-                            tag: 'gymrat-logo',
-                            child: Icon(
-                              Icons.fitness_center,
-                              size: 56,
-                              color: theme.colorScheme.primary,
-                            ),
+                child: Card(
+                  elevation: 10,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.fitness_center,
+                          color: theme.colorScheme.primary,
+                          size: 58,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          "GymRat",
+                          style: theme.textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
                           ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'GymRat',
-                            style: theme.textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            AppLocalizations.of(context)!.welcomeBackBeast,
-                            style: theme.textTheme.bodyMedium,
-                          ),
-                          const SizedBox(height: 16),
+                        ),
+                        const SizedBox(height: 16),
 
-                          // Tabs: Login / Sign up
-                          TabBar(
+                        // Tabs
+                        TabBar(
+                          controller: _tabController,
+                          labelColor: theme.colorScheme.primary,
+                          unselectedLabelColor:
+                              theme.textTheme.bodyMedium?.color,
+                          indicatorColor: theme.colorScheme.primary,
+                          tabs: const [
+                            Tab(text: "Login"),
+                            Tab(text: "Sign Up"),
+                          ],
+                        ),
+
+                        const SizedBox(height: 14),
+
+                        SizedBox(
+                          height: 320,
+                          child: TabBarView(
                             controller: _tabController,
-                            labelColor: theme.colorScheme.primary,
-                            unselectedLabelColor:
-                                theme.textTheme.bodyMedium?.color,
-                            indicatorColor: theme.colorScheme.primary,
-                            tabs: [
-                              Tab(text: AppLocalizations.of(context)!.login),
-                              Tab(text: AppLocalizations.of(context)!.signup),
+                            children: [
+                              _buildLoginForm(context),
+                              _buildSignupForm(context),
                             ],
-                            onTap: (index) {
-                              setState(() {});
-                            },
                           ),
-                          const SizedBox(height: 12),
-
-                          AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 300),
-                            child: _tabController.index == 0
-                                ? _buildLoginForm(context)
-                                : _buildSignupForm(context),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -308,6 +324,9 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 
+  // -----------------------------------------
+  // LOGIN FORM
+  // -----------------------------------------
   Widget _buildLoginForm(BuildContext context) {
     return Form(
       key: _loginFormKey,
@@ -315,86 +334,61 @@ class _LoginScreenState extends State<LoginScreen>
         children: [
           TextFormField(
             controller: _loginEmailController,
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.email,
-              prefixIcon: const Icon(Icons.email),
-            ),
-            validator: (value) {
-              if (value == null || value.trim().isEmpty) {
-                return AppLocalizations.of(context)!.emailRequired;
-              }
-              if (!value.contains('@')) {
-                return AppLocalizations.of(context)!.validEmail;
-              }
-              return null;
-            },
+            decoration: const InputDecoration(labelText: "Email"),
+            validator: (v) =>
+                v == null || !v.contains('@') ? "Enter valid email" : null,
           ),
           const SizedBox(height: 12),
           TextFormField(
             controller: _loginPasswordController,
+            decoration: const InputDecoration(labelText: "Password"),
             obscureText: true,
-            decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.password,
-              prefixIcon: const Icon(Icons.lock),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return AppLocalizations.of(context)!.passwordRequired;
-              }
-              if (value.length < 6) {
-                return AppLocalizations.of(context)!.minCharacters;
-              }
-              return null;
-            },
+            validator: (v) =>
+                v == null || v.length < 6 ? "Min 6 characters" : null,
           ),
-          const SizedBox(height: 4),
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
-              onPressed: _isLoading ? null : _handleForgotPassword,
-              child: Text(AppLocalizations.of(context)!.forgotPassword),
+              onPressed: _handleForgotPassword,
+              child: const Text("Forgot Password?"),
             ),
           ),
-          const SizedBox(height: 8),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: _isLoading ? null : _handleLogin,
-              child: _isLoading
-                  ? const SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                    : Text(AppLocalizations.of(context)!.login),
-            ),
+          const SizedBox(height: 10),
+
+          // LOGIN BUTTON
+          ElevatedButton(
+            onPressed: _isLoading ? null : _handleLogin,
+            child: _isLoading
+                ? const CircularProgressIndicator()
+                : const Text("Login"),
           ),
-          const SizedBox(height: 12),
+
+          const SizedBox(height: 14),
           Row(
-            children: [
+            children: const [
               Expanded(child: Divider()),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8),
-                child: Text(AppLocalizations.of(context)!.or),
+                child: Text("OR"),
               ),
               Expanded(child: Divider()),
             ],
           ),
-          const SizedBox(height: 12),
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton.icon(
-              onPressed: _isLoading ? null : _handleGoogleSignIn,
-              icon: const Icon(Icons.g_mobiledata, size: 28),
-              label: Text(AppLocalizations.of(context)!.googleSignIn),
-            ),
+          const SizedBox(height: 14),
+
+          OutlinedButton.icon(
+            onPressed: _isLoading ? null : _handleGoogleSignIn,
+            icon: const Icon(Icons.g_mobiledata, size: 28),
+            label: const Text("Continue with Google"),
           ),
         ],
       ),
     );
   }
 
+  // -----------------------------------------
+  // SIGNUP FORM
+  // -----------------------------------------
   Widget _buildSignupForm(BuildContext context) {
     return Form(
       key: _signupFormKey,
@@ -402,72 +396,32 @@ class _LoginScreenState extends State<LoginScreen>
         children: [
           TextFormField(
             controller: _signupFullNameController,
-            decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.fullName,
-              prefixIcon: const Icon(Icons.person),
-            ),
-            validator: (value) {
-              if (value == null || value.trim().isEmpty) {
-                return AppLocalizations.of(context)!.nameRequired;
-              }
-              return null;
-            },
+            decoration: const InputDecoration(labelText: "Full Name"),
+            validator: (v) =>
+                v == null || v.trim().isEmpty ? "Full name required" : null,
           ),
           const SizedBox(height: 12),
           TextFormField(
             controller: _signupEmailController,
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.email,
-              prefixIcon: const Icon(Icons.email),
-            ),
-            validator: (value) {
-              if (value == null || value.trim().isEmpty) {
-                return AppLocalizations.of(context)!.emailRequired;
-              }
-              if (!value.contains('@')) {
-                return AppLocalizations.of(context)!.validEmail;
-              }
-              return null;
-            },
+            decoration: const InputDecoration(labelText: "Email"),
+            validator: (v) =>
+                v == null || !v.contains('@') ? "Enter valid email" : null,
           ),
           const SizedBox(height: 12),
           TextFormField(
             controller: _signupPasswordController,
+            decoration: const InputDecoration(labelText: "Password"),
             obscureText: true,
-            decoration: InputDecoration(
-              labelText: AppLocalizations.of(context)!.password,
-              prefixIcon: const Icon(Icons.lock),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return AppLocalizations.of(context)!.passwordRequired;
-              }
-              if (value.length < 6) {
-                return AppLocalizations.of(context)!.minCharacters;
-              }
-              return null;
-            },
+            validator: (v) =>
+                v == null || v.length < 6 ? "Min 6 characters" : null,
           ),
           const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: _isLoading ? null : _handleSignup,
-              child: _isLoading
-                  ? const SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : Text(AppLocalizations.of(context)!.createAccount),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            AppLocalizations.of(context)!.verificationNote,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 12),
+
+          ElevatedButton(
+            onPressed: _isLoading ? null : _handleSignup,
+            child: _isLoading
+                ? const CircularProgressIndicator()
+                : const Text("Create Account"),
           ),
         ],
       ),

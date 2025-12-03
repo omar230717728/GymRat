@@ -56,6 +56,7 @@ dependencies:
   uuid: ^4.3.3
   path_provider: ^2.1.2
   shared_preferences: ^2.2.2
+  flutter_svg: ^2.2.3
   
 
 
@@ -92,6 +93,8 @@ flutter:
   assets:
     - assets/body_part_images/
     - assets/seed.json
+    - assets/images/
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

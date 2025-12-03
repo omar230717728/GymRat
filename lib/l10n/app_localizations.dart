@@ -679,6 +679,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Seed Data (Dev Only)'**
   String get seedData;
+
+  /// No description provided for @loginRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Login Required'**
+  String get loginRequired;
+
+  /// No description provided for @loginRequiredMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please login to continue.'**
+  String get loginRequiredMessage;
 }
 
 class _AppLocalizationsDelegate
