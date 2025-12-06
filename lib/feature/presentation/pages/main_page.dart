@@ -1,17 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/core/auth/login_required_popup.dart';
 import 'package:flutter_application_1/feature/presentation/pages/favorite_screen.dart';
 import 'package:flutter_application_1/feature/presentation/pages/gym_parts_home.dart';
 import 'package:flutter_application_1/feature/presentation/pages/edit_profile_screen.dart';
 import 'package:flutter_application_1/feature/presentation/pages/search_screen.dart';
-import 'package:flutter_application_1/feature/presentation/pages/progress_screen.dart';
+import 'package:flutter_application_1/feature/presentation/pages/progress_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
-
 import 'package:flutter_application_1/feature/presentation/widgets/settings_sidebar.dart';
 import 'package:flutter_application_1/feature/presentation/widgets/profile_sidebar.dart';
 import 'package:flutter_application_1/feature/cubit/theme_cubit.dart';
@@ -44,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _buildHomeNavigator(),
       SearchScreen(),
       SafeArea(child: FavoritesScreen()),
-      const ProgressScreen(),
+      const ProgressPage(),
     ];
   }
 
@@ -52,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Navigator(
       key: _homeNavigatorKey,
       onGenerateRoute: (settings) {
-        return MaterialPageRoute(builder: (context) => GymPartScreen());
+        return MaterialPageRoute(builder: (context) => const GymPartScreen());
       },
       onDidRemovePage: (page) {
         // Handle back button - pop from nested navigator first
@@ -108,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Positioned(
               left: 16,
               right: 16,
-              bottom: 16,
+              bottom: 0,
               child: _buildBottomNavBar(),
             ),
             
@@ -117,9 +116,11 @@ class _MyHomePageState extends State<MyHomePage> {
               builder: (context, themeState) {
                 return BlocBuilder<LanguageCubit, LanguageState>(
                   builder: (context, langState) {
-                    return ValueListenableBuilder<UserModel?>(
-                      valueListenable: UserSessionService.instance.currentUser,
-                      builder: (context, user, _) {
+                    return StreamBuilder<UserModel?>(
+                      stream: UserSessionService.instance.userStream,
+                      initialData: UserSessionService.instance.currentUser,
+                      builder: (context, snapshot) {
+                        final user = snapshot.data;
                         return SettingsSidebar(
                           isOpen: _isSidebarOpen,
                           onClose: () => setState(() => _isSidebarOpen = false),
@@ -145,10 +146,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           },
                           onLogoutTap: () async {
                             setState(() => _isSidebarOpen = false);
+                            await GoogleSignIn().signOut();
                             await FirebaseAuth.instance.signOut();
-                            // UserSessionService listens to auth changes and will update currentUser to null
-                            // App should redirect to LoginScreen automatically if listening to auth stream at root
-                            // Or we can manually push
                             if (context.mounted) {
                                Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
                                 MaterialPageRoute(builder: (_) => const LoginScreen()),
@@ -166,9 +165,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
             // Profile Sidebar
-            ValueListenableBuilder<UserModel?>(
-              valueListenable: UserSessionService.instance.currentUser,
-              builder: (context, user, _) {
+            StreamBuilder<UserModel?>(
+              stream: UserSessionService.instance.userStream,
+              builder: (context, snapshot) {
+                final user = snapshot.data;
                 final currentUser = FirebaseAuth.instance.currentUser;
                 return ProfileSidebar(
                   isOpen: _isProfileOpen,
@@ -218,7 +218,7 @@ class _MyHomePageState extends State<MyHomePage> {
             borderRadius: BorderRadius.circular(17),
             color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.9),
           ),
-          child: IconButton(onPressed: () {}, icon: Icon(Icons.camera_alt_rounded)),
+          child: IconButton(onPressed: () {}, icon: Icon(Icons.camera_alt_rounded, color: Theme.of(context).colorScheme.primary)),
         ),
         Container(
           margin: EdgeInsets.only(right: 8.0),
@@ -232,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
               _isProfileOpen = false; // Force close Profile
               _isSidebarOpen = !_isSidebarOpen;
             });
-          }, icon: Icon(Icons.settings)),
+          }, icon: Icon(Icons.settings, color: Theme.of(context).colorScheme.primary)),
         ),
       ],
       title: Text(
@@ -271,7 +271,7 @@ class _MyHomePageState extends State<MyHomePage> {
 Widget _buildBottomNavBar() {
   return SafeArea(
     child: Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20), 
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), 
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface, // Use a dark surface color (e.g., Black/Dark Grey)
         borderRadius: BorderRadius.circular(30),

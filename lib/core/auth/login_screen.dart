@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_application_1/feature/presentation/pages/main_page.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -179,7 +180,12 @@ class _LoginScreenState extends State<LoginScreen>
     setState(() => _isLoading = true);
 
     try {
-      final googleUser = await GoogleSignIn().signIn();
+      final googleSignIn = GoogleSignIn();
+      if (await googleSignIn.isSignedIn()) {
+        await googleSignIn.signOut();
+      }
+
+      final googleUser = await googleSignIn.signIn();
       if (googleUser == null) {
         setState(() => _isLoading = false);
         return;
@@ -239,7 +245,11 @@ class _LoginScreenState extends State<LoginScreen>
   // SUCCESS → Pop with TRUE
   // -----------------------------------------
   void _onAuthSuccess() {
-    Navigator.pop(context, true);
+    if (!mounted) return;
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const MyHomePage()),
+      (route) => false,
+    );
   }
 
   @override

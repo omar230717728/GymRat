@@ -41,12 +41,10 @@ class ExerciseListCubit extends Cubit<ExerciseListState> {
       : _gymRepository = gymRepository,
         super(ExerciseListInitial());
 
-  Future<void> loadExercises(
-      String bodyPartId, String muscleId, String machineId) async {
+  Future<void> loadExercises(String muscleId) async {
     emit(ExerciseListLoading());
     try {
-      final exercises = await _gymRepository.fetchExercises(
-          bodyPartId, muscleId, machineId);
+      final exercises = await _gymRepository.getExercisesByMuscle(muscleId);
       emit(ExerciseListLoaded(exercises));
     } catch (e) {
       emit(ExerciseListError(e.toString()));

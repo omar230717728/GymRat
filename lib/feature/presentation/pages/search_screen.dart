@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/models/exercise_model.dart';
-import 'package:flutter_application_1/core/shared/machine_grid.dart';
+import 'package:flutter_application_1/core/models/machine_model.dart';
+import 'package:flutter_application_1/feature/presentation/widgets/machine_grid.dart';
+import 'package:flutter_application_1/feature/presentation/pages/details_screen/machine_detail.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/feature/cubit/language_cubit.dart';
 import 'package:flutter_application_1/core/di/injection_container.dart';
@@ -20,17 +22,6 @@ class _SearchScreenState extends State<SearchScreen> {
   List<ExerciseModel> filtered = [];
   bool loading = true;
 
-  final List<String> filters = [
-    "abs",
-    "chest",
-    "back",
-    "arms",
-    "legs",
-    "shoulders",
-  ];
-  String selectedDifficulty = "";
-  String activeFilter = "";
-
   @override
   void initState() {
     super.initState();
@@ -39,50 +30,31 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Future<void> loadExercises() async {
-    allExercises = await sl<GymRepository>().getAllExercises();
-    filtered = allExercises;
-    loading = false;
-    setState(() {});
+    try {
+      allExercises = await sl<GymRepository>().getAllExercises();
+      filtered = allExercises;
+      setState(() {
+        loading = false;
+      });
+    } catch (e) {
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   void applySearch() {
     final q = _controller.text.toLowerCase();
 
-    final locale = context.read<LanguageCubit>().state.locale.languageCode;
-
     setState(() {
       filtered = allExercises.where((e) {
-        final name = e.name[locale] ?? e.name['en'] ?? 'Unknown';
-        final matchesText = name.toLowerCase().contains(q);
-        final matchesBodyPart = activeFilter.isEmpty 
-            ? true 
-            : e.targetMuscles.any((m) => m.toLowerCase().contains(activeFilter));
-        final matchesDifficulty = true; 
-
-        return matchesText && matchesBodyPart && matchesDifficulty;
+        final name = e.name.toLowerCase();
+        final matchesText = name.contains(q);
+        return matchesText;
       }).toList();
     });
   }
 
-  void setFilter(String part) {
-    setState(() {
-      activeFilter = part == activeFilter ? "" : part;
-    });
-    applySearch();
-  }
-
-  String _getLocalizedBodyPart(String key) {
-    final loc = AppLocalizations.of(context)!;
-    switch (key) {
-      case 'abs': return loc.abs;
-      case 'chest': return loc.chest;
-      case 'back': return loc.back;
-      case 'arms': return loc.arms;
-      case 'legs': return loc.legs;
-      case 'shoulders': return loc.shoulders;
-      default: return key.toUpperCase();
-    }
-  }
   @override
   Widget build(BuildContext context) {
     if (loading) return const Center(child: CircularProgressIndicator());
@@ -90,17 +62,6 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.search),
-        // actions: [
-        //   IconButton(
-        //     icon: Icon(
-        //       Icons.filter_list,
-        //       color: selectedDifficulty.isNotEmpty
-        //           ? Theme.of(context).colorScheme.primary
-        //           : null,
-        //     ),
-        //     onPressed: _showFilterSheet,
-        //   ),
-        // ],
       ),
       body: Column(
         children: [
@@ -118,47 +79,30 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
 
-          // Body Part Filters - keeping them but they might be less effective without direct mapping
-          SizedBox(
-            height: 45,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              children: filters.map((f) {
-                final active = activeFilter == f;
-                return GestureDetector(
-                  onTap: () => setFilter(f),
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 10),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 14, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: active
-                          ? Theme.of(context).colorScheme.primary
-                          : Colors.grey.shade800,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      _getLocalizedBodyPart(f),
-                      style: TextStyle(
-                        color: active
-                            ? Colors.white
-                            : Colors.grey.shade300,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-
-          const SizedBox(height: 10),
-
           Expanded(
             child: filtered.isEmpty
                 ? Center(child: Text(AppLocalizations.of(context)!.noResults))
-                : buildMachinesGrid(context, filtered, highlightTerm: _controller.text),
+                : MachineGridWidget(
+                    machines: filtered.map((e) => MachineModel(
+                      id: e.id,
+                      name: e.name,
+                      image: e.imageUrl,
+                      equipmentType: '',
+                      bodyParts: [],
+                      primaryMuscles: e.targetMuscles,
+                      secondaryMuscles: [],
+                    )).toList(),
+                    onMachineTap: (machine) {
+                      final exercise = filtered.firstWhere((e) => e.id == machine.id);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MachineDetailScreen(exercise: exercise),
+                        ),
+                      );
+                    },
+                    highlightTerm: _controller.text,
+                  ),
           ),
         ],
       ),

@@ -1,85 +1,144 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_application_1/core/models/workout_model.dart';
+import 'package:flutter_application_1/core/models/workout_entry.dart';
 
 class ProgressRepository {
   final FirebaseFirestore _firestore;
   final FirebaseAuth _auth;
 
-  ProgressRepository({FirebaseFirestore? firestore, FirebaseAuth? auth})
-      : _firestore = firestore ?? FirebaseFirestore.instance,
+  ProgressRepository({
+    FirebaseFirestore? firestore,
+    FirebaseAuth? auth,
+  })  : _firestore = firestore ?? FirebaseFirestore.instance,
         _auth = auth ?? FirebaseAuth.instance;
 
-  Future<Map<String, dynamic>> fetchProgressStats() async {
+  Future<void> saveWorkout(WorkoutModel workout) async {
     final user = _auth.currentUser;
-    if (user == null) return {'exercises': 0, 'machines': 0, 'muscles': 0};
-
-    final docRef = _firestore.collection('users').doc(user.uid).collection('stats').doc('summary');
-
-    try {
-      final docSnapshot = await docRef.get();
-
-      if (!docSnapshot.exists) {
-        // Auto-create if missing
-        final initialData = {
-          'exercises': 0,
-          'machines': 0,
-          'muscles': 0,
-          'last_updated': FieldValue.serverTimestamp(),
-        };
-        await docRef.set(initialData);
-        return initialData;
-      }
-
-      final data = docSnapshot.data();
-      if (data == null) return {'exercises': 0, 'machines': 0, 'muscles': 0};
-
-      return {
-        'explored_machine_names': data['explored_machine_names'] ?? [],
-        'learned_exercise_names': data['learned_exercise_names'] ?? [],
-        'muscle_scores': data['muscle_scores'] ?? {},
-      };
-    } catch (e) {
-      print('Error fetching progress stats: $e');
-      return {'exercises': 0, 'machines': 0, 'muscles': 0};
+    if (user == null) {
+      throw Exception('User must be logged in to save a workout');
     }
-  }
 
-  Future<void> updateProgressStats({
-    String? machineName,
-    String? exerciseName,
-    String? muscleName,
-  }) async {
-    final user = _auth.currentUser;
-    if (user == null) return;
-
-    final docRef = _firestore.collection('users').doc(user.uid).collection('stats').doc('summary');
+    // CRITICAL for Security Rules: userId must exactly match auth.uid
+    var workoutWithUserId = workout.copyWith(userId: user.uid);
 
     try {
-      final updates = <String, dynamic>{
-        'last_updated': FieldValue.serverTimestamp(),
-      };
+      // HYDRATION STEP: Populate missing names if IDs are present
+      List<WorkoutEntry> hydratedExercises = [];
+      for (var exercise in workoutWithUserId.exercises) {
+        String machineName = exercise.machineName;
+        String muscleName = exercise.muscleName;
 
-      if (machineName != null) {
-        updates['explored_machine_names'] = FieldValue.arrayUnion([machineName]);
+        // Fetch Machine Name if missing
+        if (machineName.isEmpty && exercise.machineId.isNotEmpty) {
+          try {
+            final machineDoc = await _firestore.collection('machines').doc(exercise.machineId).get();
+            if (machineDoc.exists) {
+              final data = machineDoc.data();
+              // Handle potential map for localized names or string
+              if (data != null) {
+                if (data['name'] is String) {
+                  machineName = data['name'];
+                } else if (data['name'] is Map) {
+                  machineName = data['name']['en'] ?? 'Unknown';
+                }
+              }
+            }
+          } catch (e) {
+            print('Error hydrating machine name: $e');
+          }
+        }
+
+        // Fetch Muscle Name if missing
+        if (muscleName.isEmpty && exercise.muscleId.isNotEmpty) {
+          try {
+            final muscleDoc = await _firestore.collection('muscles').doc(exercise.muscleId).get();
+            if (muscleDoc.exists) {
+              final data = muscleDoc.data();
+              if (data != null && data['name'] != null) {
+                 muscleName = data['name'] is String ? data['name'] : (data['name']['en'] ?? 'Unknown');
+              }
+            }
+          } catch (e) {
+            print('Error hydrating muscle name: $e');
+          }
+        }
+
+        hydratedExercises.add(exercise.copyWith(
+          machineName: machineName.isNotEmpty ? machineName : 'Unknown',
+          muscleName: muscleName.isNotEmpty ? muscleName : 'Unknown',
+        ));
       }
       
-      if (exerciseName != null) {
-        updates['learned_exercise_names'] = FieldValue.arrayUnion([exerciseName]);
-      }
+      // Update the workout with hydrated exercises
+      workoutWithUserId = workoutWithUserId.copyWith(exercises: hydratedExercises);
 
-      if (muscleName != null && muscleName.isNotEmpty) {
-        updates['muscle_scores.$muscleName'] = FieldValue.increment(1);
-      }
+      final batch = _firestore.batch();
 
-      // Ensure document exists before updating (though set with merge handles it, explicit set helps with debugging)
-      // We use set with merge: true which creates if not exists.
-      await docRef.set(updates, SetOptions(merge: true));
+      // 1. Prepare Progress Document
+      final progressDocRef = workoutWithUserId.id.isEmpty
+          ? _firestore.collection('progress').doc()
+          : _firestore.collection('progress').doc(workoutWithUserId.id);
+
+      final finalWorkout = workoutWithUserId.copyWith(id: progressDocRef.id);
+      batch.set(progressDocRef, finalWorkout.toJson());
+
+      // 2. Prepare Stats Update
+      final statsRef =
+          _firestore.collection('users').doc(user.uid).collection('stats').doc('summary');
+
+      // Collect unique machine and muscle names
+      final machineNames = workoutWithUserId.exercises
+          .map((e) => e.machineName)
+          .where((name) => name.isNotEmpty)
+          .toSet()
+          .toList();
+          
+      final muscleNames = workoutWithUserId.exercises
+          .map((e) => e.muscleName)
+          .where((name) => name.isNotEmpty)
+          .toSet()
+          .toList();
+
+      // Calculate muscle score increments (1 per occurrence as per plan)
+      // Note: If 'muscle_scores' is a map, we need to use dot notation for nested fields.
+      // However, Firestore increment works on specific fields.
+      // Map<String, dynamic> statsUpdate = {};
       
-      // Double check if we need to initialize counters if this was the first write
-      // (Optional, but good for robustness)
+      // We will perform the stats update. 
+      // Note: We cannot easily do dynamic map key construction in a single 'update' call for nested fields 
+      // if we want to be clean, but we can build a map of changes.
+      // BUT for FieldValue.increment inside a map, we usually must provide the dot-notation path 
+      // if the parent field is a map. e.g. "muscle_scores.Chest": FieldValue.increment(1)
+      
+      Map<String, dynamic> updates = {};
+      
+      if (machineNames.isNotEmpty) {
+        updates['explored_machine_names'] = FieldValue.arrayUnion(machineNames);
+      }
+      if (muscleNames.isNotEmpty) {
+        updates['studied_muscle_names'] = FieldValue.arrayUnion(muscleNames);
+      }
+      
+      // Aggregate scores per muscle for this workout
+      final muscleCounts = <String, int>{};
+      for (var exercise in workoutWithUserId.exercises) {
+        if (exercise.muscleName.isNotEmpty) {
+          muscleCounts[exercise.muscleName] = (muscleCounts[exercise.muscleName] ?? 0) + 1;
+        }
+      }
+
+      muscleCounts.forEach((muscle, count) {
+        updates['muscle_scores.$muscle'] = FieldValue.increment(count);
+      });
+
+      // Use SetOptions(merge: true) to ensure we create the document if it doesn't exist
+      // and merge our updates.
+      batch.set(statsRef, updates, SetOptions(merge: true));
+
+      await batch.commit();
     } catch (e) {
-      print('Error updating progress stats: $e');
-      // Rethrow so Cubit knows it failed? No, keep it safe.
+      throw Exception('Failed to save workout batch: $e');
     }
   }
 }

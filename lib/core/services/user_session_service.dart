@@ -1,43 +1,55 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/widgets.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_application_1/core/models/user_model.dart';
+import 'package:flutter_application_1/core/models/progress_model.dart';
 
 class UserSessionService with WidgetsBindingObserver {
-  // Singleton
   static final UserSessionService _instance = UserSessionService._internal();
-  static UserSessionService? _mockInstance;
-  static UserSessionService get instance => _mockInstance ?? _instance;
-  static set mockInstance(UserSessionService? mock) => _mockInstance = mock;
+  static UserSessionService get instance => _instance;
 
   UserSessionService._internal();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Public Stream/Notifier
-  final ValueNotifier<UserModel?> currentUser = ValueNotifier<UserModel?>(null);
+  final StreamController<UserModel?> _userSubject = StreamController<UserModel?>.broadcast();
+  Stream<UserModel?> get userStream => _userSubject.stream;
+  
+  UserModel? _currentUser;
+  UserModel? get currentUser => _currentUser;
+  
+  List<String> get favoriteIds => _currentUser?.favoriteIds ?? [];
 
   StreamSubscription<User?>? _authSubscription;
   DateTime? _sessionStartTime;
+  bool _isLoading = false;
 
-  // Initialization
   Future<void> init() async {
     WidgetsBinding.instance.addObserver(this);
-    _authSubscription = _auth.authStateChanges().listen(_onAuthStateChanged);
+    _authSubscription = _auth.authStateChanges().listen(_initializeUser);
+    if (_auth.currentUser != null) {
+      await _initializeUser(_auth.currentUser);
+    }
+  }
+
+  Future<void> refreshUser() async {
+    if (_auth.currentUser != null) {
+      await _initializeUser(_auth.currentUser);
+    }
   }
 
   void _safeUpdateCurrentUser(UserModel? value) {
-    if (WidgetsBinding.instance.schedulerPhase != SchedulerPhase.idle) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        currentUser.value = value;
-      });
-    } else {
-      currentUser.value = value;
-    }
+    _currentUser = value;
+    _userSubject.add(value);
+  }
+
+  String _sanitize(String input) {
+    if (input.isEmpty) return "Unknown";
+    final trimmed = input.trim();
+    if (trimmed.isEmpty) return "Unknown";
+    return "${trimmed[0].toUpperCase()}${trimmed.substring(1).toLowerCase()}";
   }
 
   @override
@@ -50,281 +62,274 @@ class UserSessionService with WidgetsBindingObserver {
   }
 
   Future<void> _endSession() async {
-    if (_sessionStartTime == null || currentUser.value == null) return;
-
+    if (_sessionStartTime == null || _currentUser == null) return;
     final duration = DateTime.now().difference(_sessionStartTime!);
     final minutes = duration.inMinutes;
     
-    // Only log significant sessions (> 1 min)
     if (minutes > 0) {
       try {
-        await _firestore.collection('users').doc(currentUser.value!.uid).update({
+        await _firestore.collection('users').doc(_currentUser!.uid).update({
           'last_session_duration': minutes,
         });
-        
-        // Optimistic Update
-        _safeUpdateCurrentUser(currentUser.value!.copyWith(lastSessionDuration: minutes));
+        _safeUpdateCurrentUser(_currentUser!.copyWith(lastSessionDuration: minutes));
       } catch (e) {
         debugPrint("Session Sync Error: $e");
       }
     }
-    
     _sessionStartTime = null;
   }
 
-  Future<void> _onAuthStateChanged(User? firebaseUser) async {
+  Future<void> _initializeUser(User? firebaseUser) async {
+    if (_isLoading) return;
+    _isLoading = true;
+
     if (firebaseUser == null) {
       _safeUpdateCurrentUser(null);
+      _isLoading = false;
       return;
     }
 
     try {
       final userDocRef = _firestore.collection('users').doc(firebaseUser.uid);
-      final docSnapshot = await userDocRef.get();
+      
+      // 1. Fetch ALL Data
+      final userDocSnapshot = await userDocRef.get();
+      final statsDocSnapshot = await userDocRef.collection('stats').doc('summary').get();
+      final statsData = statsDocSnapshot.exists ? statsDocSnapshot.data() : <String, dynamic>{};
 
-      if (!docSnapshot.exists) {
-        // Self-Healing: Create new user doc
-        final newUser = UserModel(
+      // 2. Fetch Favorites (THE TRUTH SOURCE)
+      final favoritesSnapshot = await userDocRef.collection('favorites').get();
+      final favoriteIds = favoritesSnapshot.docs.map((doc) => doc.id).toList();
+      
+      // *** CRITICAL FIX: Trust the list length, NOT the old counter ***
+      final realFavoritesCount = favoriteIds.length;
+
+      UserModel userModel;
+      if (!userDocSnapshot.exists) {
+        // Create New User
+        userModel = UserModel(
           uid: firebaseUser.uid,
           name: firebaseUser.displayName ?? 'GymRat User',
           email: firebaseUser.email,
-          photoURL: firebaseUser.photoURL,
           joinDate: DateTime.now(),
-          stats: {
-            'explored_machine_names': [],
-            'learned_exercise_names': [],
-            'muscle_scores': {},
-          },
+          stats: statsData ?? {},
+          favoritesCount: realFavoritesCount, // Use Real Count
+          favoriteIds: favoriteIds,
           currentStreak: 1,
           lastVisitDate: DateTime.now(),
         );
+        await userDocRef.set(userModel.toMap());
 
-        // Create in Firestore
-        await userDocRef.set(newUser.toMap());
-        
-        // Update local state
-        _safeUpdateCurrentUser(newUser);
-        _sessionStartTime = DateTime.now(); // Start session
+        if (!statsDocSnapshot.exists) {
+           await userDocRef.collection('stats').doc('summary').set({
+             'explored_machine_names': [],
+             'studied_muscle_names': [],
+             'exercises_learned': [],
+             'muscle_scores': {},
+             'total_workouts': 0,
+           });
+        }
       } else {
-        // Load existing user
-        var userModel = UserModel.fromFirestore(docSnapshot);
+        // Load Existing User
+        userModel = UserModel.fromFirestore(
+          userDocSnapshot, 
+          statsData: statsData,
+          favorites: favoriteIds,
+        );
         
-        // --- Streak Logic ---
+        // *** FORCE SYNC: Override the DB counter with the actual list length ***
+        userModel = userModel.copyWith(favoritesCount: realFavoritesCount);
+
+        // Streak Logic
         final now = DateTime.now();
-        final today = DateTime(now.year, now.month, now.day);
-        final lastVisit = userModel.lastVisitDate;
-        
-        int newStreak = userModel.currentStreak;
-        bool streakUpdated = false;
+        final lastVisit = userModel.lastVisitDate ?? now;
+        final difference = DateTime(now.year, now.month, now.day)
+            .difference(DateTime(lastVisit.year, lastVisit.month, lastVisit.day))
+            .inDays;
 
-        if (lastVisit != null) {
-          final lastVisitDate = DateTime(lastVisit.year, lastVisit.month, lastVisit.day);
-          final difference = today.difference(lastVisitDate).inDays;
-
-          if (difference == 1) {
-            // Consecutive day
-            newStreak++;
-            streakUpdated = true;
-          } else if (difference > 1) {
-            // Streak broken
-            newStreak = 1;
-            streakUpdated = true;
-          }
-          // If difference == 0 (Same day), do nothing
+        if (difference == 1) {
+          userModel = userModel.copyWith(currentStreak: userModel.currentStreak + 1, lastVisitDate: now);
+        } else if (difference > 1) {
+          userModel = userModel.copyWith(currentStreak: 1, lastVisitDate: now);
         } else {
-          // First visit ever (or legacy)
-          newStreak = 1;
-          streakUpdated = true;
-        }
-
-        if (streakUpdated) {
-          await userDocRef.update({
-            'current_streak': newStreak,
-            'last_visit_date': FieldValue.serverTimestamp(),
-          });
-          userModel = userModel.copyWith(
-            currentStreak: newStreak,
-            lastVisitDate: now,
-          );
-        }
-        // --------------------
-        
-        // Sync Auth Data if missing (Self-Healing 2.0)
-        bool needsUpdate = false;
-        final updates = <String, dynamic>{};
-
-        if ((userModel.name == null || userModel.name!.isEmpty) && firebaseUser.displayName != null) {
-          updates['name'] = firebaseUser.displayName;
-          userModel = userModel.copyWith(name: firebaseUser.displayName);
-          needsUpdate = true;
-        }
-        if ((userModel.photoURL == null || userModel.photoURL!.isEmpty) && firebaseUser.photoURL != null) {
-          updates['photoURL'] = firebaseUser.photoURL;
-          userModel = userModel.copyWith(photoURL: firebaseUser.photoURL);
-          needsUpdate = true;
-        }
-
-        if (needsUpdate) {
-          await userDocRef.update(updates);
+          userModel = userModel.copyWith(lastVisitDate: now);
         }
         
-        // Sync Favorites Count (Self-Healing)
-        if (userModel.favoritesCount == 0) {
-          final favoritesSnapshot = await userDocRef.collection('favorites').count().get();
-          final count = favoritesSnapshot.count ?? 0;
-          if (count > 0) {
-            await userDocRef.update({'favoritesCount': count});
-            userModel = userModel.copyWith(favoritesCount: count);
-          }
-        }
-
-        _safeUpdateCurrentUser(userModel);
-        _sessionStartTime = DateTime.now(); // Start session
-        
-        // Check for legacy stats if current stats are empty (Migration)
-        if (userModel.stats.isEmpty || (userModel.stats['explored_machine_names'] as List?)?.isEmpty == true) {
-           _migrateLegacyStats(firebaseUser.uid, userDocRef);
-        }
+        await userDocRef.update({
+          'current_streak': userModel.currentStreak,
+          'last_visit_date': userModel.lastVisitDate!.toIso8601String(),
+          'favoritesCount': realFavoritesCount, // Self-heal the DB
+        });
       }
+
+      _safeUpdateCurrentUser(userModel);
+      _sessionStartTime = DateTime.now();
+
     } catch (e) {
-      debugPrint("UserSessionService Error: $e");
+      debugPrint("UserSessionService Init Error: $e");
+      if (_currentUser == null) {
+         _safeUpdateCurrentUser(UserModel(
+            uid: firebaseUser.uid,
+            name: firebaseUser.displayName ?? 'User',
+            stats: {},
+            favoritesCount: 0,
+            favoriteIds: [],
+            currentStreak: 1,
+         ));
+      }
+    } finally {
+      _isLoading = false;
     }
   }
 
-  Future<void> _migrateLegacyStats(String uid, DocumentReference userDocRef) async {
-    try {
-      // Try to fetch old stats/summary
-      final oldStatsDoc = await _firestore.collection('users').doc(uid).collection('stats').doc('summary').get();
-      if (oldStatsDoc.exists && oldStatsDoc.data() != null) {
-        final data = oldStatsDoc.data()!;
-        // Merge into main user doc
-        await userDocRef.set({
-          'stats': {
-             'explored_machine_names': data['explored_machine_names'] ?? [],
-             'learned_exercise_names': data['learned_exercise_names'] ?? [],
-             'muscle_scores': data['muscle_scores'] ?? {},
-          }
-        }, SetOptions(merge: true));
-        
-        // Refresh local user
-        final refreshedDoc = await userDocRef.get();
-        _safeUpdateCurrentUser(UserModel.fromFirestore(refreshedDoc));
-      }
-    } catch (e) {
-      debugPrint("Migration Error: $e");
-    }
-  }
+  // --- LOGIC METHODS ---
 
-  // Centralized Tracking
-  Future<void> logProgress({
-    String? machineName,
-    String? exerciseName,
-    String? muscleName,
-  }) async {
-    final user = currentUser.value;
+  Future<void> toggleFavorite(String machineId) async {
+    final user = _currentUser;
     if (user == null) return;
 
-    // 1. Optimistic Update
-    final currentStats = Map<String, dynamic>.from(user.stats);
-    
-    // Update Lists
-    final machines = List<String>.from(currentStats['explored_machine_names'] ?? []);
-    if (machineName != null && !machines.contains(machineName)) {
-      machines.add(machineName);
-    }
-    
-    final exercises = List<String>.from(currentStats['learned_exercise_names'] ?? []);
-    if (exerciseName != null && !exercises.contains(exerciseName)) {
-      exercises.add(exerciseName);
-    }
+    final isFavorite = user.favoriteIds.contains(machineId);
+    final userDocRef = _firestore.collection('users').doc(user.uid);
+    final favoritesRef = userDocRef.collection('favorites');
 
-    // Update Map
-    final muscleScores = Map<String, dynamic>.from(currentStats['muscle_scores'] ?? {});
-    if (muscleName != null) {
-      muscleScores[muscleName] = (muscleScores[muscleName] ?? 0) + 1;
-    }
+    List<String> newFavoriteIds = List.from(user.favoriteIds);
 
-    currentStats['explored_machine_names'] = machines;
-    currentStats['learned_exercise_names'] = exercises;
-    currentStats['muscle_scores'] = muscleScores;
-
-    // --- Recent History Logic (Limit 3) ---
-    final recent = List<Map<String, String>>.from(user.recentActivity);
-    
-    if (machineName != null || exerciseName != null) {
-      final name = machineName ?? exerciseName!;
-      final type = machineName != null ? 'Machine' : 'Exercise';
-      
-      // Deduplicate: Remove if exists
-      recent.removeWhere((item) => item['name'] == name);
-      
-      // Insert at Top
-      recent.insert(0, {'name': name, 'type': type});
-      
-      // Trim to 3
-      if (recent.length > 3) {
-        recent.removeRange(3, recent.length);
+    // 1. Update the List
+    if (isFavorite) {
+      newFavoriteIds.remove(machineId);
+    } else {
+      if (!newFavoriteIds.contains(machineId)) {
+        newFavoriteIds.add(machineId);
       }
     }
-    // --------------------------------------
 
-    // Emit new state immediately
+    // 2. Calculate Count from List (MATH FIX)
+    final newCount = newFavoriteIds.length; // NEVER use -- or ++
+
+    // 3. Optimistic Update
     _safeUpdateCurrentUser(user.copyWith(
-      stats: currentStats,
-      recentActivity: recent,
+      favoriteIds: newFavoriteIds,
+      favoritesCount: newCount,
     ));
 
-    // 2. Background Sync
     try {
-      final userDocRef = _firestore.collection('users').doc(user.uid);
+      if (isFavorite) {
+        await favoritesRef.doc(machineId).delete();
+      } else {
+        await favoritesRef.doc(machineId).set({'addedAt': FieldValue.serverTimestamp()});
+      }
+      
+      // Sync Count to DB
+      await userDocRef.update({'favoritesCount': newCount});
+      
+    } catch (e) {
+      debugPrint("Toggle Favorite Error: $e");
+      _safeUpdateCurrentUser(user); // Revert on error
+    }
+  }
+
+  Future<void> logProgress({
+    required String exerciseId, 
+    required String bodyPartId, 
+    required String machineName,
+    String? muscleName,
+    String? machineId, // Added parameter
+  }) async {
+    final current = _currentUser;
+    if (current == null) return;
+
+    final cleanMachine = _sanitize(machineName);
+    final cleanMuscle = muscleName != null ? _sanitize(muscleName) : null;
+
+    // A. UNIQUE TRACKING
+    final exploredMachines = Set<String>.from(current.stats['explored_machine_names'] ?? []);
+    final studiedMuscles = Set<String>.from(current.stats['studied_muscle_names'] ?? []);
+    final learnedExercises = Set<String>.from(current.stats['exercises_learned'] ?? []);
+
+    exploredMachines.add(cleanMachine);
+    learnedExercises.add(exerciseId);
+    if (cleanMuscle != null) studiedMuscles.add(cleanMuscle);
+
+    // B. SCORES
+    final muscleScores = Map<String, dynamic>.from(current.stats['muscle_scores'] ?? {});
+    if (cleanMuscle != null) {
+      muscleScores[cleanMuscle] = (muscleScores[cleanMuscle] ?? 0) + 1;
+    }
+
+    // C. HISTORY
+    final recent = List<Map<String, String>>.from(current.recentActivity);
+    recent.removeWhere((item) => item['name'] == cleanMachine);
+    recent.insert(0, {
+      'id': machineId ?? exerciseId, // Save ID for navigation
+      'name': cleanMachine,
+      'type': 'Machine',
+      'date': DateTime.now().toIso8601String(),
+    });
+    if (recent.length > 3) recent.removeLast();
+
+    final updatedStats = {
+      'explored_machine_names': exploredMachines.toList(),
+      'studied_muscle_names': studiedMuscles.toList(),
+      'exercises_learned': learnedExercises.toList(),
+      'muscle_scores': muscleScores,
+      'total_workouts': (current.stats['total_workouts'] ?? 0) + 1,
+    };
+
+    _safeUpdateCurrentUser(current.copyWith(stats: updatedStats, recentActivity: recent));
+
+    // D. FIRESTORE SAVE
+    final progressRef = _firestore.collection('progress').doc();
+    final progressEntry = ProgressModel(
+      userId: current.uid,
+      exerciseId: exerciseId,
+      completedAt: DateTime.now(),
+      bodyPartId: bodyPartId,
+    );
+
+    try {
+      await progressRef.set(progressEntry.toMap());
+      final statsRef = _firestore.collection('users').doc(current.uid).collection('stats').doc('summary');
+      
       final updates = <String, dynamic>{
-        'lastActive': FieldValue.serverTimestamp(),
-        'recent_activity': recent, // Overwrite with new list
+        'explored_machine_names': FieldValue.arrayUnion([cleanMachine]),
+        'exercises_learned': FieldValue.arrayUnion([exerciseId]),
+        'total_workouts': FieldValue.increment(1),
+        'last_visit_date': FieldValue.serverTimestamp(),
       };
 
-      if (machineName != null) {
-        updates['stats.explored_machine_names'] = FieldValue.arrayUnion([machineName]);
-      }
-      if (exerciseName != null) {
-        updates['stats.learned_exercise_names'] = FieldValue.arrayUnion([exerciseName]);
-      }
-      if (muscleName != null) {
-        updates['stats.muscle_scores.$muscleName'] = FieldValue.increment(1);
+      String? targetMuscleName = cleanMuscle;
+      if (targetMuscleName == null) {
+         final exerciseDoc = await _firestore.collection('exercises').doc(exerciseId).get();
+         if (exerciseDoc.exists) {
+           final mId = exerciseDoc.data()?['muscleId'];
+           if (mId != null) {
+             final mDoc = await _firestore.collection('muscles').doc(mId).get();
+             final mName = mDoc.data()?['name'];
+             if (mName is String) targetMuscleName = _sanitize(mName);
+             else if (mName is Map) targetMuscleName = _sanitize(mName['en']);
+           }
+         }
       }
 
-      await userDocRef.update(updates);
+      if (targetMuscleName != null) {
+        updates['muscle_scores.$targetMuscleName'] = FieldValue.increment(1);
+        updates['studied_muscle_names'] = FieldValue.arrayUnion([targetMuscleName]);
+      }
+
+      await statsRef.set(updates, SetOptions(merge: true));
+      await _firestore.collection('users').doc(current.uid).update({'recent_activity': recent});
+
     } catch (e) {
-      debugPrint("LogProgress Sync Error: $e");
-      // Revert optimistic update? 
-      // For now, we assume eventual consistency or next fetch will fix it.
-      // Ideally, we might want to reload from server on error.
+      debugPrint("Log Error: $e");
     }
   }
-  
-  Future<void> updateUserProfile({
-    String? name,
-    String? email,
-    String? photoURL,
-    String? username,
-    int? weight,
-    int? height,
-    int? age,
-  }) async {
-    final user = currentUser.value;
+
+  Future<void> updateUserProfile({String? name, String? email, String? photoURL, String? username, int? weight, int? height, int? age}) async {
+    final user = _currentUser;
     if (user == null) return;
 
-    // Optimistic Update
-    _safeUpdateCurrentUser(user.copyWith(
-      name: name ?? user.name,
-      email: email ?? user.email,
-      photoURL: photoURL ?? user.photoURL,
-      username: username ?? user.username,
-      weight: weight ?? user.weight,
-      height: height ?? user.height,
-      age: age ?? user.age,
-    ));
+    _safeUpdateCurrentUser(user.copyWith(name: name, email: email, photoURL: photoURL, username: username, weight: weight, height: height, age: age));
 
-    // Firestore Update
     try {
       final updates = <String, dynamic>{};
       if (name != null) updates['name'] = name;
@@ -335,23 +340,13 @@ class UserSessionService with WidgetsBindingObserver {
       if (height != null) updates['height'] = height;
       if (age != null) updates['age'] = age;
 
-      if (updates.isNotEmpty) {
-        await _firestore.collection('users').doc(user.uid).update(updates);
-      }
-      
-      // Also update Auth if needed (e.g. displayName/photoURL)
-      if (name != null) await _auth.currentUser?.updateDisplayName(name);
-      if (photoURL != null) await _auth.currentUser?.updatePhotoURL(photoURL);
-      
-    } catch (e) {
-      debugPrint("Update Profile Error: $e");
-      // Revert optimistic update if needed, or just log error
-    }
+      if (updates.isNotEmpty) await _firestore.collection('users').doc(user.uid).update(updates);
+    } catch (e) { debugPrint("Update Error: $e"); }
   }
 
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _authSubscription?.cancel();
-    currentUser.dispose();
+    _userSubject.close();
   }
 }

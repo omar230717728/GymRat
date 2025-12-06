@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/models/exercise_model.dart';
+import 'package:flutter_application_1/core/models/machine_model.dart';
+import 'package:flutter_application_1/feature/presentation/pages/details_screen/machine_detail.dart';
+import 'package:flutter_application_1/core/repositories/gym_repository.dart';
+import 'package:flutter_application_1/core/di/injection_container.dart' as di;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/feature/cubit/exercise_list_cubit.dart';
-import 'package:flutter_application_1/feature/cubit/language_cubit.dart';
-import 'package:flutter_application_1/core/shared/machine_grid.dart';
-
+import 'package:flutter_application_1/feature/presentation/widgets/smart_image.dart'; // <--- IMPORT
 
 class ExerciseListScreen extends StatefulWidget {
   final String bodyPartId;
   final String muscleId;
-  final String machineId;
-  final Map<String, String> machineName;
+  final String muscleName;
 
   const ExerciseListScreen({
     super.key,
     required this.bodyPartId,
     required this.muscleId,
-    required this.machineId,
-    required this.machineName,
+    required this.muscleName,
   });
 
   @override
@@ -25,35 +26,99 @@ class ExerciseListScreen extends StatefulWidget {
 
 class _ExerciseListScreenState extends State<ExerciseListScreen> {
   @override
-  void initState() {
-    super.initState();
-    context.read<ExerciseListCubit>().loadExercises(
-        widget.bodyPartId, widget.muscleId, widget.machineId);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final languageCode = context.select((LanguageCubit cubit) => cubit.state.locale.languageCode);
-    final title = widget.machineName[languageCode] ?? widget.machineName['en'] ?? 'Exercises';
+    return BlocProvider(
+      create: (context) => ExerciseListCubit(
+        gymRepository: di.sl<GymRepository>(),
+      )..loadExercises(widget.muscleId),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.muscleName),
+        ),
+        body: BlocBuilder<ExerciseListCubit, ExerciseListState>(
+          builder: (context, state) {
+            if (state is ExerciseListLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is ExerciseListError) {
+              return Center(child: Text('Error: ${state.message}'));
+            } else if (state is ExerciseListLoaded) {
+              if (state.exercises.isEmpty) {
+                return const Center(child: Text('No exercises found'));
+              }
+              return GridView.builder(
+                padding: const EdgeInsets.all(16.0),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.85,
+                  crossAxisSpacing: 16.0,
+                  mainAxisSpacing: 16.0,
+                ),
+                itemCount: state.exercises.length,
+                itemBuilder: (context, index) {
+                  final exercise = state.exercises[index];
+                  // Use exercise.imageUrl directly as per new model
+                  final imageUrl = exercise.imageUrl;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: BlocBuilder<ExerciseListCubit, ExerciseListState>(
-        builder: (context, state) {
-          if (state is ExerciseListLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is ExerciseListLoaded) {
-            if (state.exercises.isEmpty) {
-              return const Center(child: Text('No exercises found'));
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => MachineDetailScreen(
+                            exercise: exercise,
+                            bodyPartId: widget.bodyPartId,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[900],
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.3),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                                child: SmartImage(
+                                  imageUrl: imageUrl, 
+                                  fit: BoxFit.cover,
+                                ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Text(
+                              exercise.name,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
             }
-            return buildMachinesGrid(context, state.exercises);
-          } else if (state is ExerciseListError) {
-            return Center(child: Text('Error: ${state.message}'));
-          }
-          return const Center(child: Text('Select a machine'));
-        },
+            return const Center(child: CircularProgressIndicator());
+          },
+        ),
       ),
     );
   }

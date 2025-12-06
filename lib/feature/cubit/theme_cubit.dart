@@ -10,7 +10,7 @@ class ThemeState {
 
 /// Cubit: manages switching themes
 class ThemeCubit extends Cubit<ThemeState> {
-  ThemeCubit() : super(ThemeState(AppTheme.green)); // default
+  ThemeCubit() : super(ThemeState(AppTheme.blue)); // default
 
   void changeTheme(AppTheme theme) {
     emit(ThemeState(theme));

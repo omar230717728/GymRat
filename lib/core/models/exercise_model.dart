@@ -2,46 +2,44 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ExerciseModel {
   final String id;
-  final Map<String, String> name;
-  final String imageUrl;
+  final String name;
+  final String muscleId;
+  final String machineId;
   final String videoUrl;
-  final List<String> steps;
-  final List<String> commonMistakes;
+  final String description;
+  final String imageUrl;
   final List<String> targetMuscles;
-  final int order;
 
   ExerciseModel({
     required this.id,
     required this.name,
-    required this.imageUrl,
+    required this.muscleId,
+    required this.machineId,
     required this.videoUrl,
-    required this.steps,
-    required this.commonMistakes,
-    required this.targetMuscles,
-    required this.order,
+    required this.description,
+    this.imageUrl = '',
+    this.targetMuscles = const [],
   });
 
   factory ExerciseModel.fromSnapshot(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
 
-    Map<String, String> nameMap;
+    String nameVal = 'Unknown';
     if (data['name'] is String) {
-      nameMap = {'en': data['name']};
+      nameVal = data['name'];
     } else if (data['name'] is Map) {
-      nameMap = Map<String, String>.from(data['name']);
-    } else {
-      nameMap = {'en': 'Unknown'};
+      nameVal = data['name']['en'] ?? 'Unknown';
     }
 
     return ExerciseModel(
       id: doc.id,
-      name: nameMap,
-      imageUrl: data['imageUrl'] ?? '',
+      name: nameVal,
+      muscleId: data['muscleId'] ?? '',
+      machineId: data['machineId'] ?? '',
       videoUrl: data['videoUrl'] ?? '',
-      steps: List<String>.from(data['steps'] ?? []),
-      commonMistakes: List<String>.from(data['commonMistakes'] ?? []),
+      description: data['description'] ?? '',
+      imageUrl: data['imageUrl'] ?? data['image'] ?? '',
       targetMuscles: List<String>.from(data['targetMuscles'] ?? []),
-      order: data['order'] ?? 0,
     );
   }
 }

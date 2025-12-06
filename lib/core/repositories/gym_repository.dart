@@ -3,121 +3,111 @@ import 'package:flutter_application_1/core/models/body_part_model.dart';
 import 'package:flutter_application_1/core/models/exercise_model.dart';
 import 'package:flutter_application_1/core/models/machine_model.dart';
 import 'package:flutter_application_1/core/models/muscle_model.dart';
-import 'package:flutter_application_1/core/services/firestore_service.dart';
 
 class GymRepository {
-  final FirestoreService _firestoreService;
+  final FirebaseFirestore _firestore;
 
-  GymRepository({FirestoreService? firestoreService})
-      : _firestoreService = firestoreService ?? FirestoreService();
+  GymRepository({FirebaseFirestore? firestore})
+      : _firestore = firestore ?? FirebaseFirestore.instance;
 
   // Fetch Body Parts
   Future<List<BodyPartModel>> fetchBodyParts() async {
     try {
-      final docs = await _firestoreService.getCollection(
-        path: 'bodyParts',
-        orderByField: 'order',
-      );
-      return docs.where((doc) {
-        if (doc.data() is! Map<String, dynamic>) {
-          print('Warning: Skipped invalid body part document: ${doc.id}');
-          return false;
-        }
-        return true;
-      }).map((doc) => BodyPartModel.fromSnapshot(doc)).toList();
+      final snapshot = await _firestore.collection('bodyParts').get();
+      return snapshot.docs.map((doc) => BodyPartModel.fromSnapshot(doc)).toList();
     } catch (e) {
       throw Exception('Failed to fetch body parts: $e');
     }
   }
 
-  // Fetch Muscles for a Body Part
+  // Fetch Muscles by BodyPartId
   Future<List<MuscleModel>> fetchMuscles(String bodyPartId) async {
     try {
-      final docs = await _firestoreService.getCollection(
-        path: 'bodyParts/$bodyPartId/muscles',
-        orderByField: 'order',
-      );
-      return docs.where((doc) {
-        if (doc.data() is! Map<String, dynamic>) {
-          print('Warning: Skipped invalid muscle document: ${doc.id}');
-          return false;
-        }
-        return true;
-      }).map((doc) => MuscleModel.fromSnapshot(doc)).toList();
+      final snapshot = await _firestore
+          .collection('muscles')
+          .where('bodyPartId', isEqualTo: bodyPartId)
+          .get();
+      return snapshot.docs.map((doc) => MuscleModel.fromSnapshot(doc)).toList();
     } catch (e) {
       throw Exception('Failed to fetch muscles: $e');
     }
   }
 
-  // Fetch Machines for a Muscle
-  Future<List<MachineModel>> fetchMachines(
-      String bodyPartId, String muscleId) async {
+  // Fetch Exercises by MuscleId
+  Future<List<ExerciseModel>> fetchExercises(String muscleId) async {
     try {
-      final docs = await _firestoreService.getCollection(
-        path: 'bodyParts/$bodyPartId/muscles/$muscleId/machines',
-        orderByField: 'order',
-      );
-      return docs.where((doc) {
-        if (doc.data() is! Map<String, dynamic>) {
-          print('Warning: Skipped invalid machine document: ${doc.id}');
-          return false;
-        }
-        return true;
-      }).map((doc) => MachineModel.fromSnapshot(doc)).toList();
-    } catch (e) {
-      throw Exception('Failed to fetch machines: $e');
-    }
-  }
-
-  // Fetch Exercises for a Machine
-  Future<List<ExerciseModel>> fetchExercises(
-      String bodyPartId, String muscleId, String machineId) async {
-    try {
-      final docs = await _firestoreService.getCollection(
-        path:
-            'bodyParts/$bodyPartId/muscles/$muscleId/machines/$machineId/exercises',
-        orderByField: 'order',
-      );
-      return docs.where((doc) {
-        if (doc.data() is! Map<String, dynamic>) {
-          print('Warning: Skipped invalid exercise document: ${doc.id}');
-          return false;
-        }
-        return true;
-      }).map((doc) => ExerciseModel.fromSnapshot(doc)).toList();
+      final snapshot = await _firestore
+          .collection('exercises')
+          .where('muscleId', isEqualTo: muscleId)
+          .get();
+      return snapshot.docs.map((doc) => ExerciseModel.fromSnapshot(doc)).toList();
     } catch (e) {
       throw Exception('Failed to fetch exercises: $e');
     }
   }
 
-  // Fetch Exercise Details (Optional if we pass the whole model, but good to have)
-  Future<ExerciseModel> fetchExerciseDetails(
-      String bodyPartId, String muscleId, String machineId, String exerciseId) async {
+  // Alias for fetchExercises to satisfy strict requirement
+  Future<List<ExerciseModel>> getExercisesByMuscle(String muscleId) async {
+    return fetchExercises(muscleId);
+  }
+
+  // Fetch Exercises by MachineId
+  Future<List<ExerciseModel>> fetchExercisesByMachineId(String machineId) async {
     try {
-      final doc = await _firestoreService.getDocument(
-        path:
-            'bodyParts/$bodyPartId/muscles/$muscleId/machines/$machineId/exercises/$exerciseId',
-      );
-      return ExerciseModel.fromSnapshot(doc);
+      final snapshot = await _firestore
+          .collection('exercises')
+          .where('machineId', isEqualTo: machineId)
+          .get();
+      return snapshot.docs.map((doc) => ExerciseModel.fromSnapshot(doc)).toList();
     } catch (e) {
-      throw Exception('Failed to fetch exercise details: $e');
+      throw Exception('Failed to fetch exercises by machine: $e');
     }
   }
 
-  // Fetch All Exercises (for Search)
+  // Fetch Machine by MachineId
+  Future<MachineModel?> fetchMachine(String machineId) async {
+    try {
+      final doc = await _firestore.collection('machines').doc(machineId).get();
+      if (doc.exists) {
+        return MachineModel.fromSnapshot(doc);
+      }
+      return null;
+    } catch (e) {
+      throw Exception('Failed to fetch machine: $e');
+    }
+  }
+
+  // Fetch All Exercises
   Future<List<ExerciseModel>> getAllExercises() async {
     try {
-      // Use collectionGroup to query all 'exercises' collections
-      final querySnapshot = await FirebaseFirestore.instance.collectionGroup('exercises').get();
-      return querySnapshot.docs.where((doc) {
-        if (doc.data() is! Map<String, dynamic>) {
-          print('Warning: Skipped invalid exercise document in getAllExercises: ${doc.id}');
-          return false;
-        }
-        return true;
-      }).map((doc) => ExerciseModel.fromSnapshot(doc)).toList();
+      final snapshot = await _firestore.collection('exercises').get();
+      return snapshot.docs.map((doc) => ExerciseModel.fromSnapshot(doc)).toList();
     } catch (e) {
       throw Exception('Failed to fetch all exercises: $e');
     }
+  }
+
+  // Fetch Machines by IDs (Chunked)
+  Future<List<MachineModel>> getMachinesByIds(List<String> ids) async {
+    if (ids.isEmpty) return [];
+    
+    final List<MachineModel> machines = [];
+    // Firestore limits 'whereIn' to 10 values (or 30 in some versions, sticking to 10 for safety)
+    final chunkSize = 10;
+    
+    for (var i = 0; i < ids.length; i += chunkSize) {
+      final chunk = ids.sublist(i, i + chunkSize > ids.length ? ids.length : i + chunkSize);
+      try {
+        final snapshot = await _firestore
+            .collection('machines')
+            .where(FieldPath.documentId, whereIn: chunk)
+            .get();
+        machines.addAll(snapshot.docs.map((doc) => MachineModel.fromSnapshot(doc)));
+      } catch (e) {
+        // Log error but continue fetching other chunks
+        print('Error fetching machine chunk: $e');
+      }
+    }
+    return machines;
   }
 }

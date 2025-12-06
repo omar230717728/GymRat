@@ -2,37 +2,41 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MachineModel {
   final String id;
-  final Map<String, String> name;
-  final String imageUrl;
-  final Map<String, String> description;
-  final int order;
+  final String name;
+  final String image;
+  final String equipmentType;
+  final List<String> bodyParts;
+  final List<String> primaryMuscles;
+  final List<String> secondaryMuscles;
 
   MachineModel({
     required this.id,
     required this.name,
-    required this.imageUrl,
-    required this.description,
-    required this.order,
+    required this.image,
+    required this.equipmentType,
+    required this.bodyParts,
+    required this.primaryMuscles,
+    required this.secondaryMuscles,
   });
 
   factory MachineModel.fromSnapshot(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
 
-    Map<String, String> nameMap;
+    String nameVal = 'Unknown';
     if (data['name'] is String) {
-      nameMap = {'en': data['name']};
+      nameVal = data['name'];
     } else if (data['name'] is Map) {
-      nameMap = Map<String, String>.from(data['name']);
-    } else {
-      nameMap = {'en': 'Unknown'};
+      nameVal = data['name']['en'] ?? 'Unknown';
     }
 
     return MachineModel(
       id: doc.id,
-      name: nameMap,
-      imageUrl: data['imageUrl'] ?? '',
-      description: Map<String, String>.from(data['description'] ?? {}),
-      order: data['order'] ?? 0,
+      name: nameVal,
+      image: data['image'] ?? data['imageUrl'] ?? '',
+      equipmentType: data['equipmentType'] ?? '',
+      bodyParts: List<String>.from(data['bodyParts'] ?? []),
+      primaryMuscles: List<String>.from(data['primaryMuscles'] ?? []),
+      secondaryMuscles: List<String>.from(data['secondaryMuscles'] ?? []),
     );
   }
 }

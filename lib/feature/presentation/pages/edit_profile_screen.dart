@@ -29,7 +29,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
-    final user = UserSessionService.instance.currentUser.value;
+    final user = UserSessionService.instance.currentUser;
     _nameController = TextEditingController(text: user?.name ?? '');
     _usernameController = TextEditingController(text: user?.username ?? '');
     _emailController = TextEditingController(text: user?.email ?? '');
@@ -54,36 +54,40 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      setState(() => _isUploadingImage = true);
+      setState(() {
+        _isUploadingImage = true;
+      });
+
       try {
-        final file = File(pickedFile.path);
-        final userId = FirebaseAuth.instance.currentUser?.uid;
-        if (userId == null) return;
+        final user = FirebaseAuth.instance.currentUser;
+        if (user == null) return;
 
-        final ref = FirebaseStorage.instance
+        final storageRef = FirebaseStorage.instance
             .ref()
-            .child('user_avatars')
-            .child('$userId.jpg');
+            .child('user_profile_images')
+            .child('${user.uid}.jpg');
 
-        await ref.putFile(file);
-        final url = await ref.getDownloadURL();
+        await storageRef.putFile(File(pickedFile.path));
+        final downloadUrl = await storageRef.getDownloadURL();
 
-        await UserSessionService.instance.updateUserProfile(photoURL: url);
-
+        await UserSessionService.instance.updateUserProfile(photoURL: downloadUrl);
+        
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Profile picture updated')),
+            const SnackBar(content: Text('Profile image updated successfully')),
           );
         }
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error uploading image: $e')),
+            SnackBar(content: Text('Failed to upload image: $e')),
           );
         }
       } finally {
         if (mounted) {
-          setState(() => _isUploadingImage = false);
+          setState(() {
+            _isUploadingImage = false;
+          });
         }
       }
     }
@@ -92,35 +96,36 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Future<void> _saveProfile() async {
     if (!_formKey.currentState!.validate()) return;
 
-    setState(() => _isLoading = true);
+    setState(() {
+      _isLoading = true;
+    });
 
     try {
       await UserSessionService.instance.updateUserProfile(
         name: _nameController.text.trim(),
         username: _usernameController.text.trim(),
-        // Email is usually not editable directly here without re-auth, 
-        // but we'll pass it if changed (UserSessionService handles it)
-        // For now, we kept it read-only in UI logic below, but controller has text.
         weight: int.tryParse(_weightController.text.trim()),
         height: int.tryParse(_heightController.text.trim()),
         age: int.tryParse(_ageController.text.trim()),
       );
 
       if (mounted) {
-        Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Profile updated successfully')),
         );
+        Navigator.pop(context);
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error updating profile: $e')),
+          SnackBar(content: Text('Failed to update profile: $e')),
         );
       }
     } finally {
       if (mounted) {
-        setState(() => _isLoading = false);
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }
@@ -143,9 +148,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
         centerTitle: true,
       ),
-      body: ValueListenableBuilder<UserModel?>(
-        valueListenable: UserSessionService.instance.currentUser,
-        builder: (context, user, _) {
+      body: StreamBuilder<UserModel?>(
+        stream: UserSessionService.instance.userStream,
+        initialData: UserSessionService.instance.currentUser,
+        builder: (context, snapshot) {
+          final user = snapshot.data;
           if (user == null) return const Center(child: CircularProgressIndicator());
 
           return SingleChildScrollView(
