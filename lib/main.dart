@@ -11,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'core/di/injection_container.dart' as di;
 import 'package:flutter_application_1/core/services/user_session_service.dart';
+import 'package:flutter_application_1/feature/presentation/pages/bootstrap_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
                   Locale('ar'), // Arabic
                   Locale('ru'), // Russian
                 ],
-                home: const MyHomePage(),
+                home: const BootstrapScreen(),
               );
             },
           );

@@ -6,6 +6,7 @@ class ExerciseCard extends StatelessWidget {
   final String? subtitle;
   final String? imageUrl;
   final VoidCallback? onTap;
+  final double? width;
 
   const ExerciseCard({
     super.key,
@@ -13,12 +14,13 @@ class ExerciseCard extends StatelessWidget {
     this.subtitle,
     this.imageUrl,
     this.onTap,
+    this.width = 140,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 140,
+      width: width,
       margin: const EdgeInsets.only(bottom: 4),
       decoration: BoxDecoration(
         color: const Color(0xFF1C1C1E),

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/models/user_model.dart';
+import 'package:flutter_application_1/core/models/machine_model.dart'; // <--- IMPORT
 import 'package:flutter_application_1/core/services/user_session_service.dart';
 import 'package:flutter_application_1/core/repositories/gym_repository.dart';
 import 'package:flutter_application_1/feature/presentation/pages/details_screen/machine_detail.dart'; // Checked singular 'detail'
 import 'package:flutter_application_1/feature/presentation/widgets/exercise_card.dart';
 import 'package:flutter_application_1/core/di/injection_container.dart' as di;
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_application_1/feature/presentation/widgets/keep_alive_wrapper.dart'; // <--- IMPORT
+
+import 'package:lottie/lottie.dart'; // <--- IMPORT
 
 class ProgressPage extends StatefulWidget {
   const ProgressPage({super.key});
@@ -15,10 +19,26 @@ class ProgressPage extends StatefulWidget {
 }
 
 class _ProgressPageState extends State<ProgressPage> {
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
-    UserSessionService.instance.refreshUser();
+    _initPage();
+  }
+
+  Future<void> _initPage() async {
+    // 1. Refresh Data
+    await UserSessionService.instance.refreshUser();
+
+    // 2. Artificial Delay to smooth transition (mask rendering lag)
+    await Future.delayed(const Duration(milliseconds: 800));
+
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   void _navigateToDetails(BuildContext context, String? machineId) {
@@ -38,6 +58,20 @@ class _ProgressPageState extends State<ProgressPage> {
     const Color bgBlack = Colors.black;
     const Color cardDark = Color(0xFF1C1C1E); // Lighter black for cards
     const Color accentOrange = Color(0xFFFF5722);
+
+    if (_isLoading) {
+      return Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(
+          child: Lottie.asset(
+            'assets/lottie/welcome_loading.json',
+            width: 150,
+            height: 150,
+            fit: BoxFit.contain,
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       backgroundColor: bgBlack,
@@ -290,19 +324,19 @@ class _ProgressPageState extends State<ProgressPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildStatItem('$exercisesLearned', 'Exercises'),
+          _buildStatItem('$exercisesLearned', 'Exercises\nLearned'),
           Container(
             width: 1,
             height: 40,
             color: Colors.white10,
           ), // Subtle Divider
-          _buildStatItem('${user.exploredMachinesCount}', 'Machines'),
+          _buildStatItem('${user.exploredMachinesCount}', 'Machines\nExplored'),
           Container(
             width: 1,
             height: 40,
             color: Colors.white10,
           ), // Subtle Divider
-          _buildStatItem('${user.studiedMusclesCount}', 'Muscles'),
+          _buildStatItem('${user.studiedMusclesCount}', 'Muscles\nStudied'),
         ],
       ),
     );
@@ -314,8 +348,8 @@ class _ProgressPageState extends State<ProgressPage> {
         Text(
           value,
           style: const TextStyle(
-            color: Colors.white,
-            fontSize: 28,
+            color: Color.fromARGB(255, 254, 252, 252),
+            fontSize: 35,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -323,10 +357,10 @@ class _ProgressPageState extends State<ProgressPage> {
         Text(
           label.toUpperCase(),
           style: TextStyle(
-            color: Colors.white.withOpacity(0.5),
+            color: Colors.white,
             fontSize: 10,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 0.5,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1,
           ),
         ),
       ],
@@ -346,6 +380,7 @@ class _ProgressPageState extends State<ProgressPage> {
           return ExerciseCard(
             title: activity['name'] ?? 'Unknown',
             subtitle: activity['type'] ?? 'Activity',
+            imageUrl: activity['image'],
             onTap: () => _navigateToDetails(context, activity['id']),
           );
         },
@@ -354,102 +389,115 @@ class _ProgressPageState extends State<ProgressPage> {
   }
 
   Widget _buildFavoritesSection(UserModel user) {
-    return SizedBox(
-      height: 190,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
-        itemCount: user.favoriteIds.length + 1,
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            // "View All" / Total Card
-            return Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: Container(
-                width: 140,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.redAccent.withOpacity(0.8),
-                      Colors.orangeAccent.withOpacity(0.8),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: InkWell(
-                  onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Favorites Page")),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '${user.favoritesCount}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      const Text(
-                        'FAVORITES',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          }
-
-          final machineId = user.favoriteIds[index - 1];
-          return Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: FutureBuilder(
-              future: di.sl<GymRepository>().fetchMachine(machineId),
-              builder: (context, snapshot) {
-                if (snapshot.hasData && snapshot.data != null) {
-                  final machine = snapshot.data!;
-                  // Inside _buildFavoritesSection -> FutureBuilder:
-
-                  if (snapshot.hasData && snapshot.data != null) {
-                    final machine = snapshot.data!;
-                    return ExerciseCard(
-                      title: machine.name,
-                      subtitle: machine.primaryMuscles.isNotEmpty
-                          ? machine.primaryMuscles.first
-                          : "Machine",
-                      imageUrl: machine
-                          .image, // <--- ADD THIS LINE (Assuming your model has .image)
-                      onTap: () => _navigateToDetails(context, machine.id),
-                    );
-                  }
-                }
-                // Sleek loading placeholder
-                return Container(
-                  width: 140,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF1C1C1E),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Colors.white.withOpacity(0.2),
-                    ),
-                  ),
-                );
+    return FutureBuilder<List<MachineModel>>(
+      future: di.sl<GymRepository>().getMachinesByIds(user.favoriteIds),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          // Loading Shimmer State (Horizontal List of 3 items)
+          return SizedBox(
+            height: 190,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: 4,
+              separatorBuilder: (_, __) => const SizedBox(width: 16),
+              itemBuilder: (_, index) {
+                if (index == 0) return _buildTotalFavoritesCard(user);
+                return _buildShimmerCard();
               },
             ),
           );
-        },
+        }
+
+        final machines = snapshot.data!;
+
+        return SizedBox(
+          height: 190,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            itemCount: machines.length + 1,
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: _buildTotalFavoritesCard(user),
+                );
+              }
+
+              final machine = machines[index - 1];
+              return KeepAliveWrapper(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: ExerciseCard(
+                    title: machine.name,
+                    subtitle: machine.primaryMuscles.isNotEmpty
+                        ? machine.primaryMuscles.first
+                        : "Machine",
+                    imageUrl: machine.image,
+                    onTap: () => _navigateToDetails(context, machine.id),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildTotalFavoritesCard(UserModel user) {
+    return Container(
+      width: 140,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Colors.redAccent.withOpacity(0.8),
+            Colors.orangeAccent.withOpacity(0.8),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: InkWell(
+        onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Favorites Page")),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '${user.favoritesCount}',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 4),
+            const Text(
+              'FAVORITES',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildShimmerCard() {
+    return Container(
+      width: 140,
+      decoration: BoxDecoration(
+        color: const Color(0xFF1C1C1E),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: const Center(
+        child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white10),
       ),
     );
   }
@@ -459,27 +507,7 @@ class _ProgressPageState extends State<ProgressPage> {
   // ==========================================
 
   Widget _buildSmartFocusRow(UserModel user) {
-    final stats = user.stats;
-    final Map<String, int> mergedScores = {};
-
-    // 1. Process Normal Map
-    if (stats['muscle_scores'] is Map) {
-      (stats['muscle_scores'] as Map).forEach((k, v) {
-        mergedScores[k.toString().toUpperCase()] = _toInt(v);
-      });
-    }
-
-    // 2. Process "Dot Bug" Fields
-    stats.forEach((key, value) {
-      if (key.startsWith('muscle_scores.')) {
-        final parts = key.split('.');
-        if (parts.length > 1) {
-          final muscleName = parts[1].trim().toUpperCase();
-          mergedScores[muscleName] =
-              (mergedScores[muscleName] ?? 0) + _toInt(value);
-        }
-      }
-    });
+    final mergedScores = user.calculatedMuscleScores;
 
     String primary = 'START TRAINING';
     String secondary = 'KEEP GOING';

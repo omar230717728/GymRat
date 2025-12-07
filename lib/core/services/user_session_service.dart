@@ -233,7 +233,8 @@ class UserSessionService with WidgetsBindingObserver {
     required String bodyPartId, 
     required String machineName,
     String? muscleName,
-    String? machineId, // Added parameter
+    String? machineId,
+    String? imageUrl, // Added parameter
   }) async {
     final current = _currentUser;
     if (current == null) return;
@@ -264,6 +265,7 @@ class UserSessionService with WidgetsBindingObserver {
       'name': cleanMachine,
       'type': 'Machine',
       'date': DateTime.now().toIso8601String(),
+      'image': imageUrl ?? "",
     });
     if (recent.length > 3) recent.removeLast();
 

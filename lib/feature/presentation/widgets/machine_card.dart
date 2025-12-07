@@ -20,29 +20,36 @@ class MachineCard extends StatelessWidget {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      color: const Color(0xFF1A1A1A), // Dark card background
+      clipBehavior: Clip.antiAlias, // Ensure image/gradient stays inside
+      color: const Color(0xFF1A1A1A),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
+          fit: StackFit.expand,
           children: [
-            // Image Section
-            Expanded(
-              flex: 3,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-                child: SmartImage(
-                  imageUrl: machine.image,
-                  fit: BoxFit.cover,
-                ),
-              ),
+            // Layer 1: Full Image
+            SmartImage(
+              imageUrl: machine.image,
+              fit: BoxFit.cover,
             ),
-            // Text Section
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+
+            // Layer 2: Gradient Overlay (Bottom)
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.transparent,
+                      Colors.black.withOpacity(0.9),
+                    ],
+                  ),
+                ),
                 child: Center(
                   child: _buildHighlightedText(context, machine.name, highlightTerm),
                 ),

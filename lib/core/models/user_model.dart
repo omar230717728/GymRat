@@ -48,6 +48,32 @@ class UserModel {
     return (list is List) ? list.length : 0;
   }
 
+  // Merged Muscle Scores with Dot Bug Fix
+  Map<String, int> get calculatedMuscleScores {
+    final Map<String, int> mergedScores = {};
+
+    // 1. Process Normal Map
+    if (stats['muscle_scores'] is Map) {
+      (stats['muscle_scores'] as Map).forEach((k, v) {
+        mergedScores[k.toString().toUpperCase()] = _toInt(v);
+      });
+    }
+
+    // 2. Process "Dot Bug" Fields
+    stats.forEach((key, value) {
+      if (key.startsWith('muscle_scores.')) {
+        final parts = key.split('.');
+        if (parts.length > 1) {
+          final muscleName = parts[1].trim().toUpperCase();
+          mergedScores[muscleName] =
+              (mergedScores[muscleName] ?? 0) + _toInt(value);
+        }
+      }
+    });
+
+    return mergedScores;
+  }
+
   // --- FACTORY WITH SAFE PARSING ---
   factory UserModel.fromFirestore(DocumentSnapshot doc, {Map<String, dynamic>? statsData, List<String>? favorites}) {
     final data = doc.data() as Map<String, dynamic>? ?? {};

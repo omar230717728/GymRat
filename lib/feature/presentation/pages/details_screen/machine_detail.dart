@@ -165,6 +165,7 @@ class _MachineDetailScreenState extends State<MachineDetailScreen>
         machineName: _machine?.name ?? _currentExercise?.name ?? 'Unknown Machine',
         muscleName: muscleName,
         machineId: _machine?.id ?? _currentExercise?.machineId,
+        imageUrl: _machine?.image ?? _currentExercise?.imageUrl,
       );
 
       if (mounted) {

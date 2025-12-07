@@ -64,12 +64,20 @@ class GymRepository {
     }
   }
 
+  final Map<String, MachineModel> _machineCache = {};
+
   // Fetch Machine by MachineId
   Future<MachineModel?> fetchMachine(String machineId) async {
+    if (_machineCache.containsKey(machineId)) {
+      return _machineCache[machineId];
+    }
+
     try {
       final doc = await _firestore.collection('machines').doc(machineId).get();
       if (doc.exists) {
-        return MachineModel.fromSnapshot(doc);
+        final machine = MachineModel.fromSnapshot(doc);
+        _machineCache[machineId] = machine;
+        return machine;
       }
       return null;
     } catch (e) {

@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/feature/presentation/pages/muscle_list_screen.dart';
-import 'package:flutter_application_1/feature/presentation/widgets/smart_image.dart'; // <--- IMPORT
+import 'package:flutter_application_1/feature/presentation/widgets/smart_image.dart';
+import 'package:flutter_application_1/feature/presentation/widgets/keep_alive_wrapper.dart'; // <--- IMPORT
 
+import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_application_1/core/repositories/gym_repository.dart';
 import 'package:flutter_application_1/core/models/body_part_model.dart';
@@ -88,15 +90,28 @@ class _GymPartScreenState extends State<GymPartScreen> {
                 // Header
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Text(
-                    "What do you want\nto train today?",
-                    style: TextStyle(
-                      fontFamily: 'Bebas Neue',
-                      fontSize: 32,
-                      height: 1.1,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w900,
-                      shadows: [Shadow(color: Colors.black54, blurRadius: 10)],
+                  child: RichText(
+                    text: TextSpan(
+                      style: TextStyle(
+                        fontFamily: 'Bebas Neue',
+                        fontSize: 32,
+                        height: 1.1,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w900,
+                        shadows: [Shadow(color: Colors.black54, blurRadius: 10)],
+                      ),
+                      children: [
+                        const TextSpan(text: "What do you want\nto train today "),
+                        WidgetSpan(
+                          alignment: PlaceholderAlignment.middle,
+                          child: Lottie.asset(
+                            'assets/lottie/arm.json',
+                            height: 50,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        const TextSpan(text: "?"),
+                      ],
                     ),
                   ),
                 ),
@@ -144,15 +159,17 @@ class _GymPartScreenState extends State<GymPartScreen> {
         final scale = 1.0 - (distanceFromCenter * 0.1).clamp(0.0, 0.2);
         final opacity = 1.0 - (distanceFromCenter * 0.5).clamp(0.0, 0.5);
 
-        return Transform.scale(
-          scale: scale,
-          child: Opacity(
-            opacity: opacity,
-            child: HeroCard(
-              title: bodyPart.name,
-              subtitle: "Train now", 
-              imageUrl: bodyPart.image,
-              onTap: () => _navigateToCategory(bodyPart),
+        return KeepAliveWrapper(
+          child: Transform.scale(
+            scale: scale,
+            child: Opacity(
+              opacity: opacity,
+              child: HeroCard(
+                title: bodyPart.name,
+                subtitle: "Train now", 
+                imageUrl: bodyPart.image,
+                onTap: () => _navigateToCategory(bodyPart),
+              ),
             ),
           ),
         );
