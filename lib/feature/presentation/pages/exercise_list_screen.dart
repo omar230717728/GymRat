@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/models/exercise_model.dart';
-import 'package:flutter_application_1/core/models/machine_model.dart';
 import 'package:flutter_application_1/feature/presentation/pages/details_screen/machine_detail.dart';
 import 'package:flutter_application_1/core/repositories/gym_repository.dart';
 import 'package:flutter_application_1/core/di/injection_container.dart' as di;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/feature/cubit/exercise_list_cubit.dart';
-import 'package:flutter_application_1/feature/presentation/widgets/smart_image.dart'; // <--- IMPORT
+import 'package:flutter_application_1/feature/presentation/widgets/exercise_card.dart'; // <--- IMPORT
 
 class ExerciseListScreen extends StatefulWidget {
   final String bodyPartId;
@@ -59,7 +57,11 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
                   // Use exercise.imageUrl directly as per new model
                   final imageUrl = exercise.imageUrl;
 
-                  return GestureDetector(
+                  return ExerciseCard(
+                    title: exercise.name,
+                    subtitle: exercise.targetMuscles.isNotEmpty ? exercise.targetMuscles.first : "Exercise",
+                    imageUrl: exercise.imageUrl,
+                    width: double.infinity,
                     onTap: () {
                       Navigator.push(
                         context,
@@ -71,47 +73,6 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
                         ),
                       );
                     },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[900],
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.3),
-                            blurRadius: 8,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Expanded(
-                            child: ClipRRect(
-                              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-                                child: SmartImage(
-                                  imageUrl: imageUrl, 
-                                  fit: BoxFit.cover,
-                                ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Text(
-                              exercise.name,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                   );
                 },
               );

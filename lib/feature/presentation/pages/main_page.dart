@@ -18,6 +18,7 @@ import 'package:flutter_application_1/feature/cubit/language_cubit.dart';
 import 'package:flutter_application_1/core/services/user_session_service.dart';
 import 'package:flutter_application_1/core/models/user_model.dart';
 import 'package:flutter_application_1/core/auth/login_screen.dart';
+import 'package:flutter_application_1/feature/presentation/pages/onboarding_screen.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -69,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).colorScheme.surface,
       extendBodyBehindAppBar: true,
       extendBody: true,
@@ -150,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             await FirebaseAuth.instance.signOut();
                             if (context.mounted) {
                                Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
-                                MaterialPageRoute(builder: (_) => const LoginScreen()),
+                                MaterialPageRoute(builder: (_) => const OnboardingScreen()),
                                 (route) => false,
                               );
                             }

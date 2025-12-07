@@ -5,7 +5,7 @@ import 'package:flutter_application_1/core/repositories/gym_repository.dart';
 import 'package:flutter_application_1/core/services/user_session_service.dart';
 import 'package:flutter_application_1/feature/presentation/pages/details_screen/machine_detail.dart'; // Ensure correct path
 import 'package:flutter_application_1/core/models/user_model.dart';
-import 'package:flutter_application_1/feature/presentation/widgets/machine_card.dart';
+import 'package:flutter_application_1/feature/presentation/widgets/exercise_card.dart';
 
 class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
@@ -101,9 +101,13 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 itemCount: machines.length,
                 itemBuilder: (context, index) {
                   final machine = machines[index];
-                  return MachineCard(
-                    machine: machine,
-                    // FIX 1: Added Navigation Logic
+                  return ExerciseCard(
+                    title: machine.name,
+                    subtitle: machine.primaryMuscles.isNotEmpty
+                        ? machine.primaryMuscles.first
+                        : "Machine",
+                    imageUrl: machine.image,
+                    width: double.infinity,
                     onTap: () {
                       Navigator.push(
                         context,

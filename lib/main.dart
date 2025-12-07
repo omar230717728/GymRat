@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/themes/app_theme.dart';
 import 'package:flutter_application_1/feature/cubit/language_cubit.dart';
 import 'package:flutter_application_1/feature/cubit/theme_cubit.dart';
-import 'package:flutter_application_1/feature/presentation/pages/main_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';

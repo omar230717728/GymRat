@@ -10,7 +10,12 @@ class SmartImage extends StatefulWidget {
     super.key,
     required this.imageUrl,
     this.fit = BoxFit.cover,
+    this.width,
+    this.height,
   });
+
+  final double? width;
+  final double? height;
 
   @override
   State<SmartImage> createState() => _SmartImageState();
@@ -74,7 +79,7 @@ class _SmartImageState extends State<SmartImage> with AutomaticKeepAliveClientMi
       builder: (context, snapshot) {
         // 1. Loading State
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(color: const Color(0xFF1C1C1E)); 
+          return Container(width: widget.width, height: widget.height, color: const Color(0xFF1C1C1E)); 
         }
 
         // 2. Error/Null State
@@ -86,7 +91,9 @@ class _SmartImageState extends State<SmartImage> with AutomaticKeepAliveClientMi
         return CachedNetworkImage(
           imageUrl: snapshot.data!,
           fit: widget.fit,
-          placeholder: (context, url) => Container(color: const Color(0xFF1C1C1E)),
+          width: widget.width,
+          height: widget.height,
+          placeholder: (context, url) => Container(width: widget.width, height: widget.height, color: const Color(0xFF1C1C1E)),
           errorWidget: (context, url, error) => _buildPlaceholder(),
           fadeInDuration: const Duration(milliseconds: 200),
         );
@@ -96,6 +103,8 @@ class _SmartImageState extends State<SmartImage> with AutomaticKeepAliveClientMi
 
   Widget _buildPlaceholder() {
     return Container(
+      width: widget.width,
+      height: widget.height,
       color: const Color(0xFF1C1C1E),
       child: Center(
         child: Icon(

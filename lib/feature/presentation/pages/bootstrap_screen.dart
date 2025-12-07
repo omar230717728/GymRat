@@ -5,6 +5,9 @@ import 'package:flutter_application_1/core/services/user_session_service.dart';
 import 'package:flutter_application_1/core/auth/login_screen.dart';
 import 'package:flutter_application_1/feature/presentation/pages/main_page.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_application_1/feature/presentation/pages/onboarding_screen.dart';
+
 class BootstrapScreen extends StatefulWidget {
   const BootstrapScreen({super.key});
 
@@ -32,9 +35,9 @@ class _BootstrapScreenState extends State<BootstrapScreen> {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
-      // Not logged in -> Go to Login
+      // Not logged in -> Go to Onboarding (Default Landing)
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const LoginScreen()),
+        MaterialPageRoute(builder: (_) => const OnboardingScreen()),
       );
     } else {
       // Logged in -> Ensure data is fresh -> Go to Home

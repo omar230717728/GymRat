@@ -88,12 +88,7 @@ class _ProgressPageState extends State<ProgressPage> {
         ),
         centerTitle: false, // Modern left-align or keep center if you prefer
         elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings_outlined, color: Colors.white),
-            onPressed: () {}, // Placeholder for settings
-          ),
-        ],
+
       ),
       body: StreamBuilder<UserModel?>(
         stream: UserSessionService.instance.userStream,
@@ -111,7 +106,7 @@ class _ProgressPageState extends State<ProgressPage> {
             padding: const EdgeInsets.only(
               left: 16,
               right: 16,
-              top: 16,
+              top: 9,
               bottom: 130,
             ),
             child: Column(
@@ -119,7 +114,7 @@ class _ProgressPageState extends State<ProgressPage> {
               children: [
                 // --- 1. HERO SECTION (Streak & Heatmap) ---
                 SizedBox(
-                  height: 160, // Fixed height for alignment
+                  height: 140, // Fixed height for alignment
                   child: Row(
                     children: [
                       // Left Column: Streak & Session
@@ -129,16 +124,16 @@ class _ProgressPageState extends State<ProgressPage> {
                           children: [
                             Expanded(
                               child: _buildHeroCard(
-                                icon: Icons.local_fire_department_rounded,
+                                lottieAsset: 'assets/lottie/Fire.json',
                                 iconColor: accentOrange,
                                 value: '${user.currentStreak}',
                                 label: 'Day Streak',
                               ),
                             ),
-                            const SizedBox(height: 12),
+                            const SizedBox(height: 10),
                             Expanded(
                               child: _buildHeroCard(
-                                icon: Icons.timer_outlined,
+                                lottieAsset: 'assets/lottie/clock time.json',
                                 iconColor: Colors.blueAccent,
                                 value: '${user.lastSessionDuration}m',
                                 label: 'Last Session',
@@ -147,7 +142,7 @@ class _ProgressPageState extends State<ProgressPage> {
                           ],
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: 11),
                       // Right Column: Heatmap
                       Expanded(
                         flex: 6,
@@ -159,7 +154,7 @@ class _ProgressPageState extends State<ProgressPage> {
                               color: Colors.white.withOpacity(0.05),
                             ),
                           ),
-                          padding: const EdgeInsets.all(12),
+                          padding: const EdgeInsets.symmetric(horizontal:12, vertical: 8),
                           child: Stack(
                             children: [
                               Positioned(
@@ -194,36 +189,32 @@ class _ProgressPageState extends State<ProgressPage> {
                   ),
                 ),
 
-                const SizedBox(height: 32),
-
+                const SizedBox(height: 25),
                 // --- 2. ACTIVITY OVERVIEW (Sleek Dark Panel) ---
                 _buildSectionHeader('ACTIVITY OVERVIEW'),
-                const SizedBox(height: 16),
+                const SizedBox(height: 13),
                 _buildPremiumActivityBox(user),
-
-                const SizedBox(height: 32),
+                const SizedBox(height: 20),
 
                 // --- 3. RECENT VIEWS ---
                 if (user.recentActivity.isNotEmpty) ...[
                   _buildSectionHeader('RECENT VIEWS'),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 14),
                   _buildRecentViewsList(user),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 20),
                 ],
 
                 // --- 4. FAVORITES ---
                 _buildSectionHeader('FAVORITES'),
-                const SizedBox(height: 16),
+                const SizedBox(height: 14),
                 _buildFavoritesSection(user),
 
-                const SizedBox(height: 32),
+                const SizedBox(height: 20),
 
                 // --- 5. FOCUS ANALYSIS (Logic Protected) ---
                 _buildSectionHeader('FOCUS ANALYSIS'),
-                const SizedBox(height: 16),
-                _buildSmartFocusRow(user),
-
-                const SizedBox(height: 40),
+                const SizedBox(height: 14),
+                _buildSmartFocusRow(user),      
               ],
             ),
           );
@@ -250,7 +241,7 @@ class _ProgressPageState extends State<ProgressPage> {
 
   // A sleek card for Streak/Timer
   Widget _buildHeroCard({
-    required IconData icon,
+    required String lottieAsset,
     required Color iconColor,
     required String value,
     required String label,
@@ -265,12 +256,19 @@ class _ProgressPageState extends State<ProgressPage> {
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            width: 40,
+            height: 40,
+            alignment: Alignment.center,
             decoration: BoxDecoration(
               color: iconColor.withOpacity(0.15),
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, color: iconColor, size: 20),
+            child: Lottie.asset(
+              lottieAsset,
+              width: 30,
+              height: 30,
+              fit: BoxFit.contain,
+            ),
           ),
           const SizedBox(width: 12),
           Column(

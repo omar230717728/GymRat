@@ -1,12 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/feature/presentation/pages/muscle_list_screen.dart';
 import 'package:flutter_application_1/feature/presentation/widgets/smart_image.dart';
 import 'package:flutter_application_1/feature/presentation/widgets/keep_alive_wrapper.dart'; // <--- IMPORT
-
 import 'package:lottie/lottie.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:flutter_application_1/core/repositories/gym_repository.dart';
 import 'package:flutter_application_1/core/models/body_part_model.dart';
 import 'package:flutter_application_1/core/di/injection_container.dart' as di;
