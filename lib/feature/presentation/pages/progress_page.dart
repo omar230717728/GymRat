@@ -9,7 +9,8 @@ import 'package:flutter_application_1/core/di/injection_container.dart' as di;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_application_1/feature/presentation/widgets/keep_alive_wrapper.dart'; // <--- IMPORT
 
-import 'package:lottie/lottie.dart'; // <--- IMPORT
+import 'package:lottie/lottie.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart'; // <--- IMPORT
 
 class ProgressPage extends StatefulWidget {
   const ProgressPage({super.key});
@@ -77,8 +78,8 @@ class _ProgressPageState extends State<ProgressPage> {
       backgroundColor: bgBlack,
       appBar: AppBar(
         backgroundColor: bgBlack,
-        title: const Text(
-          'YOUR PROGRESS',
+        title: Text(
+          AppLocalizations.of(context)!.yourProgress,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w900,
@@ -127,7 +128,7 @@ class _ProgressPageState extends State<ProgressPage> {
                                 lottieAsset: 'assets/lottie/Fire.json',
                                 iconColor: accentOrange,
                                 value: '${user.currentStreak}',
-                                label: 'Day Streak',
+                                label: AppLocalizations.of(context)!.dayStreak,
                               ),
                             ),
                             const SizedBox(height: 10),
@@ -136,7 +137,7 @@ class _ProgressPageState extends State<ProgressPage> {
                                 lottieAsset: 'assets/lottie/clock time.json',
                                 iconColor: Colors.blueAccent,
                                 value: '${user.lastSessionDuration}m',
-                                label: 'Last Session',
+                                label: AppLocalizations.of(context)!.lastSession,
                               ),
                             ),
                           ],
@@ -151,7 +152,7 @@ class _ProgressPageState extends State<ProgressPage> {
                             color: cardDark,
                             borderRadius: BorderRadius.circular(24),
                             border: Border.all(
-                              color: Colors.white.withOpacity(0.05),
+                              color: Colors.white.withValues(alpha: 0.05),
                             ),
                           ),
                           padding: const EdgeInsets.symmetric(horizontal:12, vertical: 8),
@@ -163,7 +164,7 @@ class _ProgressPageState extends State<ProgressPage> {
                                 child: Text(
                                   'BODY\nHEATMAP',
                                   style: TextStyle(
-                                    color: Colors.white.withOpacity(0.5),
+                                    color: Colors.white.withValues(alpha: 0.5),
                                     fontSize: 10,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -176,7 +177,7 @@ class _ProgressPageState extends State<ProgressPage> {
                                   height: 120,
                                   placeholderBuilder: (_) => Icon(
                                     Icons.accessibility_new_rounded,
-                                    color: Colors.white.withOpacity(0.1),
+                                    color: Colors.white.withValues(alpha: 0.1),
                                     size: 60,
                                   ),
                                 ),
@@ -191,28 +192,28 @@ class _ProgressPageState extends State<ProgressPage> {
 
                 const SizedBox(height: 25),
                 // --- 2. ACTIVITY OVERVIEW (Sleek Dark Panel) ---
-                _buildSectionHeader('ACTIVITY OVERVIEW'),
+                _buildSectionHeader(AppLocalizations.of(context)!.activityOverview),
                 const SizedBox(height: 13),
                 _buildPremiumActivityBox(user),
                 const SizedBox(height: 20),
 
                 // --- 3. RECENT VIEWS ---
                 if (user.recentActivity.isNotEmpty) ...[
-                  _buildSectionHeader('RECENT VIEWS'),
+                  _buildSectionHeader(AppLocalizations.of(context)!.recentViews),
                   const SizedBox(height: 14),
                   _buildRecentViewsList(user),
                   const SizedBox(height: 20),
                 ],
 
                 // --- 4. FAVORITES ---
-                _buildSectionHeader('FAVORITES'),
+                _buildSectionHeader(AppLocalizations.of(context)!.favorites.toUpperCase()),
                 const SizedBox(height: 14),
                 _buildFavoritesSection(user),
 
                 const SizedBox(height: 20),
 
                 // --- 5. FOCUS ANALYSIS (Logic Protected) ---
-                _buildSectionHeader('FOCUS ANALYSIS'),
+                _buildSectionHeader(AppLocalizations.of(context)!.focusAnalysis),
                 const SizedBox(height: 14),
                 _buildSmartFocusRow(user),      
               ],
@@ -231,7 +232,7 @@ class _ProgressPageState extends State<ProgressPage> {
     return Text(
       title,
       style: TextStyle(
-        color: Colors.white.withOpacity(0.6),
+        color: Colors.white.withValues(alpha: 0.6),
         fontSize: 12,
         fontWeight: FontWeight.w800,
         letterSpacing: 1.5,
@@ -260,7 +261,7 @@ class _ProgressPageState extends State<ProgressPage> {
             height: 40,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: iconColor.withOpacity(0.15),
+              color: iconColor.withValues(alpha: 0.15),
               shape: BoxShape.circle,
             ),
             child: Lottie.asset(
@@ -313,7 +314,7 @@ class _ProgressPageState extends State<ProgressPage> {
         border: Border.all(color: Colors.white.withOpacity(0.05)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withValues(alpha: 0.2),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -322,19 +323,19 @@ class _ProgressPageState extends State<ProgressPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildStatItem('$exercisesLearned', 'Exercises\nLearned'),
+          _buildStatItem('$exercisesLearned', AppLocalizations.of(context)!.exercisesLearned),
           Container(
             width: 1,
             height: 40,
             color: Colors.white10,
           ), // Subtle Divider
-          _buildStatItem('${user.exploredMachinesCount}', 'Machines\nExplored'),
+          _buildStatItem('${user.exploredMachinesCount}', AppLocalizations.of(context)!.machinesExplored),
           Container(
             width: 1,
             height: 40,
             color: Colors.white10,
           ), // Subtle Divider
-          _buildStatItem('${user.studiedMusclesCount}', 'Muscles\nStudied'),
+          _buildStatItem('${user.studiedMusclesCount}', AppLocalizations.of(context)!.musclesStudied),
         ],
       ),
     );
@@ -449,8 +450,8 @@ class _ProgressPageState extends State<ProgressPage> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colors.redAccent.withOpacity(0.8),
-            Colors.orangeAccent.withOpacity(0.8),
+            Colors.redAccent.withValues(alpha: 0.8),
+            Colors.orangeAccent.withValues(alpha: 0.8),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -473,8 +474,8 @@ class _ProgressPageState extends State<ProgressPage> {
               ),
             ),
             const SizedBox(height: 4),
-            const Text(
-              'FAVORITES',
+            Text(
+              AppLocalizations.of(context)!.favorites.toUpperCase(),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 12,
@@ -507,8 +508,8 @@ class _ProgressPageState extends State<ProgressPage> {
   Widget _buildSmartFocusRow(UserModel user) {
     final mergedScores = user.calculatedMuscleScores;
 
-    String primary = 'START TRAINING';
-    String secondary = 'KEEP GOING';
+    String primary = AppLocalizations.of(context)!.startTraining;
+    String secondary = AppLocalizations.of(context)!.keepGoing;
 
     if (mergedScores.isNotEmpty) {
       final sortedEntries = mergedScores.entries.toList()
@@ -521,14 +522,14 @@ class _ProgressPageState extends State<ProgressPage> {
     return Row(
       children: [
         Expanded(
-          child: _buildGradientFocusBox('PRIMARY', primary, [
+          child: _buildGradientFocusBox(AppLocalizations.of(context)!.primaryFocus, primary, [
             const Color(0xFFFF5722),
             const Color(0xFFFF8A65),
           ]),
         ),
         const SizedBox(width: 16),
         Expanded(
-          child: _buildGradientFocusBox('SECONDARY', secondary, [
+          child: _buildGradientFocusBox(AppLocalizations.of(context)!.secondaryFocus, secondary, [
             Colors.blueAccent,
             Colors.lightBlueAccent,
           ]),
@@ -547,12 +548,12 @@ class _ProgressPageState extends State<ProgressPage> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: colors.map((c) => c.withOpacity(0.2)).toList(),
+          colors: colors.map((c) => c.withValues(alpha: 0.2)).toList(),
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: colors.first.withOpacity(0.3)),
+        border: Border.all(color: colors.first.withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -584,10 +585,5 @@ class _ProgressPageState extends State<ProgressPage> {
   }
 
   // --- HELPERS ---
-  int _toInt(dynamic value) {
-    if (value is int) return value;
-    if (value is double) return value.toInt();
-    if (value is String) return int.tryParse(value) ?? 0;
-    return 0;
-  }
+
 }

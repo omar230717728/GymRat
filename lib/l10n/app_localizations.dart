@@ -593,7 +593,7 @@ abstract class AppLocalizations {
   /// No description provided for @yourProgress.
   ///
   /// In en, this message translates to:
-  /// **'Your Progress'**
+  /// **'YOUR PROGRESS'**
   String get yourProgress;
 
   /// No description provided for @noWorkoutsLogged.
@@ -691,6 +691,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please login to continue.'**
   String get loginRequiredMessage;
+
+  /// No description provided for @dayStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Day Streak'**
+  String get dayStreak;
+
+  /// No description provided for @lastSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Session'**
+  String get lastSession;
+
+  /// No description provided for @activityOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'ACTIVITY OVERVIEW'**
+  String get activityOverview;
+
+  /// No description provided for @recentViews.
+  ///
+  /// In en, this message translates to:
+  /// **'RECENT VIEWS'**
+  String get recentViews;
+
+  /// No description provided for @focusAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'FOCUS ANALYSIS'**
+  String get focusAnalysis;
+
+  /// No description provided for @exercisesLearned.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercises\nlearned'**
+  String get exercisesLearned;
+
+  /// No description provided for @machinesExplored.
+  ///
+  /// In en, this message translates to:
+  /// **'Machines\nexplored'**
+  String get machinesExplored;
+
+  /// No description provided for @musclesStudied.
+  ///
+  /// In en, this message translates to:
+  /// **'Muscles\nstudied'**
+  String get musclesStudied;
+
+  /// No description provided for @primaryFocus.
+  ///
+  /// In en, this message translates to:
+  /// **'PRIMARY'**
+  String get primaryFocus;
+
+  /// No description provided for @secondaryFocus.
+  ///
+  /// In en, this message translates to:
+  /// **'SECONDARY'**
+  String get secondaryFocus;
+
+  /// No description provided for @startTraining.
+  ///
+  /// In en, this message translates to:
+  /// **'START TRAINING'**
+  String get startTraining;
+
+  /// No description provided for @keepGoing.
+  ///
+  /// In en, this message translates to:
+  /// **'KEEP GOING'**
+  String get keepGoing;
+
+  /// No description provided for @onboardingTitle1.
+  ///
+  /// In en, this message translates to:
+  /// **'Track Your Progress'**
+  String get onboardingTitle1;
+
+  /// No description provided for @onboardingBody1.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep history of all your workouts and see your improvements.'**
+  String get onboardingBody1;
+
+  /// No description provided for @onboardingTitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'Crush Your Goals'**
+  String get onboardingTitle2;
+
+  /// No description provided for @onboardingBody2.
+  ///
+  /// In en, this message translates to:
+  /// **'Analyze your stats and focus on what matters.'**
+  String get onboardingBody2;
+
+  /// No description provided for @getStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started'**
+  String get getStarted;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// No description provided for @trainTodayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What do you want\nto train today?'**
+  String get trainTodayTitle;
+
+  /// No description provided for @trainNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Train now'**
+  String get trainNow;
+
+  /// No description provided for @noBodyParts.
+  ///
+  /// In en, this message translates to:
+  /// **'No body parts found'**
+  String get noBodyParts;
+
+  /// No description provided for @editProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get editProfile;
+
+  /// No description provided for @joined.
+  ///
+  /// In en, this message translates to:
+  /// **'Joined'**
+  String get joined;
+
+  /// No description provided for @height.
+  ///
+  /// In en, this message translates to:
+  /// **'Height'**
+  String get height;
+
+  /// No description provided for @age.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get age;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @privacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get privacy;
 }
 
 class _AppLocalizationsDelegate

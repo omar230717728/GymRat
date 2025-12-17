@@ -57,6 +57,12 @@ class MyApp extends StatelessWidget {
                   Locale('ar'), // Arabic
                   Locale('ru'), // Russian
                 ],
+                builder: (context, child) {
+                  return Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: child!,
+                  );
+                },
                 home: const BootstrapScreen(),
               );
             },

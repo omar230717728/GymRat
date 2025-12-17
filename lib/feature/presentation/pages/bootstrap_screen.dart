@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_1/core/services/user_session_service.dart';
-import 'package:flutter_application_1/core/auth/login_screen.dart';
 import 'package:flutter_application_1/feature/presentation/pages/main_page.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_application_1/feature/presentation/pages/onboarding_screen.dart';
 
 class BootstrapScreen extends StatefulWidget {

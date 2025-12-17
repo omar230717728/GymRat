@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/themes/app_theme.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 enum AppLanguage {
   english,
@@ -7,6 +8,7 @@ enum AppLanguage {
   german,
   spanish,
   french,
+  arabic,
 }
 
 class SettingsSidebar extends StatelessWidget {
@@ -95,7 +97,7 @@ class SettingsSidebar extends StatelessWidget {
 
                         // Theme Section
                         _ExpandableSection(
-                          title: 'Theme',
+                          title: AppLocalizations.of(context)!.theme,
                           icon: Icons.palette,
                           isExpanded: true,
                           themeColor: _getThemeColor(currentTheme),
@@ -105,7 +107,7 @@ class SettingsSidebar extends StatelessWidget {
 
                         // Language Section
                         _ExpandableSection(
-                          title: 'Language',
+                          title: AppLocalizations.of(context)!.language,
                           icon: Icons.language,
                           themeColor: _getThemeColor(currentTheme),
                           child: _buildLanguageSelector(),
@@ -113,8 +115,8 @@ class SettingsSidebar extends StatelessWidget {
                         const SizedBox(height: 24),
 
                         // Action Rows
-                        _buildActionRow('Notifications', Icons.notifications_none, onNotificationsTap),
-                        _buildActionRow('Privacy & Policy', Icons.privacy_tip_outlined, onPrivacyTap),
+                        _buildActionRow(AppLocalizations.of(context)!.notifications, Icons.notifications_none, onNotificationsTap),
+                        _buildActionRow(AppLocalizations.of(context)!.privacy, Icons.privacy_tip_outlined, onPrivacyTap),
                       ],
                     ),
                   ),
@@ -135,9 +137,9 @@ class SettingsSidebar extends StatelessWidget {
                           ),
                           elevation: 0,
                         ),
-                        child: const Text(
-                          'Logout',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        child: Text(
+                          AppLocalizations.of(context)!.logout,
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -287,6 +289,7 @@ class SettingsSidebar extends StatelessWidget {
       case AppLanguage.german: return 'Deutsch';
       case AppLanguage.spanish: return 'Español';
       case AppLanguage.french: return 'Français';
+      case AppLanguage.arabic: return 'العربية';
     }
   }
 
@@ -296,6 +299,7 @@ class SettingsSidebar extends StatelessWidget {
       case 'de': return AppLanguage.german;
       case 'es': return AppLanguage.spanish;
       case 'fr': return AppLanguage.french;
+      case 'ar': return AppLanguage.arabic;
       default: return AppLanguage.english;
     }
   }
@@ -306,6 +310,7 @@ class SettingsSidebar extends StatelessWidget {
       case AppLanguage.german: return const Locale('de');
       case AppLanguage.spanish: return const Locale('es');
       case AppLanguage.french: return const Locale('fr');
+      case AppLanguage.arabic: return const Locale('ar');
       default: return const Locale('en');
     }
   }

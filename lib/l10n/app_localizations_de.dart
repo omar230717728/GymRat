@@ -256,7 +256,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get pleaseLoginProgress => 'Please login to view progress';
 
   @override
-  String get yourProgress => 'Your Progress';
+  String get yourProgress => 'YOUR PROGRESS';
 
   @override
   String get noWorkoutsLogged => 'No workouts logged yet.';
@@ -310,4 +310,89 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get loginRequiredMessage => 'Please login to continue.';
+
+  @override
+  String get dayStreak => 'Day Streak';
+
+  @override
+  String get lastSession => 'Last Session';
+
+  @override
+  String get activityOverview => 'ACTIVITY OVERVIEW';
+
+  @override
+  String get recentViews => 'RECENT VIEWS';
+
+  @override
+  String get focusAnalysis => 'FOCUS ANALYSIS';
+
+  @override
+  String get exercisesLearned => 'Exercises\nlearned';
+
+  @override
+  String get machinesExplored => 'Machines\nexplored';
+
+  @override
+  String get musclesStudied => 'Muscles\nstudied';
+
+  @override
+  String get primaryFocus => 'PRIMARY';
+
+  @override
+  String get secondaryFocus => 'SECONDARY';
+
+  @override
+  String get startTraining => 'START TRAINING';
+
+  @override
+  String get keepGoing => 'KEEP GOING';
+
+  @override
+  String get onboardingTitle1 => 'Track Your Progress';
+
+  @override
+  String get onboardingBody1 =>
+      'Keep history of all your workouts and see your improvements.';
+
+  @override
+  String get onboardingTitle2 => 'Crush Your Goals';
+
+  @override
+  String get onboardingBody2 => 'Analyze your stats and focus on what matters.';
+
+  @override
+  String get getStarted => 'Get Started';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get trainTodayTitle => 'What do you want\nto train today?';
+
+  @override
+  String get trainNow => 'Train now';
+
+  @override
+  String get noBodyParts => 'No body parts found';
+
+  @override
+  String get editProfile => 'Edit Profile';
+
+  @override
+  String get joined => 'Joined';
+
+  @override
+  String get height => 'Height';
+
+  @override
+  String get age => 'Age';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get privacy => 'Privacy';
 }

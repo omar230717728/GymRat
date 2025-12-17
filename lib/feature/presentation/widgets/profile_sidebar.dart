@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 
 class ProfileSidebar extends StatelessWidget {
@@ -199,8 +200,8 @@ class ProfileSidebar extends StatelessWidget {
       child: Column(
         children: [
           _buildInfoRow(context, Icons.person_outline, "Username", username),
-          _buildInfoRow(context, Icons.email_outlined, "Email", email),
-          _buildInfoRow(context, Icons.calendar_today_outlined, "Joined", joinedDate),
+          _buildInfoRow(context, Icons.email_outlined, AppLocalizations.of(context)!.email, email),
+          _buildInfoRow(context, Icons.calendar_today_outlined, AppLocalizations.of(context)!.joined, joinedDate),
         ],
       ),
     );
@@ -241,11 +242,11 @@ class ProfileSidebar extends StatelessWidget {
   Widget _buildBodyStatsRow(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: _buildStatCard(context, "Weight", weight)),
+        Expanded(child: _buildStatCard(context, AppLocalizations.of(context)!.weight, weight)),
         const SizedBox(width: 12),
-        Expanded(child: _buildStatCard(context, "Height", height)),
+        Expanded(child: _buildStatCard(context, AppLocalizations.of(context)!.height, height)),
         const SizedBox(width: 12),
-        Expanded(child: _buildStatCard(context, "Age", age)),
+        Expanded(child: _buildStatCard(context, AppLocalizations.of(context)!.age, age)),
       ],
     );
   }
@@ -324,9 +325,9 @@ class ProfileSidebar extends StatelessWidget {
               ),
               elevation: 0,
             ),
-            child: const Text(
-              "Edit Profile",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+            child: Text(
+              AppLocalizations.of(context)!.editProfile,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
             ),
           ),
         ),
@@ -343,9 +344,9 @@ class ProfileSidebar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
-            child: const Text(
-              "Settings",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            child: Text(
+              AppLocalizations.of(context)!.settingsTitle,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
           ),
         ),

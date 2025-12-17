@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_application_1/core/auth/login_screen.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -13,18 +14,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  final List<Map<String, String>> _slides = [
-    {
-      "image": "assets/images/onboarding_1.jpeg",
-      "title": "Track Your Progress",
-      "subtitle": "Monitor your gains and stay consistent with detailed analytics."
-    },
-    {
-      "image": "assets/images/onboarding_2.jpeg", // Assuming user will provide or use placeholder
-      "title": "Crush Your Goals",
-      "subtitle": "Push your limits and achieve the body you've always wanted."
-    },
-  ];
+
 
   Future<void> _completeOnboarding() async {
     final prefs = await SharedPreferences.getInstance();
@@ -40,6 +30,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, String>> slides = [
+      {
+        "image": "assets/images/onboarding_1.jpeg",
+        "title": AppLocalizations.of(context)!.onboardingTitle1,
+        "subtitle": AppLocalizations.of(context)!.onboardingBody1,
+      },
+      {
+        "image": "assets/images/onboarding_2.jpeg",
+        "title": AppLocalizations.of(context)!.onboardingTitle2,
+        "subtitle": AppLocalizations.of(context)!.onboardingBody2,
+      },
+    ];
+
     return Scaffold(
       body: Stack(
         children: [
@@ -49,9 +52,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             onPageChanged: (index) {
               setState(() => _currentPage = index);
             },
-            itemCount: _slides.length,
+            itemCount: slides.length,
             itemBuilder: (context, index) {
-              final slide = _slides[index];
+              final slide = slides[index];
               return Stack(
                 fit: StackFit.expand,
                 children: [
@@ -71,7 +74,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         end: Alignment.bottomCenter,
                         colors: [
                           Colors.transparent,
-                          Colors.black.withOpacity(0.8),
+                          Colors.black.withValues(alpha: 0.8),
                           Colors.black,
                         ],
                         stops: const [0.5, 0.8, 1.0],
@@ -124,7 +127,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 // Dots Indicator
                 Row(
                   children: List.generate(
-                    _slides.length,
+                    slides.length,
                     (index) => AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
                       margin: const EdgeInsets.only(right: 8),
@@ -141,7 +144,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
 
                 // Button
-                if (_currentPage == _slides.length - 1)
+                if (_currentPage == slides.length - 1)
                   ElevatedButton(
                     onPressed: _completeOnboarding,
                     style: ElevatedButton.styleFrom(
@@ -155,8 +158,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    child: const Text(
-                      "GET STARTED",
+                    child: Text(
+                      AppLocalizations.of(context)!.getStarted,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
@@ -172,8 +175,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         curve: Curves.easeOut,
                       );
                     },
-                    child: const Text(
-                      "NEXT",
+                    child: Text(
+                      AppLocalizations.of(context)!.next,
                       style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.bold,

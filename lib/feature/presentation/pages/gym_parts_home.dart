@@ -7,6 +7,7 @@ import 'package:lottie/lottie.dart';
 import 'package:flutter_application_1/core/repositories/gym_repository.dart';
 import 'package:flutter_application_1/core/models/body_part_model.dart';
 import 'package:flutter_application_1/core/di/injection_container.dart' as di;
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class GymPartScreen extends StatefulWidget {
   const GymPartScreen({super.key});
@@ -98,7 +99,7 @@ class _GymPartScreenState extends State<GymPartScreen> {
                         shadows: [Shadow(color: Colors.black54, blurRadius: 10)],
                       ),
                       children: [
-                        const TextSpan(text: "What do you want\nto train today "),
+                        TextSpan(text: AppLocalizations.of(context)!.trainTodayTitle),
                         WidgetSpan(
                           alignment: PlaceholderAlignment.middle,
                           child: Lottie.asset(
@@ -134,7 +135,7 @@ class _GymPartScreenState extends State<GymPartScreen> {
 
   Widget _buildHeroCarousel() {
     if (_bodyParts.isEmpty) {
-      return const Center(child: Text("No body parts found", style: TextStyle(color: Colors.white)));
+      return Center(child: Text(AppLocalizations.of(context)!.noBodyParts, style: const TextStyle(color: Colors.white)));
     }
 
     return PageView.builder(
@@ -163,7 +164,7 @@ class _GymPartScreenState extends State<GymPartScreen> {
               opacity: opacity,
               child: HeroCard(
                 title: bodyPart.name,
-                subtitle: "Train now", 
+                subtitle: AppLocalizations.of(context)!.trainNow, 
                 imageUrl: bodyPart.image,
                 onTap: () => _navigateToCategory(bodyPart),
               ),
@@ -211,7 +212,7 @@ class HeroCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(32),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black.withValues(alpha: 0.5),
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),

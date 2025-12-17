@@ -169,6 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
             // Profile Sidebar
             StreamBuilder<UserModel?>(
               stream: UserSessionService.instance.userStream,
+              initialData: UserSessionService.instance.currentUser,
               builder: (context, snapshot) {
                 final user = snapshot.data;
                 final currentUser = FirebaseAuth.instance.currentUser;
@@ -255,16 +256,23 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Container(
           padding: EdgeInsets.all(5.0),
           margin: EdgeInsets.only(left: 8.0),
-          child: CircleAvatar(
-            radius: 21,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            child: CircleAvatar(
-              radius: 17,
-              backgroundImage: NetworkImage(
-                FirebaseAuth.instance.currentUser?.photoURL ??
-                    "https://i.imgur.com/BoN9kdC.png",
-              ),
-            ),
+          child: StreamBuilder<UserModel?>(
+            stream: UserSessionService.instance.userStream,
+            initialData: UserSessionService.instance.currentUser,
+            builder: (context, snapshot) {
+              final user = snapshot.data;
+              final photoUrl = user?.photoURL ?? 
+                               FirebaseAuth.instance.currentUser?.photoURL ?? 
+                               "https://i.imgur.com/BoN9kdC.png";
+              return CircleAvatar(
+                radius: 21,
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                child: CircleAvatar(
+                  radius: 17,
+                  backgroundImage: NetworkImage(photoUrl),
+                ),
+              );
+            }
           ),
         ),
       ),

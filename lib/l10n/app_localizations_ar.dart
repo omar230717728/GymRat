@@ -39,7 +39,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get reps => 'تكرار';
 
   @override
-  String get weight => 'وزن';
+  String get weight => 'الوزن';
 
   @override
   String get notes => 'ملاحظات';
@@ -54,10 +54,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get language => 'اللغة';
 
   @override
-  String get theme => 'السمة';
+  String get theme => 'المظهر';
 
   @override
-  String get logout => 'تسجيل خروج';
+  String get logout => 'خروج';
 
   @override
   String get welcomeBack => 'مرحباً بعودتك';
@@ -228,10 +228,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get done => 'Done';
 
   @override
-  String get searchHint => 'Search machines…';
+  String get searchHint => 'ابحث عن آلة...';
 
   @override
-  String get noResults => 'No results';
+  String get noResults => 'لا توجد نتائج';
 
   @override
   String get startAddingFavorites =>
@@ -244,10 +244,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get weightKg => 'Weight (kg)';
 
   @override
-  String get workoutLogged => 'Workout logged successfully!';
+  String get workoutLogged => 'تم تسجيل التمرين!';
 
   @override
-  String get videoMode => 'Video Mode';
+  String get videoMode => 'وضع الفيديو';
 
   @override
   String get workoutCategories => 'Workout Categories';
@@ -256,7 +256,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pleaseLoginProgress => 'Please login to view progress';
 
   @override
-  String get yourProgress => 'Your Progress';
+  String get yourProgress => 'تقدمك';
 
   @override
   String get noWorkoutsLogged => 'No workouts logged yet.';
@@ -310,4 +310,88 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get loginRequiredMessage => 'Please login to continue.';
+
+  @override
+  String get dayStreak => 'أيام متتالية';
+
+  @override
+  String get lastSession => 'آخر جلسة';
+
+  @override
+  String get activityOverview => 'نظرة عامة';
+
+  @override
+  String get recentViews => 'المشاهدات الأخيرة';
+
+  @override
+  String get focusAnalysis => 'تحليل التركيز';
+
+  @override
+  String get exercisesLearned => 'تمارين\nتعلمتها';
+
+  @override
+  String get machinesExplored => 'آلات\nاكتشفتها';
+
+  @override
+  String get musclesStudied => 'عضلات\nدرستها';
+
+  @override
+  String get primaryFocus => 'رئيسي';
+
+  @override
+  String get secondaryFocus => 'ثانوي';
+
+  @override
+  String get startTraining => 'ابدأ التدريب';
+
+  @override
+  String get keepGoing => 'استمر';
+
+  @override
+  String get onboardingTitle1 => 'تتبع تقدمك';
+
+  @override
+  String get onboardingBody1 => 'احتفظ بسجل لجميع تمارينك وشاهد تحسنك.';
+
+  @override
+  String get onboardingTitle2 => 'حقق أهدافك';
+
+  @override
+  String get onboardingBody2 => 'حلل إحصائياتك وركز على ما يهم.';
+
+  @override
+  String get getStarted => 'ابدأ الآن';
+
+  @override
+  String get next => 'التالي';
+
+  @override
+  String get trainTodayTitle => 'ماذا تريد\nأن تدرب اليوم؟';
+
+  @override
+  String get trainNow => 'تدرب الآن';
+
+  @override
+  String get noBodyParts => 'لا توجد أجزاء للجسم';
+
+  @override
+  String get editProfile => 'تعديل الملف';
+
+  @override
+  String get joined => 'انضم';
+
+  @override
+  String get height => 'الطول';
+
+  @override
+  String get age => 'العمر';
+
+  @override
+  String get settingsTitle => 'الإعدادات';
+
+  @override
+  String get notifications => 'الإشعارات';
+
+  @override
+  String get privacy => 'الخصوصية';
 }
