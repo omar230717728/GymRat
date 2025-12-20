@@ -271,7 +271,8 @@ class _LoginScreenState extends State<LoginScreen>
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.only(left: 24, right: 24, bottom: 20),
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 420),
                 child: Card(
@@ -308,19 +309,22 @@ class _LoginScreenState extends State<LoginScreen>
                             Tab(text: "Login"),
                             Tab(text: "Sign Up"),
                           ],
+                          onTap: (index) {
+                            // Ensure the controller updates and triggers rebuild
+                             setState(() {}); 
+                          },
                         ),
 
                         const SizedBox(height: 14),
 
-                        SizedBox(
-                          height: 320,
-                          child: TabBarView(
-                            controller: _tabController,
-                            children: [
-                              _buildLoginForm(context),
-                              _buildSignupForm(context),
-                            ],
-                          ),
+                         // Dynamic Content (No Fixed Height)
+                        AnimatedBuilder(
+                          animation: _tabController,
+                          builder: (context, _) {
+                            return _tabController.index == 0
+                                ? _buildLoginForm(context)
+                                : _buildSignupForm(context);
+                          },
                         ),
                       ],
                     ),
@@ -407,8 +411,11 @@ class _LoginScreenState extends State<LoginScreen>
           TextFormField(
             controller: _signupFullNameController,
             decoration: const InputDecoration(labelText: "Full Name"),
-            validator: (v) =>
-                v == null || v.trim().isEmpty ? "Full name required" : null,
+            validator: (v) {
+              if (v == null || v.trim().isEmpty) return "Full name required";
+              if (v.length > 40) return "Name too long (max 40 chars)";
+              return null;
+            },
           ),
           const SizedBox(height: 12),
           TextFormField(
@@ -422,8 +429,12 @@ class _LoginScreenState extends State<LoginScreen>
             controller: _signupPasswordController,
             decoration: const InputDecoration(labelText: "Password"),
             obscureText: true,
-            validator: (v) =>
-                v == null || v.length < 6 ? "Min 6 characters" : null,
+            validator: (v) {
+              if (v == null || v.length < 8) return "Password must be 8+ chars";
+              if (!v.contains(RegExp(r'[A-Z]'))) return "Must have 1 uppercase";
+              if (!v.contains(RegExp(r'[0-9]'))) return "Must have 1 number";
+              return null;
+            },
           ),
           const SizedBox(height: 16),
 

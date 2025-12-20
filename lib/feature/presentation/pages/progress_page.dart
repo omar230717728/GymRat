@@ -389,8 +389,23 @@ class _ProgressPageState extends State<ProgressPage> {
 
   Widget _buildFavoritesSection(UserModel user) {
     return FutureBuilder<List<MachineModel>>(
-      future: di.sl<GymRepository>().getMachinesByIds(user.favoriteIds),
+      future: di.sl<GymRepository>().getMachinesByIds(
+        List<String>.from(user.favoriteIds),
+      ),
       builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return SizedBox(
+            height: 190,
+            child: Center(
+              child: Text(
+                'DB Error: ${snapshot.error}',
+                style: const TextStyle(color: Colors.red, fontSize: 12),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
+        }
+
         if (!snapshot.hasData) {
           // Loading Shimmer State (Horizontal List of 3 items)
           return SizedBox(

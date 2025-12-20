@@ -228,10 +228,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get done => 'Done';
 
   @override
-  String get searchHint => 'Search machines…';
+  String get searchHint => 'Nach Maschinen suchen...';
 
   @override
-  String get noResults => 'No results';
+  String get noResults => 'Keine Ergebnisse';
 
   @override
   String get startAddingFavorites =>
@@ -244,10 +244,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get weightKg => 'Weight (kg)';
 
   @override
-  String get workoutLogged => 'Workout logged successfully!';
+  String get workoutLogged => 'Training protokolliert!';
 
   @override
-  String get videoMode => 'Video Mode';
+  String get videoMode => 'Videomodus';
 
   @override
   String get workoutCategories => 'Workout Categories';
@@ -256,7 +256,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get pleaseLoginProgress => 'Please login to view progress';
 
   @override
-  String get yourProgress => 'YOUR PROGRESS';
+  String get yourProgress => 'DEIN FORTSCHRITT';
 
   @override
   String get noWorkoutsLogged => 'No workouts logged yet.';
@@ -312,87 +312,88 @@ class AppLocalizationsDe extends AppLocalizations {
   String get loginRequiredMessage => 'Please login to continue.';
 
   @override
-  String get dayStreak => 'Day Streak';
+  String get dayStreak => 'Tages-Serie';
 
   @override
-  String get lastSession => 'Last Session';
+  String get lastSession => 'Letzte Sitzung';
 
   @override
-  String get activityOverview => 'ACTIVITY OVERVIEW';
+  String get activityOverview => 'AKTIVITÄTSÜBERSICHT';
 
   @override
-  String get recentViews => 'RECENT VIEWS';
+  String get recentViews => 'ZULETZT ANGESEHEN';
 
   @override
-  String get focusAnalysis => 'FOCUS ANALYSIS';
+  String get focusAnalysis => 'FOKUS-ANALYSE';
 
   @override
-  String get exercisesLearned => 'Exercises\nlearned';
+  String get exercisesLearned => 'Übungen\ngelernt';
 
   @override
-  String get machinesExplored => 'Machines\nexplored';
+  String get machinesExplored => 'Maschinen\nentdeckt';
 
   @override
-  String get musclesStudied => 'Muscles\nstudied';
+  String get musclesStudied => 'Muskeln\nstudiert';
 
   @override
-  String get primaryFocus => 'PRIMARY';
+  String get primaryFocus => 'PRIMÄR';
 
   @override
-  String get secondaryFocus => 'SECONDARY';
+  String get secondaryFocus => 'SEKUNDÄR';
 
   @override
-  String get startTraining => 'START TRAINING';
+  String get startTraining => 'TRAINING STARTEN';
 
   @override
-  String get keepGoing => 'KEEP GOING';
+  String get keepGoing => 'WEITERMACHEN';
 
   @override
-  String get onboardingTitle1 => 'Track Your Progress';
+  String get onboardingTitle1 => 'Verfolge deinen Fortschritt';
 
   @override
   String get onboardingBody1 =>
-      'Keep history of all your workouts and see your improvements.';
+      'Behalte den Verlauf all deiner Trainings und sieh deine Verbesserungen.';
 
   @override
-  String get onboardingTitle2 => 'Crush Your Goals';
+  String get onboardingTitle2 => 'Erreiche deine Ziele';
 
   @override
-  String get onboardingBody2 => 'Analyze your stats and focus on what matters.';
+  String get onboardingBody2 =>
+      'Analysiere deine Statistiken und konzentriere dich auf das Wesentliche.';
 
   @override
-  String get getStarted => 'Get Started';
+  String get getStarted => 'Los geht\'s';
 
   @override
-  String get next => 'Next';
+  String get next => 'Weiter';
 
   @override
-  String get trainTodayTitle => 'What do you want\nto train today?';
+  String get trainTodayTitle => 'Was möchtest du\nheute trainieren?';
 
   @override
-  String get trainNow => 'Train now';
+  String get trainNow => 'Jetzt trainieren';
 
   @override
-  String get noBodyParts => 'No body parts found';
+  String get noBodyParts => 'Keine Körperteile gefunden';
 
   @override
-  String get editProfile => 'Edit Profile';
+  String get editProfile => 'Profil bearbeiten';
 
   @override
-  String get joined => 'Joined';
+  String get joined => 'Beigetreten';
 
   @override
-  String get height => 'Height';
+  String get height => 'Größe';
 
   @override
-  String get age => 'Age';
+  String get age => 'Alter';
 
   @override
-  String get settingsTitle => 'Settings';
+  String get settingsTitle => 'Einstellungen';
 
   @override
-  String get notifications => 'Notifications';
+  String get notifications => 'Benachrichtigungen';
 
   @override
-  String get privacy => 'Privacy';
+  String get privacy => 'Datenschutz';
 }

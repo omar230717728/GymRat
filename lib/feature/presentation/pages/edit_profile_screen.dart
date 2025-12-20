@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -235,11 +236,52 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   // 3. Stats Row
                   Row(
                     children: [
-                      Expanded(child: _buildTextField("HEIGHT (CM)", _heightController, isNumber: true)),
+                      Expanded(
+                        child: _buildTextField(
+                          "HEIGHT (CM)", 
+                          _heightController, 
+                          isNumber: true,
+                          inputFormatters: [LengthLimitingTextInputFormatter(3)],
+                          validator: (v) {
+                            if (v == null || v.isEmpty) return null;
+                            final val = int.tryParse(v);
+                            if (val == null || val > 300) return "Invalid";
+                            return null;
+                          },
+                        ),
+                      ),
                       const SizedBox(width: 16),
-                      Expanded(child: _buildTextField("WEIGHT (KG)", _weightController, isNumber: true)),
+                      Expanded(
+                        child: _buildTextField(
+                          "WEIGHT (KG)", 
+                          _weightController, 
+                          isNumber: true,
+                          inputFormatters: [LengthLimitingTextInputFormatter(3)],
+                           validator: (v) {
+                            if (v == null || v.isEmpty) return null;
+                            final val = int.tryParse(v);
+                             // "Weight < 500" as requested
+                            if (val == null || val > 500) return "Max 500";
+                            return null;
+                          },
+                        ),
+                      ),
                       const SizedBox(width: 16),
-                      Expanded(child: _buildTextField("AGE", _ageController, isNumber: true)),
+                      Expanded(
+                        child: _buildTextField(
+                          "AGE", 
+                          _ageController, 
+                          isNumber: true,
+                          inputFormatters: [LengthLimitingTextInputFormatter(3)],
+                           validator: (v) {
+                            if (v == null || v.isEmpty) return null;
+                            final val = int.tryParse(v);
+                             // "Age < 120" as requested
+                            if (val == null || val > 120) return "Max 120";
+                            return null;
+                          },
+                        ),
+                      ),
                     ],
                   ),
                   
@@ -281,7 +323,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  Widget _buildTextField(String label, TextEditingController controller, {bool readOnly = false, bool isNumber = false}) {
+  Widget _buildTextField(
+    String label, 
+    TextEditingController controller, {
+    bool readOnly = false, 
+    bool isNumber = false,
+    List<TextInputFormatter>? inputFormatters,
+    String? Function(String?)? validator,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -304,6 +353,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             controller: controller,
             readOnly: readOnly,
             keyboardType: isNumber ? TextInputType.number : TextInputType.text,
+            inputFormatters: inputFormatters,
+            validator: validator,
             style: TextStyle(
               color: readOnly ? Colors.grey[500] : Colors.white,
               fontWeight: FontWeight.w500,

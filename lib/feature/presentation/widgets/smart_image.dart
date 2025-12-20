@@ -25,7 +25,7 @@ class _SmartImageState extends State<SmartImage> with AutomaticKeepAliveClientMi
   // 1. STATIC CACHE (Global Memory)
   // Stores links we already found so we don't ask Firebase twice.
   static final Map<String, String> _urlCache = {};
-  
+
   late Future<String?> _linkFuture;
 
   @override
@@ -55,64 +55,52 @@ class _SmartImageState extends State<SmartImage> with AutomaticKeepAliveClientMi
     if (path.startsWith('http')) return path;
 
     // Safety Check 3: Check Cache First (Instant Load)
-    if (_urlCache.containsKey(path)) {
-      return _urlCache[path];
-    }
+    if (_urlCache.containsKey(path)) return _urlCache[path];
 
-    // Safety Check 4: Ask Firebase (Protected by Try-Catch)
+    // Safety Check 4: Ask Firebase
     try {
       final url = await FirebaseStorage.instance.ref(path).getDownloadURL();
       _urlCache[path] = url; // Save to cache
       return url;
     } catch (e) {
-      debugPrint("Error fetching image ($path): $e");
-      return null; // Return null instead of crashing
+      return null;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context); // Required for KeepAlive
+    super.build(context);
+    
+    // Production Styles
+    final loadingColor = Theme.of(context).colorScheme.primary.withValues(alpha: 0.1);
+    final errorWidget = Container(
+      color: Colors.grey[900],
+      child: const Center(
+        child: Icon(Icons.broken_image, color: Colors.white24),
+      ),
+    );
 
     return FutureBuilder<String?>(
       future: _linkFuture,
       builder: (context, snapshot) {
-        // 1. Loading State
+        // STATE 1: LOADING
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(width: widget.width, height: widget.height, color: const Color(0xFF1C1C1E)); 
+          return Container(color: loadingColor);
         }
 
-        // 2. Error/Null State
+        // STATE 2: ERROR
         if (snapshot.hasError || !snapshot.hasData || snapshot.data == null) {
-          return _buildPlaceholder();
+          return errorWidget;
         }
 
-        // 3. Success State
+        // STATE 3: SUCCESS
         return CachedNetworkImage(
           imageUrl: snapshot.data!,
           fit: widget.fit,
-          width: widget.width,
-          height: widget.height,
-          placeholder: (context, url) => Container(width: widget.width, height: widget.height, color: const Color(0xFF1C1C1E)),
-          errorWidget: (context, url, error) => _buildPlaceholder(),
-          fadeInDuration: const Duration(milliseconds: 200),
+          placeholder: (context, url) => Container(color: loadingColor),
+          errorWidget: (context, url, error) => errorWidget,
         );
       },
-    );
-  }
-
-  Widget _buildPlaceholder() {
-    return Container(
-      width: widget.width,
-      height: widget.height,
-      color: const Color(0xFF1C1C1E),
-      child: Center(
-        child: Icon(
-          Icons.fitness_center, 
-          color: Colors.white.withOpacity(0.1), 
-          size: 24,
-        ),
-      ),
     );
   }
 }

@@ -21,34 +21,34 @@ class AppLocalizationsTr extends AppLocalizations {
   String get favorites => 'Favoriler';
 
   @override
-  String get profile => 'Profil';
+  String get profile => 'Profile';
 
   @override
   String get progress => 'İlerleme';
 
   @override
-  String get settings => 'Ayarlar';
+  String get settings => 'Settings';
 
   @override
-  String get logWorkout => 'Antrenman Kaydet';
+  String get logWorkout => 'Log Workout';
 
   @override
-  String get sets => 'Setler';
+  String get sets => 'Sets';
 
   @override
-  String get reps => 'Tekrarlar';
+  String get reps => 'Reps';
 
   @override
-  String get weight => 'Ağırlık';
+  String get weight => 'Kilo';
 
   @override
-  String get notes => 'Notlar';
+  String get notes => 'Notes';
 
   @override
-  String get save => 'Kaydet';
+  String get save => 'Save';
 
   @override
-  String get cancel => 'İptal';
+  String get cancel => 'Cancel';
 
   @override
   String get language => 'Dil';
@@ -60,250 +60,250 @@ class AppLocalizationsTr extends AppLocalizations {
   String get logout => 'Çıkış Yap';
 
   @override
-  String get welcomeBack => 'Tekrar Hoşgeldin';
+  String get welcomeBack => 'Welcome Back';
 
   @override
-  String get weeklyStreak => 'Haftalık Seri';
+  String get weeklyStreak => 'Weekly Streak';
 
   @override
-  String get totalWorkouts => 'Toplam Antrenman';
+  String get totalWorkouts => 'Total Workouts';
 
   @override
-  String get recentProgress => 'Son İlerleme';
+  String get recentProgress => 'Recent Progress';
 
   @override
-  String get muscleDistribution => 'Kas Dağılımı';
+  String get muscleDistribution => 'Muscle Distribution';
 
   @override
-  String get volumeTrend => 'Hacim Trendi';
+  String get volumeTrend => 'Volume Trend';
 
   @override
-  String get todaysSummary => 'Bugünün Özeti';
+  String get todaysSummary => 'Today\'s Summary';
 
   @override
-  String get instructions => 'Talimatlar';
+  String get instructions => 'Instructions';
 
   @override
-  String get targetMuscles => 'Hedef Kaslar';
+  String get targetMuscles => 'Target Muscles';
 
   @override
   String get description => 'Açıklama';
 
   @override
-  String get difficulty => 'Zorluk';
+  String get difficulty => 'Difficulty';
 
   @override
-  String get beginner => 'Başlangıç';
+  String get beginner => 'Beginner';
 
   @override
-  String get intermediate => 'Orta';
+  String get intermediate => 'Intermediate';
 
   @override
-  String get advanced => 'İleri';
+  String get advanced => 'Advanced';
 
   @override
-  String get equipment => 'Ekipman';
+  String get equipment => 'Equipment';
 
   @override
-  String get variation => 'Varyasyon';
+  String get variation => 'Variation';
 
   @override
-  String get relatedMachines => 'İlgili Makineler';
+  String get relatedMachines => 'Related Machines';
 
   @override
-  String get noFavorites => 'Henüz favori yok';
+  String get noFavorites => 'No favorites yet';
 
   @override
-  String get startWorkout => 'Antrenmana Başla';
+  String get startWorkout => 'Start Workout';
 
   @override
-  String get history => 'Geçmiş';
+  String get history => 'History';
 
   @override
-  String get bodyParts => 'Vücut Bölgeleri';
+  String get bodyParts => 'Body Parts';
 
   @override
-  String get chest => 'Göğüs';
+  String get chest => 'Chest';
 
   @override
-  String get back => 'Sırt';
+  String get back => 'Back';
 
   @override
-  String get legs => 'Bacak';
+  String get legs => 'Legs';
 
   @override
-  String get arms => 'Kol';
+  String get arms => 'Arms';
 
   @override
-  String get shoulders => 'Omuz';
+  String get shoulders => 'Shoulders';
 
   @override
-  String get abs => 'Karın';
+  String get abs => 'Abs';
 
   @override
-  String get cardio => 'Kardiyo';
+  String get cardio => 'Cardio';
 
   @override
-  String get other => 'Diğer';
+  String get other => 'Other';
 
   @override
-  String get login => 'Giriş Yap';
+  String get login => 'Login';
 
   @override
-  String get signup => 'Kayıt Ol';
+  String get signup => 'Sign Up';
 
   @override
-  String get email => 'E-posta';
+  String get email => 'Email';
 
   @override
-  String get password => 'Şifre';
+  String get password => 'Password';
 
   @override
-  String get forgotPassword => 'Şifremi unuttum?';
+  String get forgotPassword => 'Forgot password?';
 
   @override
-  String get send => 'Gönder';
+  String get send => 'Send';
 
   @override
-  String get googleSignIn => 'Google ile devam et';
+  String get googleSignIn => 'Continue with Google';
 
   @override
-  String get fullName => 'Ad Soyad';
+  String get fullName => 'Full Name';
 
   @override
-  String get createAccount => 'Hesap Oluştur';
+  String get createAccount => 'Create Account';
 
   @override
   String get verifyEmailMessage =>
-      'Lütfen giriş yapmadan önce e-postanızı doğrulayın.';
+      'Please verify your email before logging in.';
 
   @override
-  String get loginFailed => 'Giriş başarısız';
+  String get loginFailed => 'Login failed';
 
   @override
-  String get signupFailed => 'Kayıt başarısız';
+  String get signupFailed => 'Signup failed';
 
   @override
   String get accountCreated =>
-      'Hesap oluşturuldu! Lütfen doğrulamak için e-postanızı kontrol edin.';
+      'Account created! Please check your email to verify.';
 
   @override
-  String get resetPassword => 'Şifreyi Sıfırla';
+  String get resetPassword => 'Reset Password';
 
   @override
-  String get passwordResetSent => 'Şifre sıfırlama e-postası gönderildi.';
+  String get passwordResetSent => 'Password reset email sent.';
 
   @override
-  String get failedToSendReset => 'Sıfırlama e-postası gönderilemedi.';
+  String get failedToSendReset => 'Failed to send reset email.';
 
   @override
-  String get emailRequired => 'E-posta gerekli';
+  String get emailRequired => 'Email is required';
 
   @override
-  String get validEmail => 'Geçerli bir e-posta girin';
+  String get validEmail => 'Enter a valid email';
 
   @override
-  String get passwordRequired => 'Şifre gerekli';
+  String get passwordRequired => 'Password is required';
 
   @override
-  String get minCharacters => 'En az 6 karakter';
+  String get minCharacters => 'Minimum 6 characters';
 
   @override
-  String get nameRequired => 'Ad Soyad gerekli';
+  String get nameRequired => 'Full name is required';
 
   @override
   String get verificationNote =>
-      'Size bir doğrulama e-postası gönderilecektir.\nGiriş yapmadan önce doğrulamalısınız.';
+      'A verification email will be sent to you.\nYou must verify before logging in.';
 
   @override
-  String get welcomeBackBeast => 'Tekrar hoşgeldin, canavar modu!';
+  String get welcomeBackBeast => 'Welcome back, beast mode!';
 
   @override
-  String get or => 'VEYA';
+  String get or => 'OR';
 
   @override
-  String get filterByDifficulty => 'Zorluk Seviyesine Göre Filtrele';
+  String get filterByDifficulty => 'Filter by Difficulty';
 
   @override
-  String get done => 'Tamam';
+  String get done => 'Done';
 
   @override
-  String get searchHint => 'Makine ara…';
+  String get searchHint => 'Makine ara...';
 
   @override
   String get noResults => 'Sonuç bulunamadı';
 
   @override
   String get startAddingFavorites =>
-      'Koleksiyonunuza makine eklemeye başlayın.';
+      'Start adding machines to your collection.';
 
   @override
-  String get removedFromFavorites => 'favorilerden kaldırıldı';
+  String get removedFromFavorites => 'removed from favorites';
 
   @override
-  String get weightKg => 'Ağırlık (kg)';
+  String get weightKg => 'Weight (kg)';
 
   @override
-  String get workoutLogged => 'Antrenman başarıyla kaydedildi!';
+  String get workoutLogged => 'Antrenman kaydedildi!';
 
   @override
   String get videoMode => 'Video Modu';
 
   @override
-  String get workoutCategories => 'Antrenman Kategorileri';
+  String get workoutCategories => 'Workout Categories';
 
   @override
-  String get pleaseLoginProgress => 'İlerlemeyi görmek için lütfen giriş yapın';
+  String get pleaseLoginProgress => 'Please login to view progress';
 
   @override
-  String get yourProgress => 'İlerlemeniz';
+  String get yourProgress => 'İLERLEMENİZ';
 
   @override
-  String get noWorkoutsLogged => 'Henüz antrenman kaydedilmedi.';
+  String get noWorkoutsLogged => 'No workouts logged yet.';
 
   @override
-  String get weeklyActivity => 'Haftalık Aktivite';
+  String get weeklyActivity => 'Weekly Activity';
 
   @override
-  String get recentHistory => 'Son Geçmiş';
+  String get recentHistory => 'Recent History';
 
   @override
-  String get volume => 'Hacim';
+  String get volume => 'Volume';
 
   @override
-  String get workouts => 'Antrenmanlar';
+  String get workouts => 'Workouts';
 
   @override
-  String get workoutVideo => 'Antrenman Videosu';
+  String get workoutVideo => 'Workout Video';
 
   @override
-  String get signInToSaveFavorites => 'Favorileri kaydetmek için giriş yapın';
+  String get signInToSaveFavorites => 'Sign in to save favorites';
 
   @override
   String get createAccountToSave =>
-      'Makineleri kaydetmek ve ilerlemenizi takip etmek için hesap oluşturun.';
+      'Create an account to save machines and track your progress.';
 
   @override
-  String get loginCreateAccount => 'Giriş Yap / Hesap Oluştur';
+  String get loginCreateAccount => 'Login / Create Account';
 
   @override
   String editTitle(String title) {
-    return '$title Düzenle';
+    return 'Edit $title';
   }
 
   @override
-  String get profilePictureUpdated => 'Profil resmi güncellendi!';
+  String get profilePictureUpdated => 'Profile picture updated!';
 
   @override
   String errorUploadingImage(String error) {
-    return 'Resim yüklenirken hata oluştu: $error';
+    return 'Error uploading image: $error';
   }
 
   @override
-  String get dataUploaded => 'Veri başarıyla yüklendi!';
+  String get dataUploaded => 'Data uploaded successfully!';
 
   @override
-  String get seedData => 'Örnek Veri Yükle (Geliştirici)';
+  String get seedData => 'Seed Data (Dev Only)';
 
   @override
   String get loginRequired => 'Login Required';
@@ -312,87 +312,88 @@ class AppLocalizationsTr extends AppLocalizations {
   String get loginRequiredMessage => 'Please login to continue.';
 
   @override
-  String get dayStreak => 'Day Streak';
+  String get dayStreak => 'Gün Serisi';
 
   @override
-  String get lastSession => 'Last Session';
+  String get lastSession => 'Son Oturum';
 
   @override
-  String get activityOverview => 'ACTIVITY OVERVIEW';
+  String get activityOverview => 'AKTİVİTE ÖZETİ';
 
   @override
-  String get recentViews => 'RECENT VIEWS';
+  String get recentViews => 'SON GÖRÜNTÜLENENLER';
 
   @override
-  String get focusAnalysis => 'FOCUS ANALYSIS';
+  String get focusAnalysis => 'ODAK ANALİZİ';
 
   @override
-  String get exercisesLearned => 'Exercises\nlearned';
+  String get exercisesLearned => 'Öğrenilen\nHareketler';
 
   @override
-  String get machinesExplored => 'Machines\nexplored';
+  String get machinesExplored => 'Keşfedilen\nMakineler';
 
   @override
-  String get musclesStudied => 'Muscles\nstudied';
+  String get musclesStudied => 'Çalışılan\nKaslar';
 
   @override
-  String get primaryFocus => 'PRIMARY';
+  String get primaryFocus => 'BİRİNCİL';
 
   @override
-  String get secondaryFocus => 'SECONDARY';
+  String get secondaryFocus => 'İKİNCİL';
 
   @override
-  String get startTraining => 'START TRAINING';
+  String get startTraining => 'ANTRENMANA BAŞLA';
 
   @override
-  String get keepGoing => 'KEEP GOING';
+  String get keepGoing => 'DEVAM ET';
 
   @override
-  String get onboardingTitle1 => 'Track Your Progress';
+  String get onboardingTitle1 => 'Gelişimini Takip Et';
 
   @override
   String get onboardingBody1 =>
-      'Keep history of all your workouts and see your improvements.';
+      'Tüm antrenmanlarının geçmişini tut ve gelişimini gör.';
 
   @override
-  String get onboardingTitle2 => 'Crush Your Goals';
+  String get onboardingTitle2 => 'Hedeflerine Ulaş';
 
   @override
-  String get onboardingBody2 => 'Analyze your stats and focus on what matters.';
+  String get onboardingBody2 =>
+      'İstatistiklerini analiz et ve önemli olana odaklan.';
 
   @override
-  String get getStarted => 'Get Started';
+  String get getStarted => 'Başla';
 
   @override
-  String get next => 'Next';
+  String get next => 'İleri';
 
   @override
-  String get trainTodayTitle => 'What do you want\nto train today?';
+  String get trainTodayTitle => 'Bugün ne çalışmak\nistiyorsun?';
 
   @override
-  String get trainNow => 'Train now';
+  String get trainNow => 'Şimdi çalış';
 
   @override
-  String get noBodyParts => 'No body parts found';
+  String get noBodyParts => 'Vücut bölgesi bulunamadı';
 
   @override
-  String get editProfile => 'Edit Profile';
+  String get editProfile => 'Profili Düzenle';
 
   @override
-  String get joined => 'Joined';
+  String get joined => 'Katıldı';
 
   @override
-  String get height => 'Height';
+  String get height => 'Boy';
 
   @override
-  String get age => 'Age';
+  String get age => 'Yaş';
 
   @override
-  String get settingsTitle => 'Settings';
+  String get settingsTitle => 'Ayarlar';
 
   @override
-  String get notifications => 'Notifications';
+  String get notifications => 'Bildirimler';
 
   @override
-  String get privacy => 'Privacy';
+  String get privacy => 'Gizlilik';
 }
