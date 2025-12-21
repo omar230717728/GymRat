@@ -10,12 +10,18 @@ class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  State<SearchScreen> createState() => SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class SearchScreenState extends State<SearchScreen> {
   final TextEditingController _controller = TextEditingController();
   
+  // Public method to update search from parent
+  void updateSearchQuery(String query) {
+    _controller.text = query;
+    _applyFilters();
+  }
+
   List<ExerciseModel> _allExercises = [];
   List<ExerciseModel> _filteredExercises = [];
   

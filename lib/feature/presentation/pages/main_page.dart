@@ -19,6 +19,8 @@ import 'package:flutter_application_1/core/services/user_session_service.dart';
 import 'package:flutter_application_1/core/models/user_model.dart';
 import 'package:flutter_application_1/core/auth/login_screen.dart';
 import 'package:flutter_application_1/feature/presentation/pages/onboarding_screen.dart';
+import 'package:flutter_application_1/core/services/vision_service.dart';
+import 'package:image_picker/image_picker.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -33,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _isProfileOpen = false;
   final GlobalKey<NavigatorState> _homeNavigatorKey =
       GlobalKey<NavigatorState>();
+  final GlobalKey<SearchScreenState> _searchScreenKey = GlobalKey(); // Key for SearchScreen access
 
   late final List<Widget> _screens;
 
@@ -42,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
     
     _screens = [
       _buildHomeNavigator(),
-      SearchScreen(),
+      SearchScreen(key: _searchScreenKey),
       SafeArea(child: FavoritesScreen()),
       const ProgressPage(),
     ];
@@ -221,7 +224,36 @@ class _MyHomePageState extends State<MyHomePage> {
             borderRadius: BorderRadius.circular(17),
             color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.9),
           ),
-          child: IconButton(onPressed: () {}, icon: Icon(Icons.camera_alt_rounded, color: Theme.of(context).colorScheme.primary)),
+          child: IconButton(
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (context) => SafeArea(
+                  child: Wrap(
+                    children: [
+                      ListTile(
+                        leading: const Icon(Icons.camera_alt),
+                        title: const Text('Take Photo'),
+                        onTap: () {
+                          Navigator.pop(context);
+                          _handleScan(ImageSource.camera);
+                        },
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.photo_library),
+                        title: const Text('Choose from Gallery'),
+                        onTap: () {
+                          Navigator.pop(context);
+                          _handleScan(ImageSource.gallery);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }, 
+            icon: Icon(Icons.camera_alt_rounded, color: Theme.of(context).colorScheme.primary)
+          ),
         ),
         Container(
           margin: EdgeInsets.only(right: 8.0),
@@ -342,4 +374,34 @@ Widget _buildBottomNavBar() {
 }
   
 
+  Future<void> _handleScan(ImageSource source) async {
+    // 1. Show Loading
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Analyzing...')));
+    
+    // 2. Call Service
+    final machineName = await VisionService.scanMachine(source);
+
+    if (!mounted) return;
+
+    // 3. Handle Result
+    if (machineName != null && machineName != 'null') {
+      setState(() => _selectedIndex = 1); // Switch to Search
+
+      // Wait for tab switch
+      Future.delayed(const Duration(milliseconds: 100), () {
+        _searchScreenKey.currentState?.updateSearchQuery(machineName);
+      });
+      
+       ScaffoldMessenger.of(context).hideCurrentSnackBar();
+       ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Found: $machineName"), 
+          backgroundColor: Colors.green,
+          duration: const Duration(seconds: 1),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Could not identify machine.')));
+    }
+  }
 }
