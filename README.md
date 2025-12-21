@@ -1,4 +1,4 @@
-# flutter_application_1
+# GymRat Applicaiton
 
 A new Flutter project.
 
