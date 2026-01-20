@@ -1,16 +1,68 @@
-# GymRat Applicaiton
+🐭 GymRat
+Train Smarter. Lift Better. Track Everything.
 
-A new Flutter project.
+GymRat is a modern fitness companion app designed to help gym-goers train efficiently, track workouts, and understand gym machines with the power of AI.
+Whether you’re a beginner or an advanced athlete, GymRat turns your phone into a smart personal trainer 💪🤖.
 
-## Getting Started
+🚀 Features
+🏋️‍♂️ Smart Exercise Library
 
-This project is a starting point for a Flutter application.
+Curated list of gym exercises
 
-A few resources to get you started if this is your first Flutter project:
+Clear explanations and structured routines
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Covers major muscle groups
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+🤖 AI-Powered Machine Detection (Experimental)
+
+Detect gym machines using AI
+
+Identify the machine and show how to use it
+
+Helps beginners avoid confusion and injury
+
+📊 Workout Tracking
+
+Log sets, reps, and weights
+
+Track progress over time
+
+Build consistent training habits
+
+📱 Clean & Modern UI
+
+Simple, minimal, and user-friendly design
+
+Built with performance and usability in mind
+
+🧠 Motivation Behind GymRat
+
+Many people walk into the gym feeling lost, especially beginners:
+
+“Which machine is this?”
+
+“Am I using it correctly?”
+
+“What exercise should I do today?”
+
+GymRat was built to solve these problems by combining:
+
+Fitness knowledge
+
+Mobile development
+
+Artificial Intelligence
+
+“Knowledge builds confidence. Confidence builds strength.” 💥
+
+🛠️ Tech Stack
+
+Flutter – Cross-platform mobile development
+
+Dart – App logic
+
+Firebase – Backend & database
+
+AI / Computer Vision – Machine detection module
+
+REST APIs – Data communication
