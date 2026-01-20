@@ -1,3 +1,9 @@
+<p align="center">
+  <img src="assets/images/poster.png" width="250">
+  <img src="assets/images/poster2.png" width="250">
+ 
+</p>
+
 🐭 GymRat
 Train Smarter. Lift Better. Track Everything.
 
