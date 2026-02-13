@@ -1,6 +1,7 @@
 <p align="center">
   <img src="assets/images/poster.png" width="250">
   <img src="assets/images/poster2.png" width="250">
+  <witdh = "250">
   <img src="assets/images/1.jpeg" width="250">
   <img src="assets/images/2.jpeg" width="250">
   <img src="assets/images/3.jpeg" width="250">
